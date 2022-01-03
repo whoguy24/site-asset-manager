@@ -4,7 +4,16 @@ const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware')
 
 router.get('/', rejectUnauthenticated, (req, res) => {
-    queryText = `SELECT * FROM "asset";`;
+    queryText = `
+        SELECT * FROM "asset" WHERE "site_id"='1'
+        ORDER BY 
+            "site_id" ASC,
+            "building" ASC, 
+            "system" ASC, 
+            "location" ASC, 
+            "name" ASC
+        ;
+    `;
     pool.query(queryText)
     .then((result) => {
         res.send(result.rows);
