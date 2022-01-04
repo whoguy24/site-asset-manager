@@ -41,6 +41,35 @@ function AssetNav() {
     //     }
     // ]
 
+
+    function buildTree() {
+        let tree = [];
+        for (const asset of assets) {
+            if (!(tree.find(building => building.name === asset.building))) {
+                let systems = [];
+
+
+
+                
+
+
+
+                tree.push({
+                    name: asset.building,
+                    systems: systems
+                })
+            }
+        }
+        console.log(tree);
+    }
+
+
+
+
+
+
+
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -50,7 +79,7 @@ function AssetNav() {
     return (
         <div>
             <p>Info Page Yo</p>
-            <button onClick={buildBuildings}>CLICK</button>
+            <button onClick={buildTree}>CLICK</button>
 
 
             <ul>

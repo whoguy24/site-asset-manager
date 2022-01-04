@@ -18,7 +18,6 @@ CREATE TABLE "asset" (
     "type_id" INT,
     "name" VARCHAR (80),
     FOREIGN KEY ("site_id") REFERENCES "site"("id")
-    FOREIGN KEY ("type_id") REFERENCES "type"("id")
 );
 
 CREATE TABLE "property" (
