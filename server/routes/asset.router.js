@@ -32,6 +32,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     pool.query(queryText)
     .then((result) => { 
         res.send(buildTree(result.rows));
+        // res.send(result.rows);
     })
     .catch((error) => {
         console.log(error);
