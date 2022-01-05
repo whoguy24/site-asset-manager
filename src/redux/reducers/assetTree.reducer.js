@@ -1,4 +1,4 @@
-const assetReducer = (state = [], action) => {
+const assetTree = (state = [], action) => {
     switch (action.type) {
       case 'LOAD_ASSETS':
         return action.payload;
@@ -7,5 +7,5 @@ const assetReducer = (state = [], action) => {
     }
   };
   
-  export default assetReducer;
+  export default assetTree;
   

@@ -16,8 +16,8 @@ function* fetchAssets(action) {
     }
   }
 
-function* assetSaga() {
+function* assetTreeSaga() {
   yield takeLatest('FETCH_ASSETS', fetchAssets);
 }
 
-export default assetSaga;
+export default assetTreeSaga;

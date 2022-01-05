@@ -1,76 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+
+import TreeView from '@mui/lab/TreeView';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import TreeItem from '@mui/lab/TreeItem';
 
 function AssetNav() {
 
-    const assets = useSelector(store => store.asset);
-
-    // Sample Data Structure- not actually used
-    // let buildings = [
-    //     {
-    //         name: 'Building A',
-    //         systems: [
-    //             {
-    //                 name:'Air Handling System',
-    //                 assets: [
-    //                     {name:'AHU-1'},
-    //                     {name:'AHU-2'},
-    //                     {name:'AHU-3'},
-    //                     {name:'AHU-4'},
-    //                     {name:'AHU-5'},
-    //                     {name:'AHU-6'}
-    //                 ]
-    //             },
-    //             {
-    //                 name:'Chilled Water System',
-    //                 assets: [
-    //                     {name:'CWP-1'},
-    //                     {name:'CWP-2'},
-    //                     {name:'CWP-3'},
-    //                 ]
-    //             },
-    //             {
-    //                 name:'Heating Hot Water System',
-    //                 assets: [
-    //                     {name:'HWP-1'},
-    //                     {name:'HWP-2'},
-    //                     {name:'HWP-3'},
-    //                 ]
-    //             }
-    //         ]
-    //     }
-    // ]
-
-
-    function buildTree() {
-        let tree = [];
-        for (const asset of assets) {
-            if (!(tree.find(building => building.name === asset.building))) {
-                let systems = [];
-
-
-
-                
-
-
-
-                tree.push({
-                    name: asset.building,
-                    systems: systems
-                })
-            }
-        }
-        console.log(tree);
-    }
-
-
-
-
-
-
-
+    const assetTree = useSelector(store => store.assetTree);
 
     const dispatch = useDispatch();
+
+    function test() {
+        console.log(assetTree);
+    }
 
     useEffect(() => {
         dispatch({ type: 'FETCH_ASSETS' })
@@ -79,14 +23,37 @@ function AssetNav() {
     return (
         <div>
             <p>Info Page Yo</p>
-            <button onClick={buildTree}>CLICK</button>
+            <button onClick={test}>CLICK</button>
 
 
-            <ul>
-                {assets.map((asset) => {
-                    return <li key={asset.id}>{asset.name}</li>
+            {/* <ul>
+                {assetTree.map((asset) => {
+                    return <li>Hi</li>
                 })}
-            </ul>
+            </ul> */}
+
+
+
+        {/* <TreeView
+            aria-label="Site Asset Navigator"
+            defaultCollapseIcon={<ExpandMoreIcon />}
+            defaultExpandIcon={<ChevronRightIcon />}
+            sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
+        >
+
+        {
+            assetTree.map((treeItem) => {
+                return <TreeItem nodeId="1" label="Directory A"></TreeItem>
+            })
+        }
+
+
+
+
+        <TreeItem nodeId="1" label="Directory A">
+        </TreeItem>
+        
+      </TreeView> */}
 
 
 
