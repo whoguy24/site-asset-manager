@@ -4,20 +4,22 @@ const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware')
 
 function buildTree(result) {
-    let tree = [];
-    let assets = result;
-    for (const asset of assets) {
+    let tree = {};
+    for (const asset of result) {
+      // Handle "unencountered" buildings:
       if (!tree[asset.building]) {
-        tree[asset.building] = [];
+        tree[asset.building] = {};
       }
+      // Handle "unencountered" systems:
       if (tree[asset.building] && !tree[asset.building][asset.system]) {
         tree[asset.building][asset.system] = []
       }
-      tree[asset.building][asset.system].push({id: asset.id, name: asset.name})
+      // Add asset name to "system" array:
+      tree[asset.building][asset.system].push(asset.name)
     }
     console.log(tree);
     return tree;
-}
+  }
 
 router.get('/', rejectUnauthenticated, (req, res) => {
     queryText = `

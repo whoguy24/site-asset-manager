@@ -26,11 +26,11 @@ function AssetNav() {
             <button onClick={test}>CLICK</button>
 
 
-            {/* <ul>
-                {assetTree.map((asset) => {
-                    return <li>Hi</li>
+            <ul>
+                {assetTree.keys().map((asset) => {
+                    return <li>Success!</li>
                 })}
-            </ul> */}
+            </ul>
 
 
 

@@ -1,4 +1,4 @@
-const assetTree = (state = [], action) => {
+const assetTree = (state = {}, action) => {
     switch (action.type) {
       case 'LOAD_ASSETS':
         return action.payload;
