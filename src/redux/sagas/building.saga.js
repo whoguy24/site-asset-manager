@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
-function* fetchAssets(action) {
+function* fetchBuilding(action) {
     try {
       const response = yield axios({
         method: 'GET',
-        url: '/api/asset'
+        url: '/api/building'
       })
       yield put({
-        type: 'LOAD_ASSETS',
+        type: 'LOAD_BUILDING',
         payload: response.data
       })
     } catch(error) {
@@ -16,8 +16,8 @@ function* fetchAssets(action) {
     }
   }
 
-function* assetTreeSaga() {
-  yield takeLatest('FETCH_ASSETS', fetchAssets);
+function* buildingSaga() {
+  yield takeLatest('FETCH_BUILDING', fetchBuilding);
 }
 
-export default assetTreeSaga;
+export default buildingSaga;
