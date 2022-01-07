@@ -1,12 +1,12 @@
 import React from 'react';
 
-import AssetNav from '../AssetNav/AssetNav';
+import Navigation from '../Navigation/Navigation';
 import EquipmentDetail from '../EquipmentDetail/EquipmentDetail';
 
 function InfoPage() {
   return (
     <div className="container">
-      <AssetNav/>
+      <Navigation/>
       <EquipmentDetail/>
     </div>
   );
