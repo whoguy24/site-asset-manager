@@ -4,6 +4,7 @@ import user from './user.reducer';
 import equipmentReducer from './equipment.reducer';
 import systemReducer from './system.reducer';
 import buildingReducer from './building.reducer';
+import equipmentDetailReducer from './equipment.detail.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   equipmentReducer,
   systemReducer,
-  buildingReducer
+  buildingReducer,
+  equipmentDetailReducer
 });
 
 export default rootReducer;

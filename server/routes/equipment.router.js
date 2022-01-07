@@ -9,7 +9,8 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         JOIN "system" ON "equipment"."system_id"="system"."id"
         JOIN "building" ON "system"."building_id"="building"."id"
         JOIN "site" ON "building"."site_id"="site"."id"
-        WHERE "site_id"='1';
+        WHERE "site_id"='1'
+        ORDER BY "id" ASC;
     `;
     pool.query(queryText)
     .then((result) => { 
