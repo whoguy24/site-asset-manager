@@ -61,6 +61,10 @@ function AssetNav() {
         dispatch({ type: 'FETCH_EQUIPMENT_DETAIL', payload: id });
     }
 
+    function debugTree() {
+        console.log(navigation);
+    }
+
     useEffect(() => {
         dispatch({ type: 'FETCH_BUILDING' });
         dispatch({ type: 'FETCH_SYSTEM' });
@@ -69,29 +73,32 @@ function AssetNav() {
     }, [])
 
     return (
-        <TreeView 
-            aria-label="Site Asset Navigator" 
-            defaultCollapseIcon={<ExpandMoreIcon />} 
-            defaultExpandIcon={<ChevronRightIcon />}
-            sx={{ height: 400, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}>
-            {navigation.map((building) => {
-                return <TreeItem key={building.id} nodeId={'building_'+building.id} label={building.name}>
-                    {building.systems.map((system) => {
-                        return <TreeItem key={system.id} nodeId={'system_'+system.id} label={system.name}>
-                            {system.equipment.map((unit) => {
-                                return <TreeItem 
-                                    key={unit.id} 
-                                    nodeId={'equipment_'+unit.id} 
-                                    label={unit.name}
-                                    onClick = {() => handleEquipmentClick(unit.id)}
-                                    >
-                                </TreeItem>
-                            })}
-                        </TreeItem>
-                    })}
-                </TreeItem>
-            })}
-        </TreeView>
+        <>
+            <button onClick={debugTree}>Debug Tree</button>
+            <TreeView 
+                aria-label="Site Asset Navigator" 
+                defaultCollapseIcon={<ExpandMoreIcon />} 
+                defaultExpandIcon={<ChevronRightIcon />}
+                sx={{ height: 400, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}>
+                {navigation.map((building) => {
+                    return <TreeItem key={building.id} nodeId={'building_'+building.id} label={building.name}>
+                        {building.systems.map((system) => {
+                            return <TreeItem key={system.id} nodeId={'system_'+system.id} label={system.name}>
+                                {system.equipment.map((unit) => {
+                                    return <TreeItem 
+                                        key={unit.id} 
+                                        nodeId={'equipment_'+unit.id} 
+                                        label={unit.name}
+                                        onClick = {() => handleEquipmentClick(unit.id)}
+                                        >
+                                    </TreeItem>
+                                })}
+                            </TreeItem>
+                        })}
+                    </TreeItem>
+                })}
+            </TreeView>
+        </>
     );
 }
 

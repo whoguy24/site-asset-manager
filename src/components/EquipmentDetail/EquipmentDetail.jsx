@@ -12,28 +12,23 @@ function EquipmentDetail() {
 
     return (
         <div>
-
             {equipment
             ?
             <>
-            <button onClick={()=>handleDeleteClick(equipment.id)}>Delete</button>
-
-            <ul>
-                <li>{equipment.name}</li>
-                <li>{equipment.location}</li>
-                <li>{equipment.area_served}</li>
-                <li>{equipment.condition}</li>
-                <li>{equipment.manufacturer}</li>
-                <li>{equipment.model_number}</li>
-                <li>{equipment.sequence_of_operation}</li>
-                <li>{equipment.comments}</li>
-            </ul>
+                <button onClick={()=>handleDeleteClick(equipment.id)}>Delete</button>
+                <ul>
+                    <li>{equipment.name}</li>
+                    <li>{equipment.location}</li>
+                    <li>{equipment.area_served}</li>
+                    <li>{equipment.condition}</li>
+                    <li>{equipment.manufacturer}</li>
+                    <li>{equipment.model_number}</li>
+                    <li>{equipment.sequence_of_operation}</li>
+                    <li>{equipment.comments}</li>
+                </ul>
             </>
             :<p>Select a piece of equipment.</p>
-
             }
-    
-
         </div>
     );
 }
