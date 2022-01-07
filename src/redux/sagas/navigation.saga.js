@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
-function* fetchBuilding(action) {
+function* fetchNavigation(action) {
     try {
       const response = yield axios({
         method: 'GET',
-        url: '/api/building'
+        url: `/api/navigation/${action.payload}`
       })
       yield put({
-        type: 'LOAD_BUILDING',
+        type: 'LOAD_NAVIGATION',
         payload: response.data
       })
     } catch(error) {
@@ -16,8 +16,8 @@ function* fetchBuilding(action) {
     }
   }
 
-function* buildingSaga() {
-  yield takeLatest('FETCH_BUILDING', fetchBuilding);
+function* navigationSaga() {
+  yield takeLatest('FETCH_NAVIGATION', fetchNavigation);
 }
 
-export default buildingSaga;
+export default navigationSaga;

@@ -8,57 +8,12 @@ import TreeItem from '@mui/lab/TreeItem';
 
 function AssetNav() {
 
-    const equipment = useSelector(store => store.equipmentReducer);
-    const systems = useSelector(store => store.systemReducer);
-    const buildings = useSelector(store => store.buildingReducer);
-
-    const [navigation, setNavigation] = useState([]);
-
+    const navigation = useSelector(store => store.navigationReducer);
     const dispatch = useDispatch();
-
-    function buildNavigation() {
-        let tree = []
-        for (const building of buildings) {
-            let buildingRoot = {
-                id: building.id,
-                name: building.name,
-                systems: findSystems(building.id)
-            }
-            tree.push(buildingRoot)
-        }
-        setNavigation(tree);
-    }
-
-    function findSystems(building_id) {
-        let systemRoot = [];
-        for ( const system of systems ) {
-            if (system.building_id === building_id) {
-                systemRoot.push({
-                    id: system.id,
-                    name: system.name,
-                    equipment: findEquipment(system.id)
-                })
-            }
-        }
-        return systemRoot
-    }
-
-    function findEquipment(system_id) {
-        let equipmentRoot = [];
-        for ( const unit of equipment ) {
-            if (unit.system_id === system_id) {
-                equipmentRoot.push({
-                    id: unit.id,
-                    name: unit.name
-                })
-            }
-        }
-        return equipmentRoot
-    }
 
     function handleEquipmentClick(id) {
         console.log(id);
-        dispatch({ type: 'FETCH_EQUIPMENT_DETAIL', payload: id });
+        dispatch({ type: 'FETCH_EQUIPMENT', payload: id });
     }
 
     function debugTree() {
@@ -66,10 +21,7 @@ function AssetNav() {
     }
 
     useEffect(() => {
-        dispatch({ type: 'FETCH_BUILDING' });
-        dispatch({ type: 'FETCH_SYSTEM' });
-        dispatch({ type: 'FETCH_EQUIPMENT' });
-        buildNavigation()
+        dispatch({ type: 'FETCH_NAVIGATION', payload: 1 });
     }, [])
 
     return (

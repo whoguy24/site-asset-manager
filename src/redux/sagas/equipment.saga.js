@@ -5,7 +5,7 @@ function* fetchEquipment(action) {
     try {
       const response = yield axios({
         method: 'GET',
-        url: '/api/equipment'
+        url: `/api/equipment/${action.payload}`
       })
       yield put({
         type: 'LOAD_EQUIPMENT',
@@ -14,7 +14,7 @@ function* fetchEquipment(action) {
     } catch(error) {
       console.error('ERROR:', error)
     }
-  }
+}
 
 function* equipmentSaga() {
   yield takeLatest('FETCH_EQUIPMENT', fetchEquipment);
