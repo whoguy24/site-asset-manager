@@ -11,8 +11,6 @@ const passport = require('./strategies/user.strategy');
 const userRouter = require('./routes/user.router');
 const navigationRouter = require('./routes/navigation.router');
 const equipmentRouter = require('./routes/equipment.router');
-const systemRouter = require('./routes/system.router');
-const buildingRouter = require('./routes/building.router');
 const siteRouter = require('./routes/site.router');
 
 // Body parser middleware
@@ -30,8 +28,6 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/api/navigation', navigationRouter);
 app.use('/api/equipment', equipmentRouter);
-app.use('/api/system', systemRouter);
-app.use('/api/building', buildingRouter);
 app.use('/api/site', siteRouter);
 
 // Serve static files

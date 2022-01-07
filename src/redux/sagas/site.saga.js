@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
-function* fetchEquipment(action) {
+function* fetchSite(action) {
     try {
       const response = yield axios({
         method: 'GET',
-        url: `/api/equipment/${action.payload}`
+        url: '/api/site'
       })
       yield put({
-        type: 'LOAD_EQUIPMENT',
+        type: 'LOAD_SITE',
         payload: response.data
       })
     } catch(error) {
@@ -16,8 +16,8 @@ function* fetchEquipment(action) {
     }
   }
 
-function* equipmentSaga() {
-  yield takeLatest('FETCH_EQUIPMENT', fetchEquipment);
+function* siteSaga() {
+  yield takeLatest('FETCH_SITE', fetchSite);
 }
 
-export default equipmentSaga;
+export default siteSaga;
