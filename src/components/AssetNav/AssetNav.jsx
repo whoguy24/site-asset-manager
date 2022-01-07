@@ -56,9 +56,9 @@ function AssetNav() {
         return equipmentRoot
     }
 
-    function handleEquipmentClick(equipment) {
-        console.log(equipment.id);
-        dispatch({ type: 'SET_EQUIPMENT_DETAIL', payload: equipment });
+    function handleEquipmentClick(id) {
+        console.log(id);
+        dispatch({ type: 'FETCH_EQUIPMENT_DETAIL', payload: id });
     }
 
     useEffect(() => {
@@ -83,7 +83,7 @@ function AssetNav() {
                                     key={unit.id} 
                                     nodeId={'equipment_'+unit.id} 
                                     label={unit.name}
-                                    onClick = {() => handleEquipmentClick(unit)}
+                                    onClick = {() => handleEquipmentClick(unit.id)}
                                     >
                                 </TreeItem>
                             })}
