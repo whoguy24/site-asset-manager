@@ -14,9 +14,14 @@ function DropdownSite() {
         setSite(sites[0]);
     }, [])
 
+    function handleSiteDropdown(site_id) {
+        setSite(site_id)
+        dispatch({ type: 'FETCH_NAVIGATION', payload:site_id});
+    }
+
   return (
     <div>
-        <select value={site} onChange={(event) => setSite(event.target.value)}>
+        <select value={site} onChange={(event) => handleSiteDropdown(event.target.value)}>
         {sites.map((site) => {
             return (
                 <option key={site.id} value={site.id}>
