@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 
-function EquipmentDetail() {
+function Equipment() {
 
     const dispatch = useDispatch();
 
-    const equipment = useSelector(store => store.equipmentDetailReducer[0]);
+    const equipment = useSelector(store => store.equipmentReducer[0]);
 
     function handleDeleteClick(id) {
         dispatch({ type: 'DELETE_EQUIPMENT', payload: id });
@@ -33,4 +33,4 @@ function EquipmentDetail() {
     );
 }
 
-export default EquipmentDetail;
+export default Equipment;

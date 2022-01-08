@@ -1,4 +1,4 @@
-const equipmentReducer = (state = [], action) => {
+const equipmentReducer = (state = {}, action) => {
     switch (action.type) {
       case 'LOAD_EQUIPMENT':
         return action.payload;

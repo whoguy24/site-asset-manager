@@ -5,7 +5,7 @@ function* fetchEquipment(action) {
     try {
       const response = yield axios({
         method: 'GET',
-        url: '/api/equipment'
+        url: `/api/equipment/${action.payload}`
       })
       yield put({
         type: 'LOAD_EQUIPMENT',

@@ -1,13 +1,14 @@
 import React from 'react';
-
-import AssetNav from '../AssetNav/AssetNav';
-import EquipmentDetail from '../EquipmentDetail/EquipmentDetail';
+import Navigation from '../Navigation/Navigation';
+import Equipment from '../Equipment/Equipment';
+import DropdownSite from '../DropdownSite/DropdownSite';
 
 function InfoPage() {
   return (
     <div className="container">
-      <AssetNav/>
-      <EquipmentDetail/>
+      <DropdownSite/>
+      <Navigation/>
+      <Equipment/>
     </div>
   );
 }
