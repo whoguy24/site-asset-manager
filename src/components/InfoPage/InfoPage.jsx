@@ -1,6 +1,6 @@
 import React from 'react';
 import Navigation from '../Navigation/Navigation';
-import EquipmentDetail from '../EquipmentDetail/EquipmentDetail';
+import Equipment from '../Equipment/Equipment';
 import DropdownSite from '../DropdownSite/DropdownSite';
 
 function InfoPage() {
@@ -8,7 +8,7 @@ function InfoPage() {
     <div className="container">
       <DropdownSite/>
       <Navigation/>
-      <EquipmentDetail/>
+      <Equipment/>
     </div>
   );
 }

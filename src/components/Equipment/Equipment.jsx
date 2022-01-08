@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 
-function EquipmentDetail() {
+function Equipment() {
 
     const dispatch = useDispatch();
 
@@ -33,4 +33,4 @@ function EquipmentDetail() {
     );
 }
 
-export default EquipmentDetail;
+export default Equipment;
