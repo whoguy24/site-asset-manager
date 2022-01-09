@@ -44,6 +44,7 @@ function Equipment() {
                 </Grid>
 
                 <Grid item xs={1}>
+                    <button >Edit</button>
                     <button className={'equipment_header_button'}>Delete</button>
                 </Grid>
 
@@ -62,9 +63,6 @@ function Equipment() {
                     <Tab label='Energy' />
                 </Tabs >
             </Box>
-
-
-
             </Grid>
         </Box>
 
