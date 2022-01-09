@@ -21,11 +21,11 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
 import Grid from '@mui/material/Grid';
-import Navigation from '../Navigation/Navigation';
-import Equipment from '../Equipment/Equipment';
-import DropdownSite from '../DropdownSite/DropdownSite';
+import Box from '@mui/material/Box';
 
-
+import AppHeader from '../AppHeader/AppHeader';
+import AppBody from '../AppBody/AppBody';
+import AppFooter from '../AppFooter/AppFooter';
 
 import './App.css';
 
@@ -131,27 +131,14 @@ function App() {
 
     <>
 
-      <Grid container direction='row' >
+      <AppHeader />
 
-        <Grid item xs={3}>
+      <AppBody />
 
-          <Grid container direction='column' alignItems="stretch">
-            <Grid item xs={1}>
-              <DropdownSite />
-            </Grid>
-            <Grid item xs={11}>
-              <Navigation />
-            </Grid>
+      <AppFooter />
 
-          </Grid>
 
-        </Grid>
 
-        <Grid item xs={9}>
-          <Equipment />
-        </Grid>
-
-      </Grid>
 
     </>
   );
