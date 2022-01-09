@@ -1,4 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react';
+
+import './Equipment.css';
+
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
+import EquipmentForm from '../EquipmentForm/EquipmentForm';
+import EquipmentPhotos from '../EquipmentPhotos/EquipmentPhotos';
+import EquipmentActivities from '../EquipmentActivities/EquipmentActivities';
+import EquipmentIssues from '../EquipmentIssues/EquipmentIssues';
+import EquipmentEnergy from '../EquipmentEnergy/EquipmentEnergy';
+
 
 function Equipment() {
 
@@ -6,30 +21,68 @@ function Equipment() {
 
     const equipment = useSelector(store => store.equipmentReducer[0]);
 
+    const [subNavigation, setSubNavigation] = useState(0);
+
     function handleDeleteClick(id) {
         dispatch({ type: 'DELETE_EQUIPMENT', payload: id });
     }
 
+    function test (event, index) {
+        setSubNavigation(index)
+    }
+
     return (
-        <div>
-            {equipment
-            ?
-            <>
-                <button onClick={()=>handleDeleteClick(equipment.id)}>Delete</button>
-                <ul>
-                    <li>{equipment.name}</li>
-                    <li>{equipment.location}</li>
-                    <li>{equipment.area_served}</li>
-                    <li>{equipment.condition}</li>
-                    <li>{equipment.manufacturer}</li>
-                    <li>{equipment.model_number}</li>
-                    <li>{equipment.sequence_of_operation}</li>
-                    <li>{equipment.comments}</li>
-                </ul>
-            </>
-            :<p>Select a piece of equipment.</p>
-            }
-        </div>
+
+        <>
+
+        <Box width="100vw">
+
+            <Grid container className = {'equipment_header'} alignItems='center' direction='row' justifyContent='space-between'>
+
+                <Grid item xs={11}>
+                    <h3 className={'equipment_header_text'}>Equipment Name</h3>
+                </Grid>
+
+                <Grid item xs={1}>
+                    <button className={'equipment_header_button'}>Delete</button>
+                </Grid>
+
+            </Grid>
+
+        </Box>
+
+        <Box width='100vw'>
+            <Grid container className={'equipment_subHeader'} alignItems='center' direction='row' justifyContent='space-between'>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs className = {'equipment_subNavigation'} value={subNavigation} onChange={test} >
+                    <Tab label='General' />
+                    <Tab label='Photos' />
+                    <Tab label='Activities' />
+                    <Tab label='Issues' />
+                    <Tab label='Energy' />
+                </Tabs >
+            </Box>
+
+
+
+            </Grid>
+        </Box>
+
+        {subNavigation === 0 && <EquipmentForm />}
+        {subNavigation === 1 && <EquipmentPhotos />}
+        {subNavigation === 2 && <EquipmentActivities />}
+        {subNavigation === 3 && <EquipmentIssues />}
+        {subNavigation === 4 && <EquipmentEnergy />}
+
+        </>
+
+
+
+
+
+
+
+
     );
 }
 
