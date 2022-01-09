@@ -129,36 +129,31 @@ function App() {
 
 
 
-<>
+    <>
 
-  <Grid container direction='row' justifyContent="flex-start" >
+      <Grid container direction='row' >
 
-{/* 
-    <Grid container direction='column'>
+        <Grid item xs={3}>
 
-      <Grid item>
-        <DropdownSite />
+          <Grid container direction='column' alignItems="stretch">
+            <Grid item xs={1}>
+              <DropdownSite />
+            </Grid>
+            <Grid item xs={11}>
+              <Navigation />
+            </Grid>
+
+          </Grid>
+
+        </Grid>
+
+        <Grid item xs={9}>
+          <Equipment />
+        </Grid>
+
       </Grid>
 
-      <Grid item>
-        <Navigation />
-      </Grid>
-
-    </Grid> */}
-
-
-
-
-
-    <Grid item>
-      <Equipment />
-    </Grid>
-
-  </Grid>
-
-</>
-
-
+    </>
   );
 }
 
