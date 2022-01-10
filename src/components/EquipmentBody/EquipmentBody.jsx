@@ -19,16 +19,22 @@ function EquipmentBody() {
 
     const equipment = useSelector(store => store.equipmentReducer);
 
-    function handleInputChange(event) {
-        equipment.name = event
-        dispatch({ type: 'LOAD_EQUIPMENT', payload: equipment });
-    }
+    let [editMode, setEditMode] = useState(false);
+
+    // function handleInputChange(event) {
+    //     equipment.name = event
+    //     dispatch({ type: 'LOAD_EQUIPMENT', payload: equipment });
+    // }
+
+    // <TextField defaultValue={ equipment.name || '' } onChange={(event)=>{handleInputChange( event.target.value)}} label='Name' variant='outlined' />
 
     return (
         <>
             <Grid container direction='column' spacing={2}>
                 <Grid item>
-                    <TextField value={ equipment.name || '' } onChange={(event)=>{handleInputChange( event.target.value)}} label='Name' variant='outlined' />
+                    <p>Name: {equipment.name}</p>
+                    <p>Location: {equipment.location}</p>
+                    <p>Area Served: {equipment.area_served}</p>
                 </Grid>
             </Grid>
         </>

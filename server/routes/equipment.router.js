@@ -68,4 +68,32 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.put('/:id', rejectUnauthenticated, (req, res) => {
+    const equipment = req.body
+    console.log('IN PUT ROUTE BY RECORD');
+    console.log(req.params.id);
+    console.log(equipment);
+    
+    
+    
+    sqlValues = [equipment.id, equipment.name, equipment.location, equipment.area_served]
+
+    queryText = `
+        UPDATE "equipment" 
+        SET 
+            "name" = $2,
+            "location" = $3,
+            "area_served" = $4
+        WHERE "id" = $1;
+    `;
+    pool.query(queryText, sqlValues)
+    .then((result) => { 
+        res.send(result.rows);
+    })
+    .catch((error) => {
+        console.log(error);
+        res.sendStatus(500);
+    });
+});
+
 module.exports = router;

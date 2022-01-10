@@ -16,8 +16,48 @@ function* fetchEquipment(action) {
     }
   }
 
+  function* updateEquipment(action) {
+    try {
+      console.log('In UpdateEquipment Saga');
+      console.log(action.payload);
+      
+      yield axios({
+        method: 'PUT',
+        url: `/api/equipment/${action.payload.id}`,
+        data: action.payload
+      })
+      yield put({
+        type: 'LOAD_EQUIPMENT',
+        payload: action.payload
+      })
+    } catch(error) {
+      console.error('ERROR:', error)
+    }
+  }
+
+  function* deleteEquipment(action) {
+    try {
+      console.log('In DeleteEquipment Saga');
+      console.log(action.payload);
+      
+      yield axios({
+        method: 'Delete',
+        url: `/api/equipment/${action.payload.id}`,
+        data: action.payload
+      })
+      yield put({
+        type: 'FETCH_NAVIGATION',
+        payload: 1
+      })
+    } catch(error) {
+      console.error('ERROR:', error)
+    }
+  }
+
 function* equipmentSaga() {
   yield takeLatest('FETCH_EQUIPMENT', fetchEquipment);
+  yield takeLatest('UPDATE_EQUIPMENT', updateEquipment);
+  yield takeLatest('DELETE_EQUIPMENT', deleteEquipment);
 }
 
 export default equipmentSaga;
