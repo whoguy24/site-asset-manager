@@ -3,7 +3,7 @@ body {
     margin: 0px;
 }
 
-#app-header {
+/* #app-header {
     background-color: #041F59;
     height: 60px;
     width: 100vw;
@@ -46,4 +46,14 @@ body {
     border-left: solid grey 1px;
     border-right: solid grey 1px;
     border-bottom: solid grey 1px;
+} */
+
+.app-background {
+    background-color: #041F59;
+    height: 100vh;
+}
+
+#app-login-card {
+    height: 400px;
+    width: 400px;
 }

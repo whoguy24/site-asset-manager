@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
-
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
@@ -20,17 +19,8 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Typography from '@mui/material/Typography';
-
-import AppHeader from '../AppHeader/AppHeader';
-import AppFooter from '../AppFooter/AppFooter';
-import AppNavigation from '../AppNavigation/AppNavigation';
-import AppForm from '../AppForm/AppForm';
-
-
+import AppLogin from '../AppLogin/AppLogin';
+import AppRegister from '../AppRegister/AppRegister';
 
 import './App.css';
 
@@ -44,6 +34,32 @@ function App() {
   }, [dispatch]);
 
   return (
+
+    <Router>
+
+      <Switch>
+
+        <Redirect exact from='/' to='/login' />
+
+        <Route exact path='/login'>
+          <AppLogin />
+        </Route>
+
+        <Route exact path='/register'>
+          <AppRegister />
+        </Route>
+
+        <Route exact path='/test'>
+          <RegisterPage />
+        </Route>
+
+        <Route>
+          <h1>404</h1>
+        </Route>
+
+      </Switch>
+
+    </Router>
     
     // <Router>
     //   <div>
@@ -134,29 +150,7 @@ function App() {
 
 
 
-    <>
 
-
-        <AppHeader/>  
-
-        <Grid container direction='row' justifyContent="flex-start" alignItems="stretch">
-          <Grid item xs={3}>
-            <AppNavigation/>
-          </Grid>
-          <Grid item xs={8}>
-            <AppForm/>
-          </Grid>
-        </Grid>
-
-        <AppFooter/>
-
-
-
-
-        
-        
-
-    </>
   );
 }
 
