@@ -22,10 +22,15 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar';
+import Typography from '@mui/material/Typography';
 
 import AppHeader from '../AppHeader/AppHeader';
-import AppBody from '../AppBody/AppBody';
 import AppFooter from '../AppFooter/AppFooter';
+import AppNavigation from '../AppNavigation/AppNavigation';
+import AppForm from '../AppForm/AppForm';
+
+
 
 import './App.css';
 
@@ -131,14 +136,37 @@ function App() {
 
     <>
 
-      <AppHeader />
+      {/* <AppHeader /> */}
 
-      <AppBody />
+      {/* <AppBody /> */}
 
-      <AppFooter />
+      {/* <AppFooter /> */}
+
+
+        {/* <AppBar >
+            <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+              Site Asset Manager
+            </Typography>
+        </AppBar> */}
+
+        <AppHeader/>  
+
+        <Grid container direction='row'>
+          <Grid item>
+            <AppNavigation/>
+          </Grid>
+          <Grid item>
+            <AppForm/>
+          </Grid>
+        </Grid>
+
+        <AppFooter/>
 
 
 
+
+        
+        
 
     </>
   );

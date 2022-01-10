@@ -1,17 +1,21 @@
 import Grid from '@mui/material/Grid';
 import AppBar from '@mui/material/AppBar';
+import ConstructionIcon from '@mui/icons-material/Construction';
+import Typography from '@mui/material/Typography';
+
+import '../App/App.css';
 
 function AppHeader() {
 
     return (
-        <AppBar position="static">
-            <Grid container alignItems='center'>
-            <Grid item xs={11}>
-                <h1>Site Asset Manager</h1>
-            </Grid>
-            <Grid item xs={1}>
-                <button>Log in</button>
-            </Grid>
+        <AppBar id={'app-header'} position='static'>
+            <Grid container id={'app-header-container'} direction='row' alignItems='center'>
+              <Grid item>
+                <ConstructionIcon/>
+              </Grid>
+              <Grid item>
+              <Typography variant='h6' padding={1} >Site Asset Manager</Typography>
+              </Grid>
             </Grid>
         </AppBar>
     );

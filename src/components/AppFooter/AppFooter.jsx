@@ -1,11 +1,9 @@
-import Box from '@mui/material/Box';
-
-import './AppFooter.css';
+import '../App/App.css';
 
 function AppFooter() {
 
     return (
-        <footer>&copy; Warren O'Brien</footer>
+        <footer id={'app-footer'}>&copy; 2022 Warren O'Brien</footer>
     );
 }
 

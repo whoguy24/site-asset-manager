@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
 import AppBar from '@mui/material/AppBar';
 
-import './EquipmentHeader.css';
+import '../App/App.css';
 
 function EquipmentHeader() {
 
