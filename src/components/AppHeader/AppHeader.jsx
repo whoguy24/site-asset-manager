@@ -1,21 +1,46 @@
 import Grid from '@mui/material/Grid';
-import AppBar from '@mui/material/AppBar';
 import ConstructionIcon from '@mui/icons-material/Construction';
-import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import AppBar from '@mui/material/AppBar';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
 
 import '../App/App.css';
 
 function AppHeader() {
 
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    function handleLogOutButton() {
+        dispatch({ type: 'LOGOUT' })
+        history.push('/login')
+    }
+
     return (
-        <AppBar id={'app-header'} position='static'>
-            <Grid container id={'app-header-container'} direction='row' alignItems='center'>
-              <Grid item>
-                <ConstructionIcon/>
-              </Grid>
-              <Grid item>
-              <Typography variant='h6' padding={1} >Site Asset Manager</Typography>
-              </Grid>
+        <AppBar id={'app-header'}>
+            <Grid container direction='row' alignItems='center' justifyContent='space-between'>
+                <Grid item>
+                    <Grid container direction='row' alignItems='center' spacing={1}>
+                        <Grid item>
+                            <ConstructionIcon/>
+                        </Grid>
+                        <Grid item id={'app-header-title'}>
+                            <h4>Site Asset Manager</h4>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid item>
+                    <Grid container spacing={2} direction='row' alignItems='center'>
+                        <Grid item>
+                            <p>Warren O'Brien</p>
+                        </Grid>
+                        <Grid item>
+                            <Button id={'app-header-logout-button'} onClick={handleLogOutButton} size='small' variant='contained'>Log Out</Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </Grid>
         </AppBar>
     );

@@ -35,55 +35,41 @@ function AppRegister() {
     return (
         <Grid container className={'app-background'} direction='row' justifyContent='center' alignItems='center'>
             <Grid item >
-                <Paper id={'app-login-card'} elevation={24}>
-                    <Grid container direction='column' justifyContent='center' alignItems='center' spacing={4}>
+                <Paper className={'app-admin-card'} elevation={24}>
+
+                    <form onSubmit={handleRegisterButton}>
+
+                        <Grid container direction='column' justifyContent='center' alignItems='center' spacing={4}>
 
 
-                        <Grid item>
-                            <h3>Welcome to Site Asset Manager!</h3>
-                            <center><h3>Register:</h3></center>
-                        </Grid>
+                            <Grid item>
+                                <h3>Welcome to Site Asset Manager!</h3>
+                                <center><h3>Register:</h3></center>
+                            </Grid>
 
-                        <Grid item>
-                            <TextField label='User Name' required value={username} onChange={(event) => setUsername(event.target.value)} variant='outlined' />
-                        </Grid>
-                        <Grid item>
-                            <TextField type='password' required value={password} onChange={(event) => setPassword(event.target.value)} label='Password' variant='outlined' />
-                        </Grid>
+                            <Grid item>
+                                <TextField label='User Name' required value={username} onChange={(event) => setUsername(event.target.value)} variant='outlined' />
+                            </Grid>
+                            <Grid item>
+                                <TextField type='password' required value={password} onChange={(event) => setPassword(event.target.value)} label='Password' variant='outlined' />
+                            </Grid>
 
-                        <Grid item>
-                            <Grid container direction='row' spacing={2} justifyContent='center' alignItems='center'>
-                                <Grid item>
-                                    <Button variant="outlined" onClick={handleCancelButton}>Cancel</Button>
-                                </Grid>
-                                <Grid item>
-                                    <Button variant="contained" onClick={handleRegisterButton}>Register</Button>
+                            <Grid item>
+                                <Grid container direction='row' spacing={2} justifyContent='center' alignItems='center'>
+                                    <Grid item>
+                                        <Button variant="outlined" onClick={handleCancelButton}>Cancel</Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button variant="contained" onClick={handleRegisterButton}>Register</Button>
+                                    </Grid>
                                 </Grid>
                             </Grid>
+
                         </Grid>
+                        <input type="submit" hidden />
+                    </form>
 
 
-
-                        {/* <Grid item>
-                            <h3>Site Asset Manager - Register</h3>
-                        </Grid>
-                        <Grid item>
-                            <TextField label='User Name' required value={username} onChange={(event) => setUsername(event.target.value)} variant='outlined' />
-                        </Grid>
-                        <Grid item>
-                            <TextField type='password' required value={password} onChange={(event) => setPassword(event.target.value)} label='Password' variant='outlined' />
-                        </Grid>
-                        <Grid item>
-                            <Grid container direction='row' spacing={2} justifyContent='center' alignItems='center'>
-                                <Grid item>
-                                    <Button variant="contained">Register</Button>
-                                </Grid>
-                                <Grid item>
-                                    <Button variant="contained" onClick={handleLoginButton}>Log In</Button>
-                                </Grid>
-                            </Grid>
-                        </Grid> */}
-                    </Grid>
                 </Paper>
             </Grid>
         </Grid>

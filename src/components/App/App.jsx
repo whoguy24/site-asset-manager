@@ -7,20 +7,10 @@ import {
 } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-
-import Nav from '../Nav/Nav';
-import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-
-import AboutPage from '../AboutPage/AboutPage';
-import UserPage from '../UserPage/UserPage';
-import InfoPage from '../InfoPage/InfoPage';
-import LandingPage from '../LandingPage/LandingPage';
-import LoginPage from '../LoginPage/LoginPage';
-import RegisterPage from '../RegisterPage/RegisterPage';
-
 import AppLogin from '../AppLogin/AppLogin';
 import AppRegister from '../AppRegister/AppRegister';
+import AppMain from '../AppMain/AppMain';
 
 import './App.css';
 
@@ -39,7 +29,7 @@ function App() {
 
       <Switch>
 
-        <Redirect exact from='/' to='/login' />
+        <Redirect exact from='/' to='/main' />
 
         <Route exact path='/login'>
           <AppLogin />
@@ -49,9 +39,9 @@ function App() {
           <AppRegister />
         </Route>
 
-        <Route exact path='/test'>
-          <RegisterPage />
-        </Route>
+        <ProtectedRoute exact path='/main'>
+          <AppMain />
+        </ProtectedRoute>
 
         <Route>
           <h1>404</h1>
