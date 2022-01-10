@@ -13,9 +13,8 @@ function Navigation() {
     const navigation = useSelector(store => store.navigationReducer);
     const dispatch = useDispatch();
 
-    function handleEquipmentClick(id) {
-        console.log(id);
-        dispatch({ type: 'FETCH_EQUIPMENT', payload: id });
+    function handleEquipmentClick(unit) {
+        dispatch({ type: 'FETCH_EQUIPMENT', payload: unit });
     }
 
     useEffect(() => {
@@ -30,7 +29,7 @@ function Navigation() {
                         {building.systems.map((system) => {
                             return <TreeItem key={system.id} nodeId={'system_'+system.id} label={system.name}>
                                 {system.equipment.map((unit) => {
-                                    return <TreeItem key={unit.id} nodeId={'equipment_'+unit.id} label={unit.name} onClick = {() => handleEquipmentClick(unit.id)}>
+                                    return <TreeItem key={unit.id} nodeId={'equipment_'+unit.id} label={unit.name} onClick = {() => handleEquipmentClick(unit)}>
                                     </TreeItem>
                                 })}
                             </TreeItem>

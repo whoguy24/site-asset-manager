@@ -136,26 +136,14 @@ function App() {
 
     <>
 
-      {/* <AppHeader /> */}
-
-      {/* <AppBody /> */}
-
-      {/* <AppFooter /> */}
-
-
-        {/* <AppBar >
-            <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-              Site Asset Manager
-            </Typography>
-        </AppBar> */}
 
         <AppHeader/>  
 
-        <Grid container direction='row'>
-          <Grid item>
+        <Grid container direction='row' justifyContent="flex-start" alignItems="stretch">
+          <Grid item xs={3}>
             <AppNavigation/>
           </Grid>
-          <Grid item>
+          <Grid item xs={8}>
             <AppForm/>
           </Grid>
         </Grid>

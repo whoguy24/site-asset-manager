@@ -1,6 +1,6 @@
 const equipmentReducer = (state = {}, action) => {
     switch (action.type) {
-      case 'LOAD_EQUIPMENT':
+      case 'LOAD_EQUIPMENT':   
         return action.payload;
       default:
         return state;
@@ -8,4 +8,3 @@ const equipmentReducer = (state = {}, action) => {
 };
   
 export default equipmentReducer;
-  

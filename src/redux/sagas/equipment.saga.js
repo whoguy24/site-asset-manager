@@ -5,11 +5,11 @@ function* fetchEquipment(action) {
     try {
       const response = yield axios({
         method: 'GET',
-        url: `/api/equipment/${action.payload}`
+        url: `/api/equipment/${action.payload.id}`
       })
       yield put({
         type: 'LOAD_EQUIPMENT',
-        payload: response.data
+        payload: response.data[0]
       })
     } catch(error) {
       console.error('ERROR:', error)
