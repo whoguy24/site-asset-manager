@@ -60,6 +60,17 @@ body {
     padding-left: 10px;
 }
 
+#app-footer {
+    border-top: solid grey 1px;
+    padding: 8px;
+    margin-top: 36px;
+}
+
 #app-header-logout-button {
     margin-right: 16px;
+}
+
+#app-navigation {
+    border: solid grey 1px;
+    height: 80vh;
 }

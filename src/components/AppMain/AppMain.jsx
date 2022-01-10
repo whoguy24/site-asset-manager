@@ -7,14 +7,23 @@ import AppBar from '@mui/material/AppBar';
 import { useDispatch } from 'react-redux';
 
 import AppHeader from '../AppHeader/AppHeader';
+import AppNavigation from '../AppNavigation/AppNavigation';
 
 import '../App/App.css';
 
 function AppMain() {
     return (
-        <>
+        <div>
             <AppHeader/>
-        </>
+            <Grid container direction='row'>
+                <Grid item xs= {3}>
+                    <AppNavigation/>
+                </Grid>
+            </Grid>
+            <center>
+                <footer id={'app-footer'}>&copy;2022 Warren O'Brien</footer>
+            </center>
+        </div>
     );
 }
 
