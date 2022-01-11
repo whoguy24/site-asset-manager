@@ -3,46 +3,6 @@ body {
     margin: 0px;
 }
 
-
-
-/* #app-header-container {
-    width: 300px;
-    height: 60px;
-    padding: 6px;
-}
-
-#app-footer {
-    border-top: solid grey 1px;
-}
-
-#app-navigation-container {
-    border: solid grey 1px;
-    height: 800px;
-}
-
-#app-navigation-container-dropdown {
-    background-color: rgb(235, 235, 235);
-    height: 36px;
-    border-bottom: solid grey 1px;
-}
-
-#form_equipment_header {
-    background-color: #041F59;
-    height: 42px;
-    margin-top: 24px;
-    margin-left: 24px;
-    border: solid grey 1px;
-}
-
-#form_equipment_body_container {
-    height: 700px;
-    margin-left: 24px;
-    padding: 16px;
-    border-left: solid grey 1px;
-    border-right: solid grey 1px;
-    border-bottom: solid grey 1px;
-} */
-
 .app-background {
     background-color: #041F59;
     height: 100vh;
@@ -73,4 +33,15 @@ body {
 #app-navigation {
     border: solid grey 1px;
     height: 80vh;
+}
+
+#app-navigation-site-section {
+    background-color: lightgrey;
+    height: 40px;
+    border-bottom: solid grey 1px;
+}
+
+#app-navigation-site-button {
+    margin-left: 6px;
+    height: 24px;
 }

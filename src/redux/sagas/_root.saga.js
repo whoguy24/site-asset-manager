@@ -4,6 +4,7 @@ import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
 import equipmentSaga from './equipment.saga';
 import navigationSaga from './navigation.saga';
+import sitesSaga from './sites.saga';
 import siteSaga from './site.saga';
 
 // rootSaga is the primary saga.
@@ -20,6 +21,7 @@ export default function* rootSaga() {
     userSaga(),
     equipmentSaga(),
     navigationSaga(),
+    sitesSaga(),
     siteSaga()
   ]);
 }

@@ -1,6 +1,6 @@
-const sitesReducer = (state = {}, action) => {
+const sitesReducer = (state = [], action) => {
     switch (action.type) {
-      case 'LOAD_SITE':
+      case 'LOAD_SITES':
         return action.payload;
       default:
         return state;

@@ -15,6 +15,27 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     });
   });
 
+router.get('/:id', rejectUnauthenticated, (req, res) => {
+    const id = req.params.id;
+    console.log('IN GET ROUTE BY RECORD');
+    console.log(req.params.id);
+    
+    
+    sqlValues = [id]
+    queryText = `
+        SELECT * FROM "site"
+        WHERE "site"."id" =$1;
+    `;
+    pool.query(queryText, sqlValues)
+    .then((result) => { 
+        res.send(result.rows);
+    })
+    .catch((error) => {
+        console.log(error);
+        res.sendStatus(500);
+    });
+});
+
 router.post('/', (req, res) => {
 });
 

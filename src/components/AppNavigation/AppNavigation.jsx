@@ -9,20 +9,29 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 
+import Button from '@mui/material/Button';
+
+import MapIcon from '@mui/icons-material/Map';
+
+import Dialog from '@mui/material/Dialog';
+
+
+
 import '../App/App.css';
 
 function AppNavigation() {
 
-    // const navigation = useSelector(store => store.navigationReducer);
-    // const dispatch = useDispatch();
 
-    // function handleEquipmentClick(unit) {
-    //     dispatch({ type: 'FETCH_EQUIPMENT', payload: unit });
-    // }
+    const dispatch = useDispatch();
+    // const sites = useSelector(store => store.sitesReducer);
+    // const site = useSelector(store => store.siteReducer);
 
-    // useEffect(() => {
-    //     dispatch({ type: 'FETCH_NAVIGATION', payload: 1 });
-    // }, [])
+    useEffect(() => {
+        dispatch({ type: 'FETCH_SITES'});
+    }, [])
+
+    function handleLoadSiteButton() {
+    }
 
     return (
         <>
@@ -43,8 +52,6 @@ function AppNavigation() {
             </TreeView> */}
 
             <Grid container id={'app-navigation'} direction='column'>
-                <Grid item>
-                </Grid>
                 <Grid item>
                 </Grid>
             </Grid>

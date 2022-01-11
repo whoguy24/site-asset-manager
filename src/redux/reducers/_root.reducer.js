@@ -3,6 +3,7 @@ import errors from './errors.reducer';
 import user from './user.reducer';
 import equipmentReducer from './equipment.reducer';
 import navigationReducer from './navigation.reducer';
+import sitesReducer from './sites.reducer';
 import siteReducer from './site.reducer';
 
 // rootReducer is the primary reducer for our entire project
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   equipmentReducer,
   navigationReducer,
+  sitesReducer,
   siteReducer
 });
 
