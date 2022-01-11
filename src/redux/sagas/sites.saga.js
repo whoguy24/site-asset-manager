@@ -5,7 +5,7 @@ function* fetchSites(action) {
     try {
       const response = yield axios({
         method: 'GET',
-        url: '/api/site'
+        url: '/api/sites'
       })
       yield put({
         type: 'LOAD_SITES',

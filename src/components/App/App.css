@@ -41,7 +41,21 @@ body {
     border-bottom: solid grey 1px;
 }
 
-#app-navigation-site-button {
+#app-navigation-site-button-loaded {
     margin-left: 6px;
     height: 24px;
+}
+
+#app-navigation-site-button-empty {
+    background-color: grey;
+    margin-left: 6px;
+    height: 24px;
+}
+
+.site-table-cell-edit-button {
+    border: solid grey 1px;
+}
+
+.site-table-cell-load-button {
+    height: 32px;
 }

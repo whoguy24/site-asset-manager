@@ -24,11 +24,11 @@ function AppHeader() {
             <Grid container direction='row' alignItems='center' justifyContent='space-between'>
                 <Grid item>
                     <Grid container direction='row' alignItems='center' spacing={1}>
-                        <Grid item>
-                            <ConstructionIcon/>
+                        <Grid item >
+                            <ConstructionIcon />
                         </Grid>
                         <Grid item id={'app-header-title'}>
-                            <h4>Site Asset Manager</h4>
+                            <h3>Site Asset Manager</h3>
                         </Grid>
                     </Grid>
                 </Grid>
