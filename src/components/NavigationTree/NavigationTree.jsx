@@ -21,7 +21,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 import '../App/App.css';
 
-function AppNavigation({editMode}) {
+function NavigationTree({setSelectedItem}) {
 
     const dispatch = useDispatch();
     
@@ -38,16 +38,6 @@ function AppNavigation({editMode}) {
     const [buildingNameInput, setBuildingNameInput] = useState('');
     const [systemNameInput, setSystemNameInput] = useState('');
     const [equipmentNameInput, setEquipmentNameInput] = useState('');
-
-    function handleEquipmentClick() {
-        console.log('CLICK');
-    }
-
-    function handleAddButton(table, parentID) {
-        setTable(table)
-        setParentID(parentID)
-        setAddBuilding(true)
-    }
 
     function handleAddSubmitButton() {
         if (table === 'building') {
@@ -68,74 +58,37 @@ function AppNavigation({editMode}) {
         setAddEquipment(false)
     }
 
-    function handleDeleteButton(table, object, siteID) {
-        console.log('inHandleDelete');
-        object.site_id = siteID
-        if (table==='building') {
-            dispatch({
-                type: 'DELETE_BUILDING',
-                payload: object
-            })
-        }   
+    function handleNavigationClick(table, object) {
+        setSelectedItem( {table: table, object: object} )
     }
 
-    function customLabel(table, object) {
-        return (
-            <Grid container direction='row' justifyContent='space-between' alignItems='center'>
-                <Grid item>
-                    <Typography className={'navigation-label'} mt={1} variant="p" component="p">
-                        {object.name}
-                    </Typography>
-                </Grid>
-                {
-                    editMode &&   
-                    <Grid item>
-                        <IconButton sx={{ mr: 2 }} size='small' color='primary' onClick={()=>handleDeleteButton(table, object, currentSite.id)}>
-                            <DeleteIcon/>
-                        </IconButton>
-                    </Grid>
-                }
-            </Grid>
-            
-        )
-    }
-
-    function renderTree(navigation) {
+    function renderTree() {
         return (
             <>
-                { navigation.map((building) => {
-                    return (
-                        <TreeItem key={building.id} nodeId={'building_'+building.id} label={customLabel('building', building)} >
-                            {building.systems.map((system) => {
-                                return ( 
-                                    <TreeItem key={system.id} nodeId={'system_'+system.id} label={customLabel('system', system)}>
-                                        {system.equipment.map((unit) => {
-                                            return (
-                                                <TreeItem key={unit.id} nodeId={'equipment_'+unit.id} label={customLabel('equipment', unit)} onClick = {() => handleEquipmentClick(unit)}>
+                { navigation.map((site)=> {
+                    return(
+                        <TreeItem key={site.id} nodeId={'site_'+site.id} label={site.name} onClick = {() => handleNavigationClick('site', site)}>
+                            { site.buildings.map((building) => {
+                                return (
+                                    <TreeItem key={building.id} nodeId={'building_'+building.id} label={building.name} onClick = {() => handleNavigationClick('building', building)}>
+                                        {building.systems.map((system) => {
+                                            return ( 
+                                                <TreeItem key={system.id} nodeId={'system_'+system.id} label={system.name} onClick = {() => handleNavigationClick('system', system)}>
+                                                    {system.equipment.map((unit) => {
+                                                        return (
+                                                            <TreeItem key={unit.id} nodeId={'equipment_'+unit.id} label={unit.name} onClick = {() => handleNavigationClick('equipment', unit)}>
+                                                            </TreeItem>
+                                                        )
+                                                    })}
                                                 </TreeItem>
                                             )
                                         })}
-                                        { editMode === true && 
-                                            <Button sx={{ ml: 3 }} className={'navigation-tree-add-button'} startIcon={<AddCircleOutlineIcon />} onClick={()=>handleAddButton('equipment', unit.system_id)}>
-                                                Add Equipment
-                                            </Button>
-                                        }
                                     </TreeItem>
                                 )
                             })}
-                            { editMode === true && 
-                                <Button sx={{ ml: 1 }} className={'navigation-tree-add-button'} startIcon={<AddCircleOutlineIcon />} onClick={()=>handleAddButton('system', system.building_id)}>
-                                    Add System
-                                </Button>
-                            }
                         </TreeItem>
                     )
                 })}
-                { editMode === true && 
-                    <Button sx={{ ml: 1 }} className={'navigation-tree-add-button'} startIcon={<AddCircleOutlineIcon />} onClick={()=>handleAddButton('building', currentSite.id)}>
-                        Add Building
-                    </Button>
-                }
             </>
         )
     };
@@ -174,4 +127,4 @@ function AppNavigation({editMode}) {
     );
 }
 
-export default AppNavigation;
+export default NavigationTree;

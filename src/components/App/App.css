@@ -41,19 +41,13 @@ body {
     border-bottom: solid grey 1px;
 }
 
-#app-navigation-site-button-loaded {
+#app-navigation-site-button {
     margin-left: 6px;
     height: 24px;
 }
 
-#app-navigation-edit {
+#app-navigation-button {
     margin-right: 6px;
-    height: 24px;
-}
-
-#app-navigation-site-button-empty {
-    background-color: grey;
-    margin-left: 6px;
     height: 24px;
 }
 

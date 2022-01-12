@@ -16,7 +16,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-import MapIcon from '@mui/icons-material/Map';
+
+import FolderIcon from '@mui/icons-material/Folder';
 
 import NavigationTree from '../NavigationTree/NavigationTree';
 import SiteTableCell from '../SiteTableCell/SiteTableCell';
@@ -33,14 +34,19 @@ function AppNavigation() {
         dispatch({ type: 'FETCH_SITES'});
     }, [])
 
-    const [ editMode, setEditMode] = useState(false);
+
+
 
     const [loadSite, setLoadSite] = useState(false);
-    const [addSite, setAddSite] = useState(false);
-    const [addSiteName, setAddSiteName] = useState('');
+
+    const [addItem, setAddItem] = useState(false);
+    const [addItemTitle, setAddItemTitle] = useState('Add Site');
+    const [addItemName, setAddItemName] = useState('');
+    const [selectedItem, setSelectedItem] = useState({});
 
     function handleLoadSiteButton() {
         setLoadSite(true);
+        console.log(selectedItem);
     };
 
     function handleSiteCloseButton() {
@@ -49,20 +55,38 @@ function AppNavigation() {
 
     function handleAddSiteButton() {
         setLoadSite(false);
-        setAddSite(true);
+        setAddItem(true);
+        setSelectedItem({})
+        setAddItemTitle('Add Site')
     };
 
-    function handleAddSiteSubmitButton() {
-        setAddSite(false);
-        dispatch({
-            type: 'ADD_SITE',
-            payload: { name: addSiteName  }
-        })
-        setLoadSite(true);
+    function handleAddItemSubmitButton() {
+        setAddItem(false);
+        console.log('In handleItemSubmit', selectedItem);
+        if (selectedItem.table === 'site') {  
+            dispatch({
+                type: 'ADD_BUILDING',
+                payload: { 
+                    site_id: selectedItem.object.id,
+                    name: addItemName  
+                }
+            })
+        }
+        else if (selectedItem.table === 'building') {
+        }
+        else if (selectedItem.table === 'system') {
+        }
+        else {
+            dispatch({
+                type: 'ADD_SITE',
+                payload: { name: addItemName  }
+            })
+            setLoadSite(true);
+        }
     };
 
-    function handleAddSiteCancelButton() {
-        setAddSite(false);
+    function handleAddItemCancelButton() {
+        setAddItem(false);
     };
 
     function handleLoadButton(site) {
@@ -76,25 +100,41 @@ function AppNavigation() {
             payload: site
         })
         setLoadSite(false);
-    }
+    };
+
+    function handleAddItem() {
+        setAddItemName('')
+        if (selectedItem.table === 'site') {  
+            setAddItemTitle('Add Building')
+            setAddItem(true);
+        }
+        else if (selectedItem.table === 'building') {
+            setAddItemTitle('Add System')
+            setAddItem(true);
+        }
+        else if (selectedItem.table === 'system') {
+            setAddItemTitle('Add Equipment')
+            setAddItem(true);
+        }
+    };
 
     return (
         <>
 
             <Grid container id={'app-navigation'} direction='column' >
                 <Grid container id={'app-navigation-site-section'} alignItems='center' justifyContent="space-between">
-                    {site.name?
-                        <Button id={'app-navigation-site-button-loaded'} onClick={handleLoadSiteButton} startIcon={<MapIcon />} variant='contained'>{site.name}</Button>
-                        :
-                        <Button id={'app-navigation-site-button-empty'} onClick={handleLoadSiteButton} startIcon={<MapIcon />} variant='contained'>Load Site</Button>
+                    <Button id={'app-navigation-site-button'} onClick={handleLoadSiteButton} startIcon={<FolderIcon />} variant='contained'>Open Site</Button>
+                    { selectedItem.table==='site' && 
+                        <Button id={'app-navigation-button'} onClick={handleAddItem} variant='outlined'>Add Building</Button>
                     }
-                    {!editMode?
-                        <Button id={'app-navigation-edit'} onClick={()=>setEditMode(!editMode)} variant='outlined'>Edit</Button>
-                        :
-                        <Button id={'app-navigation-edit'} onClick={()=>setEditMode(!editMode)} variant='contained'>Done</Button>
+                    { selectedItem.table==='building' && 
+                        <Button id={'app-navigation-button'} onClick={handleAddItem} variant='outlined'>Add System</Button>
+                    }
+                    { selectedItem.table==='system' && 
+                        <Button id={'app-navigation-button'} onClick={handleAddItem} variant='outlined'>Add Equipment</Button>
                     }
                 </Grid>
-                { site.id && <NavigationTree editMode={ editMode } /> }
+                { site.id && <NavigationTree setSelectedItem={setSelectedItem} /> }
             </Grid>
 
             <Dialog open={loadSite} onClose={handleSiteCloseButton}>
@@ -133,20 +173,20 @@ function AppNavigation() {
                 </DialogActions>
             </Dialog>
 
-            <Dialog open={addSite} onClose={handleAddSiteCancelButton}>
+            <Dialog open={addItem} onClose={handleAddItemCancelButton}>
                 <DialogTitle>
-                    New Site
+                    {addItemTitle}
                 </DialogTitle>
                 <DialogContent>
-                    <TextField value={addSiteName} onChange={(event) => setAddSiteName(event.target.value)} label='Name' variant='standard' />
+                    <TextField value={addItemName} onChange={(event) => setAddItemName(event.target.value)} label='Name' variant='standard' />
                 </DialogContent>
                 <DialogActions>
                     <Grid container direction='row' justifyContent='space-around'>
                         <Grid item>
-                            <Button onClick={handleAddSiteCancelButton}>Cancel</Button>
+                            <Button onClick={handleAddItemCancelButton}>Cancel</Button>
                         </Grid>
                         <Grid item>
-                            <Button variant='contained' onClick={handleAddSiteSubmitButton}>Submit</Button>
+                            <Button variant='contained' onClick={handleAddItemSubmitButton}>Submit</Button>
                         </Grid>
                     </Grid>
                 </DialogActions>

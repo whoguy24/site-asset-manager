@@ -96,4 +96,27 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.post('/', (req, res) => {
+    console.log(req.body);
+    
+    const sqlText = `
+      INSERT INTO equipment 
+        (system_id, name)
+        VALUES 
+        ($1, $2);
+    `;
+    const sqlValues = [
+      req.body.system_id,
+      req.body.name
+    ];
+    pool.query(sqlText, sqlValues)
+      .then((result) => {
+        res.sendStatus(201);
+    })
+    .catch((error) => {
+        console.log('INSERT database error', error);
+        res.sendStatus(500);
+    });
+});
+
 module.exports = router;

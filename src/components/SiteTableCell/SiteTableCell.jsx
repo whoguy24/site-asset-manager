@@ -79,7 +79,7 @@ function SiteTableCell({site, loadButtonFunction}) {
                             <p>{site.name}</p>
                         </Grid>
                         <Grid item xs={3}>
-                            <Button className={'site-table-cell-load-button'} onClick={handleLoadButton} variant='contained'>Load</Button>
+                            <Button className={'site-table-cell-load-button'} onClick={handleLoadButton} variant='contained'>Open</Button>
                         </Grid>
                     </>
                 }
