@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 
 import AppHeader from '../AppHeader/AppHeader';
 import AppNavigation from '../AppNavigation/AppNavigation';
+import AppForm from '../AppForm/AppForm';
 
 import '../App/App.css';
 
@@ -16,8 +17,11 @@ function AppMain() {
         <div>
             <AppHeader/>
             <Grid container direction='row'>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                     <AppNavigation/>
+                </Grid>
+                <Grid item xs={8}>
+                    <AppForm />
                 </Grid>
             </Grid>
             <center>

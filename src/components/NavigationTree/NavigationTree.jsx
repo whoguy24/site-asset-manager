@@ -60,6 +60,34 @@ function NavigationTree({setSelectedItem}) {
 
     function handleNavigationClick(table, object) {
         setSelectedItem( {table: table, object: object} )
+        dispatch({
+            type: 'SET_TABLE',
+            payload: table
+        }) 
+        if (table === 'site') { 
+            dispatch({
+                type: 'FETCH_SITE',
+                payload: object
+            })
+        }
+        else if (table === 'building') {
+            dispatch({
+                type: 'FETCH_BUILDING',
+                payload: object
+            })
+        }
+        else if (table === 'system') {
+            dispatch({
+                type: 'FETCH_SYSTEM',
+                payload: object
+            })
+        }
+        else if (table === 'equipment') {
+            dispatch({
+                type: 'FETCH_EQUIPMENT',
+                payload: object
+            })
+        }
     }
 
     function renderTree() {

@@ -7,8 +7,6 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id;
     console.log('IN GET ROUTE BY RECORD');
     console.log(req.params.id);
-    
-    
     sqlValues = [id]
     queryText = `
         SELECT * FROM "site"
@@ -70,12 +68,24 @@ router.delete('/:id', (req, res) => {
     const sqlText = `
       UPDATE site 
         SET 
-          name = $1
-        WHERE id = $2;
+          name = $2,
+          address = $3,
+          city = $4,
+          state = $5,
+          zip = $6,
+          description = $7,
+          comments = $8
+        WHERE id = $1;
     `;
     const sqlValues = [
+      req.body.id,
       req.body.name,
-      req.body.id
+      req.body.address,
+      req.body.city,
+      req.body.state,
+      req.body.zip,
+      req.body.description,
+      req.body.comments
     ];
     
     pool.query(sqlText, sqlValues)

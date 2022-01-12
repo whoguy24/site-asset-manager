@@ -1,6 +1,21 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
+function* fetchSystem(action) {
+    try {
+      const response = yield axios({
+        method: 'GET',
+        url: `/api/system/${action.payload.id}`
+      })
+      yield put({
+        type: 'LOAD_SYSTEM',
+        payload: response.data[0]
+      })
+    } catch(error) {
+      console.error('ERROR:', error)
+    }
+  }
+
 function* addSystem(action) {
   try {
     yield axios({
@@ -8,17 +23,14 @@ function* addSystem(action) {
       url: '/api/system',
       data: action.payload
     })
-    yield put({
-      type: 'FETCH_NAVIGATION',
-      payload: {id: action.payload.site_id}
-    })
   } catch (error) {
     console.log(error)
   }
 }
 
-function* siteSaga() {
+function* systemSaga() {
   yield takeLatest('ADD_SYSTEM', addSystem);
+  yield takeLatest('FETCH_SYSTEM', fetchSystem);
 }
 
-export default siteSaga;
+export default systemSaga;

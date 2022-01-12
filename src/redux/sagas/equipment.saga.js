@@ -1,20 +1,20 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
-// function* fetchEquipment(action) {
-//     try {
-//       const response = yield axios({
-//         method: 'GET',
-//         url: `/api/equipment/${action.payload.id}`
-//       })
-//       yield put({
-//         type: 'LOAD_EQUIPMENT',
-//         payload: response.data[0]
-//       })
-//     } catch(error) {
-//       console.error('ERROR:', error)
-//     }
-//   }
+function* fetchEquipment(action) {
+    try {
+      const response = yield axios({
+        method: 'GET',
+        url: `/api/equipment/${action.payload.id}`
+      })
+      yield put({
+        type: 'LOAD_EQUIPMENT',
+        payload: response.data[0]
+      })
+    } catch(error) {
+      console.error('ERROR:', error)
+    }
+  }
 
 //   function* updateEquipment(action) {
 //     try {
@@ -61,17 +61,13 @@ import { put, takeLatest } from 'redux-saga/effects';
         url: '/api/equipment',
         data: action.payload
       })
-      yield put({
-        type: 'FETCH_NAVIGATION',
-        payload: {id: action.payload.site_id}
-      })
     } catch (error) {
       console.log(error)
     }
   }
 
 function* equipmentSaga() {
-  // yield takeLatest('FETCH_EQUIPMENT', fetchEquipment);
+  yield takeLatest('FETCH_EQUIPMENT', fetchEquipment);
   // yield takeLatest('UPDATE_EQUIPMENT', updateEquipment);
   // yield takeLatest('DELETE_EQUIPMENT', deleteEquipment);
     yield takeLatest('ADD_EQUIPMENT', addEquipment);

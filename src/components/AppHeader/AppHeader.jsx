@@ -20,14 +20,14 @@ function AppHeader() {
     }
 
     return (
-        <AppBar id={'app-header'} position='static'>
+        <AppBar id={'app-header'} position='static' >
             <Grid container direction='row' alignItems='center' justifyContent='space-between'>
                 <Grid item>
                     <Grid container direction='row' alignItems='center' spacing={1}>
                         <Grid item >
                             <ConstructionIcon />
                         </Grid>
-                        <Grid item id={'app-header-title'}>
+                        <Grid item >
                             <h3>Site Asset Manager</h3>
                         </Grid>
                     </Grid>

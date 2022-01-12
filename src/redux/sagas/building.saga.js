@@ -1,20 +1,20 @@
 import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
-// function* fetchSite(action) {
-//     try {
-//       const response = yield axios({
-//         method: 'GET',
-//         url: `/api/site/${action.payload.id}`
-//       })
-//       yield put({
-//         type: 'LOAD_SITE',
-//         payload: response.data
-//       })
-//     } catch(error) {
-//       console.error('ERROR:', error)
-//     }
-//   }
+function* fetchBuilding(action) {
+    try {
+      const response = yield axios({
+        method: 'GET',
+        url: `/api/building/${action.payload.id}`
+      })
+      yield put({
+        type: 'LOAD_BUILDING',
+        payload: response.data[0]
+      })
+    } catch(error) {
+      console.error('ERROR:', error)
+    }
+  }
 
 function* addBuilding(action) {
   try {
@@ -23,32 +23,28 @@ function* addBuilding(action) {
       url: '/api/building',
       data: action.payload
     })
-    yield put({
-      type: 'FETCH_NAVIGATION',
-      payload: {id: action.payload.site_id}
-    })
   } catch (error) {
     console.log(error)
   }
 }
 
-function* deleteBuilding(action) {
-    console.log('In DeleteBuildingSaga');
+// function* deleteBuilding(action) {
+//     console.log('In DeleteBuildingSaga');
     
-    console.log(action.payload);
+//     console.log(action.payload);
     
-  try {
-    yield axios({
-      method: 'DELETE',
-      url: `/api/building/${action.payload.id}`
-    })
-    yield put({
-        type: 'FETCH_NAVIGATION',
-        payload: {id: action.payload.site_id}
-    })
-  } catch (error) {
-    console.log(error)
-  }}
+//   try {
+//     yield axios({
+//       method: 'DELETE',
+//       url: `/api/building/${action.payload.id}`
+//     })
+//     yield put({
+//         type: 'FETCH_NAVIGATION',
+//         payload: {id: action.payload.site_id}
+//     })
+//   } catch (error) {
+//     console.log(error)
+//   }}
 
 //   function* editSite(action) {
 //     try {
@@ -66,8 +62,8 @@ function* deleteBuilding(action) {
 
 function* buildingSaga() {
   yield takeLatest('ADD_BUILDING', addBuilding);
-//   yield takeLatest('FETCH_SITE', fetchSite);
-  yield takeLatest('DELETE_BUILDING', deleteBuilding);
+  yield takeLatest('FETCH_BUILDING', fetchBuilding);
+  // yield takeLatest('DELETE_BUILDING', deleteBuilding);
 //   yield takeLatest('EDIT_SITE', editSite);
 }
 

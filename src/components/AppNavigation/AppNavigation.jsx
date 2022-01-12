@@ -30,18 +30,18 @@ function AppNavigation() {
     const sites = useSelector(store => store.sitesReducer);
     const site = useSelector(store => store.siteReducer);
 
+    const table = useSelector(store => store.tableReducer);
+
     useEffect(() => {
         dispatch({ type: 'FETCH_SITES'});
     }, [])
-
-
-
 
     const [loadSite, setLoadSite] = useState(false);
 
     const [addItem, setAddItem] = useState(false);
     const [addItemTitle, setAddItemTitle] = useState('Add Site');
     const [addItemName, setAddItemName] = useState('');
+
     const [selectedItem, setSelectedItem] = useState({});
 
     function handleLoadSiteButton() {
@@ -99,6 +99,10 @@ function AppNavigation() {
             })
             setLoadSite(true);
         }
+        dispatch({
+            type: 'FETCH_NAVIGATION',
+            payload: site
+        })
     };
 
     function handleAddItemCancelButton() {
@@ -106,6 +110,10 @@ function AppNavigation() {
     };
 
     function handleLoadButton(site) {
+        dispatch({
+            type: 'SET_TABLE',
+            payload: 'site'
+        }) 
         dispatch({
             type: 'LOAD_SITE',
             payload: site
@@ -140,13 +148,13 @@ function AppNavigation() {
             <Grid container id={'app-navigation'} direction='column' >
                 <Grid container id={'app-navigation-site-section'} alignItems='center' justifyContent="space-between">
                     <Button id={'app-navigation-site-button'} onClick={handleLoadSiteButton} startIcon={<FolderIcon />} variant='contained'>Open Site</Button>
-                    { selectedItem.table==='site' && 
+                    { table==='site' && 
                         <Button id={'app-navigation-button'} onClick={handleAddItem} variant='outlined'>Add Building</Button>
                     }
-                    { selectedItem.table==='building' && 
+                    { table==='building' && 
                         <Button id={'app-navigation-button'} onClick={handleAddItem} variant='outlined'>Add System</Button>
                     }
-                    { selectedItem.table==='system' && 
+                    { table==='system' && 
                         <Button id={'app-navigation-button'} onClick={handleAddItem} variant='outlined'>Add Equipment</Button>
                     }
                 </Grid>
