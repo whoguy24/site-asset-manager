@@ -32,10 +32,6 @@ function AppNavigation() {
 
     const table = useSelector(store => store.tableReducer);
 
-    useEffect(() => {
-        dispatch({ type: 'FETCH_SITES'});
-    }, [])
-
     const [loadSite, setLoadSite] = useState(false);
 
     const [addItem, setAddItem] = useState(false);
@@ -45,6 +41,7 @@ function AppNavigation() {
     const [selectedItem, setSelectedItem] = useState({});
 
     function handleLoadSiteButton() {
+        dispatch({ type: 'FETCH_SITES' });
         setLoadSite(true);
         console.log(selectedItem);
     };

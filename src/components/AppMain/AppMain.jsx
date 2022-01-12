@@ -20,7 +20,7 @@ function AppMain() {
                 <Grid item xs={3}>
                     <AppNavigation/>
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={9}>
                     <AppForm />
                 </Grid>
             </Grid>

@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Typography from '@mui/material/Typography';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -21,6 +20,24 @@ function AppForm() {
     const system = useSelector(store => store.systemReducer);
     const equipment = useSelector(store => store.equipmentReducer);
     const table = useSelector(store => store.tableReducer);
+
+    function handleDeleteButton() {
+        switch (table) {
+            case 'site': dispatch({ type: 'DELETE_SITE', payload: site.id })
+                break;
+            case 'building': dispatch({ type: 'DELETE_BUILDING', payload: building.id })
+                break;
+            case 'system': dispatch({ type: 'DELETE_SYSTEM', payload: system.id })
+                break;
+            case 'equipment': dispatch({ type: 'DELETE_EQUIPMENT', payload: equipment.id })
+                break;
+            default:
+        }
+        dispatch({ type: 'LOAD_SITE', payload: {} })
+        dispatch({ type: 'LOAD_BUILDING', payload: {} })
+        dispatch({ type: 'LOAD_SYSTEM', payload: {} })
+        dispatch({ type: 'LOAD_EQUIPMENT', payload: {} })
+    }
 
     return (
         <>
@@ -43,7 +60,7 @@ function AppForm() {
                                 }
                             </Grid>
                             <Grid item >
-                                <Button id={'app-form-header-delete-button'} color='error' startIcon={<DeleteIcon />} size='small' variant='outlined'>Delete</Button>
+                                <Button id={'app-form-header-delete-button'} onClick={handleDeleteButton} color='error' startIcon={<DeleteIcon />} size='small' variant='outlined'>Delete</Button>
                             </Grid>
                         </Grid>
                     </AppBar>
