@@ -6,6 +6,7 @@ import equipmentSaga from './equipment.saga';
 import navigationSaga from './navigation.saga';
 import sitesSaga from './sites.saga';
 import siteSaga from './site.saga';
+import buildingSaga from './building.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -22,6 +23,7 @@ export default function* rootSaga() {
     equipmentSaga(),
     navigationSaga(),
     sitesSaga(),
-    siteSaga()
+    siteSaga(),
+    buildingSaga()
   ]);
 }

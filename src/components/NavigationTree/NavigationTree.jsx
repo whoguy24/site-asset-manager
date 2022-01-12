@@ -1,0 +1,177 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+
+import TreeView from '@mui/lab/TreeView';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import TreeItem from '@mui/lab/TreeItem';
+import Button from '@mui/material/Button';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Typography from '@mui/material/Typography';
+
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
+import '../App/App.css';
+
+function AppNavigation({editMode}) {
+
+    const dispatch = useDispatch();
+    
+    const navigation = useSelector(store => store.navigationReducer);
+    const currentSite = useSelector(store => store.siteReducer);
+
+    const [addBuilding, setAddBuilding] = useState(false);
+    const [addSystem, setAddSystem] = useState(false);
+    const [addEquipment, setAddEquipment] = useState(false);
+
+    const [table, setTable] = useState('');
+    const [parentID, setParentID] = useState(0);
+
+    const [buildingNameInput, setBuildingNameInput] = useState('');
+    const [systemNameInput, setSystemNameInput] = useState('');
+    const [equipmentNameInput, setEquipmentNameInput] = useState('');
+
+    function handleEquipmentClick() {
+        console.log('CLICK');
+    }
+
+    function handleAddButton(table, parentID) {
+        setTable(table)
+        setParentID(parentID)
+        setAddBuilding(true)
+    }
+
+    function handleAddSubmitButton() {
+        if (table === 'building') {
+            dispatch({
+                type: 'ADD_BUILDING',
+                payload: { 
+                    site_id: parentID,
+                    name: buildingNameInput  
+                }
+            })
+            handleAddCancelButton()
+        }
+    }
+
+    function handleAddCancelButton() {
+        setAddBuilding(false)
+        setAddSystem(false)
+        setAddEquipment(false)
+    }
+
+    function handleDeleteButton(table, object, siteID) {
+        console.log('inHandleDelete');
+        object.site_id = siteID
+        if (table==='building') {
+            dispatch({
+                type: 'DELETE_BUILDING',
+                payload: object
+            })
+        }   
+    }
+
+    function customLabel(table, object) {
+        return (
+            <Grid container direction='row' justifyContent='space-between' alignItems='center'>
+                <Grid item>
+                    <Typography className={'navigation-label'} mt={1} variant="p" component="p">
+                        {object.name}
+                    </Typography>
+                </Grid>
+                {
+                    editMode &&   
+                    <Grid item>
+                        <IconButton sx={{ mr: 2 }} size='small' color='primary' onClick={()=>handleDeleteButton(table, object, currentSite.id)}>
+                            <DeleteIcon/>
+                        </IconButton>
+                    </Grid>
+                }
+            </Grid>
+            
+        )
+    }
+
+    function renderTree(navigation) {
+        return (
+            <>
+                { navigation.map((building) => {
+                    return (
+                        <TreeItem key={building.id} nodeId={'building_'+building.id} label={customLabel('building', building)} >
+                            {building.systems.map((system) => {
+                                return ( 
+                                    <TreeItem key={system.id} nodeId={'system_'+system.id} label={customLabel('system', system)}>
+                                        {system.equipment.map((unit) => {
+                                            return (
+                                                <TreeItem key={unit.id} nodeId={'equipment_'+unit.id} label={customLabel('equipment', unit)} onClick = {() => handleEquipmentClick(unit)}>
+                                                </TreeItem>
+                                            )
+                                        })}
+                                        { editMode === true && 
+                                            <Button sx={{ ml: 3 }} className={'navigation-tree-add-button'} startIcon={<AddCircleOutlineIcon />} onClick={()=>handleAddButton('equipment', unit.system_id)}>
+                                                Add Equipment
+                                            </Button>
+                                        }
+                                    </TreeItem>
+                                )
+                            })}
+                            { editMode === true && 
+                                <Button sx={{ ml: 1 }} className={'navigation-tree-add-button'} startIcon={<AddCircleOutlineIcon />} onClick={()=>handleAddButton('system', system.building_id)}>
+                                    Add System
+                                </Button>
+                            }
+                        </TreeItem>
+                    )
+                })}
+                { editMode === true && 
+                    <Button sx={{ ml: 1 }} className={'navigation-tree-add-button'} startIcon={<AddCircleOutlineIcon />} onClick={()=>handleAddButton('building', currentSite.id)}>
+                        Add Building
+                    </Button>
+                }
+            </>
+        )
+    };
+
+    useEffect(() => {
+    }, [])
+
+    return (
+        <>
+            { navigation &&
+                <TreeView id={'app-navigation-tree'} sx={{ flexGrow: 1, overflowY: 'auto' }} defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
+                    {renderTree(navigation)}
+                </TreeView>
+            }
+
+            <Dialog open={addBuilding} onClose={handleAddCancelButton}>
+                <DialogTitle>
+                    New Building
+                </DialogTitle>
+                <DialogContent>
+                    <TextField value={buildingNameInput} onChange={(event) => setBuildingNameInput(event.target.value)} label='Name' variant='standard' />
+                </DialogContent>
+                <DialogActions>
+                    <Grid container direction='row' justifyContent='space-around'>
+                        <Grid item>
+                            <Button onClick={handleAddCancelButton} >Cancel</Button>
+                        </Grid>
+                        <Grid item>
+                            <Button variant='contained' onClick={handleAddSubmitButton} >Submit</Button>
+                        </Grid>
+                    </Grid>
+                </DialogActions>
+            </Dialog>
+
+        </>
+    );
+}
+
+export default AppNavigation;

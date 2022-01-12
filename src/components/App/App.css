@@ -46,10 +46,19 @@ body {
     height: 24px;
 }
 
+#app-navigation-edit {
+    margin-right: 6px;
+    height: 24px;
+}
+
 #app-navigation-site-button-empty {
     background-color: grey;
     margin-left: 6px;
     height: 24px;
+}
+
+.navigation-label {
+    height: 30px;
 }
 
 .site-table-cell-edit-button {
@@ -58,4 +67,9 @@ body {
 
 .site-table-cell-load-button {
     height: 32px;
+}
+
+.navigation-tree-add-button {
+    height: 30px;
+    font-style:italic;
 }

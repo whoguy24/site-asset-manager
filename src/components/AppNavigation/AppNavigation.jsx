@@ -18,6 +18,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import MapIcon from '@mui/icons-material/Map';
 
+import NavigationTree from '../NavigationTree/NavigationTree';
 import SiteTableCell from '../SiteTableCell/SiteTableCell';
 
 import '../App/App.css';
@@ -31,6 +32,8 @@ function AppNavigation() {
     useEffect(() => {
         dispatch({ type: 'FETCH_SITES'});
     }, [])
+
+    const [ editMode, setEditMode] = useState(false);
 
     const [loadSite, setLoadSite] = useState(false);
     const [addSite, setAddSite] = useState(false);
@@ -67,35 +70,31 @@ function AppNavigation() {
             type: 'LOAD_SITE',
             payload: site
         })
+        console.log('In handleLoadButton', site);
+        dispatch({
+            type: 'FETCH_NAVIGATION',
+            payload: site
+        })
         setLoadSite(false);
     }
 
     return (
         <>
 
-            {/* <TreeView defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
-                {navigation.map((building) => {
-                    return <TreeItem key={building.id} nodeId={'building_'+building.id} label={building.name}>
-                        {building.systems.map((system) => {
-                            return <TreeItem key={system.id} nodeId={'system_'+system.id} label={system.name}>
-                                {system.equipment.map((unit) => {
-                                    return <TreeItem key={unit.id} nodeId={'equipment_'+unit.id} label={unit.name} onClick = {() => handleEquipmentClick(unit)}>
-                                    </TreeItem>
-                                })}
-                            </TreeItem>
-                        })}
-                    </TreeItem>
-                })}
-            </TreeView> */}
-
             <Grid container id={'app-navigation'} direction='column' >
-                <Grid container id={'app-navigation-site-section'} alignItems='center'>
+                <Grid container id={'app-navigation-site-section'} alignItems='center' justifyContent="space-between">
                     {site.name?
                         <Button id={'app-navigation-site-button-loaded'} onClick={handleLoadSiteButton} startIcon={<MapIcon />} variant='contained'>{site.name}</Button>
                         :
                         <Button id={'app-navigation-site-button-empty'} onClick={handleLoadSiteButton} startIcon={<MapIcon />} variant='contained'>Load Site</Button>
                     }
+                    {!editMode?
+                        <Button id={'app-navigation-edit'} onClick={()=>setEditMode(!editMode)} variant='outlined'>Edit</Button>
+                        :
+                        <Button id={'app-navigation-edit'} onClick={()=>setEditMode(!editMode)} variant='contained'>Done</Button>
+                    }
                 </Grid>
+                { site.id && <NavigationTree editMode={ editMode } /> }
             </Grid>
 
             <Dialog open={loadSite} onClose={handleSiteCloseButton}>

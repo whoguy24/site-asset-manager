@@ -16,7 +16,7 @@ function AppMain() {
         <div>
             <AppHeader/>
             <Grid container direction='row'>
-                <Grid item xs= {3}>
+                <Grid item xs={4}>
                     <AppNavigation/>
                 </Grid>
             </Grid>

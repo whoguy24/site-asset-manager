@@ -96,7 +96,7 @@ function fetchEquipment (system_id) {
 }
 
 router.get('/:id', rejectUnauthenticated, (req, res) => {
-    console.log('In GET Request:', req.params.id);
+    console.log('In GET Request:', req.params);
     async function buildNavigationTree() {
         const navigation = await buildBuildings(req.params.id)
         res.send(navigation);

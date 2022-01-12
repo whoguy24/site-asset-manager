@@ -13,6 +13,7 @@ const navigationRouter = require('./routes/navigation.router');
 const equipmentRouter = require('./routes/equipment.router');
 const sitesRouter = require('./routes/sites.router');
 const siteRouter = require('./routes/site.router');
+const buildingRouter = require('./routes/building.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -31,6 +32,7 @@ app.use('/api/navigation', navigationRouter);
 app.use('/api/equipment', equipmentRouter);
 app.use('/api/sites', sitesRouter);
 app.use('/api/site', siteRouter);
+app.use('/api/building', buildingRouter);
 
 // Serve static files
 app.use(express.static('build'));
