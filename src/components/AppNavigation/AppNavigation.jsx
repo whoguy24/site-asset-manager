@@ -67,14 +67,30 @@ function AppNavigation() {
             dispatch({
                 type: 'ADD_BUILDING',
                 payload: { 
-                    site_id: selectedItem.object.id,
+                    site_id: site.id,
                     name: addItemName  
                 }
             })
         }
         else if (selectedItem.table === 'building') {
+            dispatch({
+                type: 'ADD_SYSTEM',
+                payload: { 
+                    site_id: site.id,
+                    building_id: selectedItem.object.id,
+                    name: addItemName  
+                }
+            })
         }
         else if (selectedItem.table === 'system') {
+            dispatch({
+                type: 'ADD_EQUIPMENT',
+                payload: { 
+                    site_id: site.id,
+                    system_id: selectedItem.object.id,
+                    name: addItemName  
+                }
+            })
         }
         else {
             dispatch({
