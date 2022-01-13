@@ -3,6 +3,19 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware')
 
+async function buildSites (site_id) {
+    const sites = await fetchSites(site_id);
+    let siteNavigation = []
+    for (const site of sites) {
+        siteNavigation.push({
+            id: site.id,
+            name: site.name,
+            buildings: await buildBuildings(site.id)
+        })
+    }
+    return siteNavigation
+};
+
 async function buildBuildings (site_id) {
     const buildings = await fetchBuildings(site_id);
     let buildingNavigation = []
@@ -39,6 +52,24 @@ async function buildEquipment(system_id) {
         })
     }
     return equipmentNavigation
+}
+
+function fetchSites (site_id) {
+    return new Promise((resolve, reject )=> {
+        const queryValues = [site_id];
+        const queryText = `
+            SELECT "site"."id", "site"."name" FROM "site"
+            WHERE "site"."id" = $1
+            ORDER BY "site"."id" ASC
+        ;`
+        pool.query(queryText, queryValues)
+        .then((result) => { 
+            resolve(result.rows)
+        })
+        .catch((error) => { 
+            reject(error);
+        });
+    })
 }
 
 function fetchBuildings (site_id) {
@@ -96,9 +127,9 @@ function fetchEquipment (system_id) {
 }
 
 router.get('/:id', rejectUnauthenticated, (req, res) => {
-    console.log('In GET Request:', req.params.id);
+    console.log('In GET Request:', req.params);
     async function buildNavigationTree() {
-        const navigation = await buildBuildings(req.params.id)
+        const navigation = await buildSites(req.params.id)
         res.send(navigation);
     }
     buildNavigationTree();

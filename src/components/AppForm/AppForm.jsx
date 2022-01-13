@@ -1,14 +1,20 @@
 import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
-import ConstructionIcon from '@mui/icons-material/Construction';
-import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useSelector, useDispatch } from 'react-redux';
 
-import EquipmentHeader from '../EquipmentHeader/EquipmentHeader';
-import EquipmentBody from '../EquipmentBody/EquipmentBody';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 
-import TextField from '@mui/material/TextField';
+import SiteForm from '../SiteForm/SiteForm';
+import BuildingForm from '../BuildingForm/BuildingForm';
+import SystemForm from '../SystemForm/SystemForm';
+import EquipmentForm from '../EquipmentForm/EquipmentForm';
 
-import { useSelector, useDispatch } from 'react-redux'
 import React, { useState } from 'react';
 
 import '../App/App.css';
@@ -17,99 +23,90 @@ function AppForm() {
 
     const dispatch = useDispatch();
 
+    const site = useSelector(store => store.siteReducer);
+    const building = useSelector(store => store.buildingReducer);
+    const system = useSelector(store => store.systemReducer);
     const equipment = useSelector(store => store.equipmentReducer);
+    const table = useSelector(store => store.tableReducer);
 
-    let [editMode, setEditMode] = useState(false);
+    const [deleteMode, setDeleteMode] = useState(false);
 
-    let [nameInput, setNameInput] = useState('');
-    let [locationInput, setLocationInput] = useState('');
-    let [areaServedInput, setAreaServedInput] = useState('');
-
-
-    function toggleEditMode() {
-        setNameInput(equipment.name)
-        setLocationInput(equipment.location)
-        setAreaServedInput(equipment.area_served)
-        setEditMode(true)
+    function handleDeleteButton() {
+        switch (table) {
+            case 'site': dispatch({ type: 'DELETE_SITE', payload: site })
+                break;
+            case 'building': dispatch({ type: 'DELETE_BUILDING', payload: building })
+                break;
+            case 'system': dispatch({ type: 'DELETE_SYSTEM', payload: system })
+                break;
+            case 'equipment': dispatch({ type: 'DELETE_EQUIPMENT', payload: equipment })
+                break;
+            default:
+        }
+        if (table === 'building' || table === 'system' || table === 'equipment' ) {
+            dispatch({ type: 'FETCH_NAVIGATION', payload:site.id })
+        }
+        setDeleteMode(false)
     }
 
-    function saveChanges() {
-        equipment.name = nameInput
-        equipment.location = locationInput
-        equipment.area_served = areaServedInput
-        dispatch({ type: 'UPDATE_EQUIPMENT', payload: equipment });
-        setEditMode(false)
-    }
-
-    function handleDelete() {
-        dispatch({ type: 'DELETE_EQUIPMENT', payload: equipment });
-        dispatch({ type: 'LOAD_EQUIPMENT', payload: {} });
+    function openDeletePopup () {
+        setDeleteMode(true)
     }
 
     return (
         <>
-
-            { equipment.id && 
-
-                <>
-
-                    <AppBar id={'form_equipment_header'} position='static'>
-                        <Grid container direction='row' alignItems='center' justifyContent='space-between' >
-                            <Grid item xs={8}>
-                                <h3>{equipment.name}</h3>
-                            </Grid>
-                                { !editMode?
-                                    <button onClick={toggleEditMode}>Edit</button>
-                                    :
-                                    <button onClick={saveChanges}>Save</button>
+            { (site.id || building.id || system.id || equipment.id) &&
+                <Paper id={'app-form-body'}>
+                    <AppBar id={'app-form-header'} position='static'>
+                        <Grid container direction='row' alignItems='center' justifyContent='space-between'>
+                            <Grid item >
+                                { table === 'site' &&
+                                    <h2 className={'app-form-header-label'} >{site.name}</h2>
                                 }
+                                { table === 'building' &&
+                                    <h2 className={'app-form-header-label'} >{building.name}</h2>
+                                }
+                                { table === 'system' &&
+                                    <h2 className={'app-form-header-label'} >{system.name}</h2>
+                                }
+                                { table === 'equipment' &&
+                                    <h2 className={'app-form-header-label'} >{equipment.name}</h2>
+                                }
+                            </Grid>
+                            <Grid item >
+                                <Button id={'app-form-header-delete-button'} onClick={openDeletePopup} color='error' startIcon={<DeleteIcon />} size='small' variant='outlined'>Delete</Button>
+                            </Grid>
                         </Grid>
                     </AppBar>
-
-                    <Grid container id={'form_equipment_body_container'} direction='column' >
-
-                    { !editMode?
-
-                        
-                            <Grid item>
-
-                                <Grid container direction='column' spacing={2}>
-                                    <Grid item>
-                                        <p>Name: {equipment.name}</p>
-                                        <p>Location: {equipment.location}</p>
-                                        <p>Area Served: {equipment.area_served}</p>
-                                    </Grid>
-                                </Grid>
-
-                                <button onClick={handleDelete}>Delete</button>
-
-                            </Grid>
-
-                            
-                        
-
-                        :
-                        <>
-                            <Grid container spacing={2} direction={'column'}>
-
-                            <Grid item>
-                                <TextField value={ nameInput } onChange={(event)=>{setNameInput(event.target.value)}} label='Name' variant='outlined' />
-                            </Grid>
-                            <Grid item>
-                                <TextField value={ locationInput } label='Location' variant='outlined' />
-                            </Grid>
-                            <Grid item>
-                                <TextField value={ areaServedInput } label='Area Served' variant='outlined' />
-                            </Grid>
-
-                            </Grid>
-                        </>
-                        }
-                        </Grid>
-                    
-                </>
-
+                    { table ==='site' && <SiteForm/>}
+                    { table ==='building' && <BuildingForm/>}
+                    { table ==='system' && <SystemForm/>}
+                    { table ==='equipment' && <EquipmentForm/>}
+                </Paper>
             }
+
+            <Dialog open={deleteMode} onClose={()=>setDeleteMode(false)}>
+                <DialogTitle>
+                    { table === 'site' && 'Delete Site' }
+                    { table === 'building' && 'Delete Building' }
+                    { table === 'system' && 'Delete System' }
+                    { table === 'equipment' && 'Delete Equipment' }
+                </DialogTitle>
+                <DialogContent>
+                    <p>Are you sure you want to delete this {table}?</p>
+                </DialogContent> 
+                <DialogActions>
+                    <Grid container direction='row' justifyContent='space-around'>
+                        <Grid item>
+                            <Button onClick={()=>setDeleteMode(false)} >Cancel</Button>
+                        </Grid>
+                        <Grid item>
+                            <Button variant='contained' color='error' onClick={handleDeleteButton} >Delete</Button>
+                        </Grid>
+                    </Grid>
+                </DialogActions>
+            </Dialog>
+
         </>
     );
 }

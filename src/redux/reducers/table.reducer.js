@@ -1,11 +1,11 @@
-const siteReducer = (state = {}, action) => {
+const tableReducer = (state = '', action) => {
     switch (action.type) {
-      case 'LOAD_SITE':
+      case 'SET_TABLE':
         return action.payload;
       default:
         return state;
     }
 };
   
-export default siteReducer;
+export default tableReducer;
   

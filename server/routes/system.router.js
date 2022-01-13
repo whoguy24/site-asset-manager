@@ -9,22 +9,22 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     console.log(req.params.id);
     const sqlValues = [id]
     const queryText = `
-        SELECT * FROM "site"
-        WHERE "site"."id" =$1;
+        SELECT * FROM "system"
+        WHERE "system"."id" =$1;
     `;
     pool.query(queryText, sqlValues)
     .then((result) => { 
-      let site = result.rows[0]
-      const queryValues = [site.id];
+      let system = result.rows[0]
+      const queryValues = [system.id];
       const queryText = `
-          SELECT * FROM "building"
-          WHERE "building"."site_id" = $1
-          ORDER BY "building"."id" ASC
+          SELECT * FROM "equipment"
+          WHERE "equipment"."system_id" = $1
+          ORDER BY "equipment"."id" ASC
       ;`
       pool.query(queryText, queryValues)
       .then((result) => { 
-        site.buildings = result.rows
-        res.send(site);
+        system.equipment = result.rows
+        res.send(system);
       })
       .catch((error) => { 
         console.log('INSERT database error', error);
@@ -38,13 +38,17 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
 });
 
 router.post('/', (req, res) => {
+    console.log(req.body);
+    
+    
     const sqlText = `
-      INSERT INTO site 
-        (name)
+      INSERT INTO system 
+        (building_id, name)
         VALUES 
-        ($1);
+        ($1, $2);
     `;
     const sqlValues = [
+      req.body.building_id,
       req.body.name
     ];
     pool.query(sqlText, sqlValues)
@@ -59,7 +63,7 @@ router.post('/', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     const sqlText = `
-      DELETE FROM site
+      DELETE FROM system
         WHERE id = $1
     `
     const sqlValues = [
@@ -77,17 +81,15 @@ router.delete('/:id', (req, res) => {
   })
 
   router.put('/:id', (req, res) => {
-
     console.log(req.body);
-    
     const sqlText = `
-      UPDATE "site" 
+      UPDATE "system" 
         SET 
           "name" = $2,
-          "address" = $3,
-          "city" = $4,
-          "state" = $5,
-          "zip" = $6,
+          "operating_hours" = $3,
+          "sequence_of_operation" = $4,
+          "performance_metrics" = $5,
+          "recommended_set_points" = $6,
           "description" = $7,
           "comments" = $8
         WHERE "id" = $1;
@@ -95,10 +97,10 @@ router.delete('/:id', (req, res) => {
     const sqlValues = [
       req.body.id,
       req.body.name,
-      req.body.address,
-      req.body.city,
-      req.body.state,
-      req.body.zip,
+      req.body.operating_hours,
+      req.body.sequence_of_operation,
+      req.body.performance_metrics,
+      req.body.recommended_set_points,
       req.body.description,
       req.body.comments
     ];

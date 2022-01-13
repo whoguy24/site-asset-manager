@@ -2,10 +2,14 @@ import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
 function* fetchNavigation(action) {
+
+  console.log('In fetchNavigation', action.payload);
+  console.log(action.payload.id);
+  
     try {
       const response = yield axios({
         method: 'GET',
-        url: `/api/navigation/${action.payload}`
+        url: `/api/navigation/${action.payload.id}`
       })
       yield put({
         type: 'LOAD_NAVIGATION',
