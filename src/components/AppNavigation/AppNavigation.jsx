@@ -113,7 +113,7 @@ function AppNavigation() {
             payload: 'site'
         }) 
         dispatch({
-            type: 'LOAD_SITE',
+            type: 'FETCH_SITE',
             payload: site
         })
         console.log('In handleLoadButton', site);
