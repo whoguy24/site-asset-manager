@@ -37,34 +37,64 @@ function EquipmentForm() {
     }
 
     function onInputUpdate(field, event) {
-        const updatedEquipment = {...system};
+        const updatedEquipment = {...equipment};
         switch (field) {
             case 'name': 
-                updatedSystem.name = event
+                updatedEquipment.name = event
                 break
             case 'location': 
-                updatedSystem.operating_hours = event
+                updatedEquipment.location = event
                 break
             case 'area_served': 
-                updatedSystem.sequence_of_operation = event
+                updatedEquipment.area_served = event
                 break
             case 'condition': 
-                updatedSystem.performance_metrics = event
+                updatedEquipment.condition = event
                 break
             case 'manufacturer': 
-                updatedSystem.recommended_set_points = event
+                updatedEquipment.manufacturer = event
                 break
             case 'model_number': 
-                updatedSystem.recommended_set_points = event
-            break
-                case 'sequence_of_operation': 
-                updatedSystem.recommended_set_points = event
+                updatedEquipment.model_number = event
+                break
+            case 'sequence_of_operation': 
+                updatedEquipment.sequence_of_operation = event
+                break
+            case 'amperage': 
+                updatedEquipment.amperage = event
+                break
+            case 'voltage': 
+                updatedEquipment.voltage = event
+                break
+            case 'BHP': 
+                updatedEquipment.BHP = event
+                break
+            case 'BTU': 
+                updatedEquipment.BTU = event
+                break
+            case 'CFM': 
+                updatedEquipment.CFM = event
+                break
+            case 'MPH': 
+                updatedEquipment.MPH = event
+                break
+            case 'VFD': 
+                updatedEquipment.VFD = event
+                break
+            case 'efficiency': 
+                updatedEquipment.efficiency = event
+                break
+            case 'horsepower': 
+                updatedEquipment.horsepower = event
+                break
+            case 'capacity': 
+                updatedEquipment.capacity = event
                 break
             case 'description': 
-                updatedSystem.description = event
+                updatedEquipment.description = event
                 break
             case 'comments': 
-                updatedSystem.comments = event
+                updatedEquipment.comments = event
                 break
             default:
         }
@@ -78,12 +108,12 @@ function EquipmentForm() {
         <>
             <Grid container className={'app-form-body-container'} direction='row' spacing={2}>
 
-                <Grid item xs={4}>
+                <Grid item xs={2}>
                     <Grid container direction='column' spacing={2} >
                         <Grid item>
                             <TextField 
                                 className='app-form-body-text-field' 
-                                value={system.name || ''} 
+                                value={equipment.name || ''} 
                                 onChange={(event)=>onInputUpdate('name', event.target.value)} 
                                 onBlur={refreshView} 
                                 fullWidth 
@@ -95,61 +125,185 @@ function EquipmentForm() {
                         <Grid item>
                             <TextField 
                                 className='app-form-body-text-field' 
-                                value={system.operating_hours || ''} 
-                                onChange={(event)=>onInputUpdate('operating_hours', event.target.value)} 
+                                value={equipment.location || ''} 
+                                onChange={(event)=>onInputUpdate('location', event.target.value)} 
                                 onBlur={refreshView} 
                                 fullWidth 
                                 size='small' 
-                                label='Operating Hours' 
+                                label='Location' 
                                 variant='outlined' 
                             />
                         </Grid>
                         <Grid item>
                             <TextField 
                                 className='app-form-body-text-field' 
-                                value={system.sequence_of_operation || ''} 
-                                onChange={(event)=>onInputUpdate('sequence_of_operation', event.target.value)} 
+                                value={equipment.area_served || ''} 
+                                onChange={(event)=>onInputUpdate('area_served', event.target.value)} 
                                 onBlur={refreshView} 
-                                rows={6} 
-                                multiline 
                                 fullWidth 
                                 size='small' 
-                                label='Sequence of Operation' 
+                                label='Area Served' 
                                 variant='outlined' 
                             />
+                        </Grid>
+
+                        <Grid item>
+                            <TextField 
+                                className='app-form-body-text-field' 
+                                value={equipment.manufacturer || ''} 
+                                onChange={(event)=>onInputUpdate('manufacturer', event.target.value)} 
+                                onBlur={refreshView} 
+                                fullWidth 
+                                size='small' 
+                                label='Manufacturer' 
+                                variant='outlined' 
+                            />
+                        </Grid>
+
+                        <Grid item>
+                            <TextField 
+                                className='app-form-body-text-field' 
+                                value={equipment.model_number || ''} 
+                                onChange={(event)=>onInputUpdate('model_number', event.target.value)} 
+                                onBlur={refreshView} 
+                                fullWidth 
+                                size='small' 
+                                label='Model Number' 
+                                variant='outlined' 
+                            />
+                        </Grid>
+
+
+
+                    </Grid>
+                </Grid>
+
+                <Grid item xs={2}>
+                    <Grid container direction='column' spacing={2}>
+                        <Grid item>
+                                <TextField 
+                                    className='app-form-body-text-field' 
+                                    value={equipment.condition || ''} 
+                                    onChange={(event)=>onInputUpdate('condition', event.target.value)} 
+                                    onBlur={refreshView} 
+                                    fullWidth 
+                                    size='small' 
+                                    label='Condition' 
+                                    variant='outlined' 
+                                />
+                        </Grid>
+                        <Grid item>
+                                <TextField 
+                                    className='app-form-body-text-field' 
+                                    value={equipment.horsepower || ''} 
+                                    onChange={(event)=>onInputUpdate('horsepower', event.target.value)} 
+                                    onBlur={refreshView} 
+                                    fullWidth 
+                                    size='small' 
+                                    label='Horsepower' 
+                                    variant='outlined' 
+                                />
+                        </Grid>
+                        <Grid item>
+                                <TextField 
+                                    className='app-form-body-text-field' 
+                                    value={equipment.amperage || ''} 
+                                    onChange={(event)=>onInputUpdate('amperage', event.target.value)} 
+                                    onBlur={refreshView} 
+                                    fullWidth 
+                                    size='small' 
+                                    label='Amperage' 
+                                    variant='outlined' 
+                                />
+                        </Grid>
+                        <Grid item>
+                                <TextField 
+                                    className='app-form-body-text-field' 
+                                    value={equipment.voltage || ''} 
+                                    onChange={(event)=>onInputUpdate('voltage', event.target.value)} 
+                                    onBlur={refreshView} 
+                                    fullWidth 
+                                    size='small' 
+                                    label='Voltage' 
+                                    variant='outlined' 
+                                />
+                        </Grid>
+                        <Grid item>
+                                <TextField 
+                                    className='app-form-body-text-field' 
+                                    value={equipment.capacity || ''} 
+                                    onChange={(event)=>onInputUpdate('capacity', event.target.value)} 
+                                    onBlur={refreshView} 
+                                    fullWidth 
+                                    size='small' 
+                                    label='Capacity' 
+                                    variant='outlined' 
+                                />
                         </Grid>
                     </Grid>
                 </Grid>
 
-                <Grid item xs={4}>
-                    <Grid container direction='column' spacing={2}>
 
+                <Grid item xs={1}>
+                    <Grid container direction='column' spacing={2}>
                         <Grid item>
-                            <TextField 
-                                className='app-form-body-text-field' 
-                                value={system.description || ''} 
-                                onChange={(event)=>onInputUpdate('description', event.target.value)} 
-                                onBlur={refreshView} 
-                                rows={5} 
-                                multiline 
-                                fullWidth 
-                                size='small' 
-                                label='Description' 
-                                variant='outlined' 
-                            />
+                                <TextField 
+                                    className='app-form-body-text-field' 
+                                    value={equipment.BHP || ''} 
+                                    onChange={(event)=>onInputUpdate('BHP', event.target.value)} 
+                                    onBlur={refreshView} 
+                                    fullWidth 
+                                    size='small' 
+                                    label='BHP' 
+                                    variant='outlined' 
+                                />
+                        </Grid>
+                        <Grid item>
+                                <TextField 
+                                    className='app-form-body-text-field' 
+                                    value={equipment.BTU || ''} 
+                                    onChange={(event)=>onInputUpdate('BTU', event.target.value)} 
+                                    onBlur={refreshView} 
+                                    fullWidth 
+                                    size='small' 
+                                    label='BTU' 
+                                    variant='outlined' 
+                                />
+                        </Grid>
+                        <Grid item>
+                                <TextField 
+                                    className='app-form-body-text-field' 
+                                    value={equipment.CFM || ''} 
+                                    onChange={(event)=>onInputUpdate('CFM', event.target.value)} 
+                                    onBlur={refreshView} 
+                                    fullWidth 
+                                    size='small' 
+                                    label='CFM' 
+                                    variant='outlined' 
+                                />
+                        </Grid>
+                        <Grid item>
+                                <TextField 
+                                    className='app-form-body-text-field' 
+                                    value={equipment.MPH || ''} 
+                                    onChange={(event)=>onInputUpdate('MPH', event.target.value)} 
+                                    onBlur={refreshView} 
+                                    fullWidth 
+                                    size='small' 
+                                    label='MPH' 
+                                    variant='outlined' 
+                                />
                         </Grid>
 
                         <Grid item>
                                 <TextField 
                                     className='app-form-body-text-field' 
-                                    value={system.comments || ''} 
-                                    onChange={(event)=>onInputUpdate('comments', event.target.value)} 
+                                    value={equipment.VFD || ''} 
+                                    onChange={(event)=>onInputUpdate('VFD', event.target.value)} 
                                     onBlur={refreshView} 
-                                    rows={4} 
-                                    multiline 
                                     fullWidth 
                                     size='small' 
-                                    label='Comments' 
+                                    label='VFD' 
                                     variant='outlined' 
                                 />
                         </Grid>
@@ -157,7 +311,77 @@ function EquipmentForm() {
                     </Grid>
                 </Grid>
 
-                <Grid item xs={4}>
+                <Grid item xs={7}>
+
+                    <Grid container direction='row' spacing={2}>
+                        <Grid item xs={5}>
+                            <TextField 
+                                    className='app-form-body-text-field' 
+                                    value={equipment.description || ''} 
+                                    onChange={(event)=>onInputUpdate('description', event.target.value)} 
+                                    onBlur={refreshView} 
+                                    rows={5} 
+                                    multiline 
+                                    fullWidth 
+                                    size='small' 
+                                    label='Description' 
+                                    variant='outlined' 
+                            />
+                        </Grid>
+                        <Grid item xs={7}>
+                            <TextField 
+                                    className='app-form-body-text-field' 
+                                    value={equipment.sequence_of_operation || ''} 
+                                    onChange={(event)=>onInputUpdate('sequence_of_operation', event.target.value)} 
+                                    onBlur={refreshView} 
+                                    rows={5} 
+                                    multiline 
+                                    fullWidth 
+                                    size='small' 
+                                    label='Sequence of Operation' 
+                                    variant='outlined' 
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <TextField 
+                                className='app-form-body-text-field' 
+                                value={equipment.comments || ''} 
+                                onChange={(event)=>onInputUpdate('comments', event.target.value)} 
+                                onBlur={refreshView} 
+                                rows={5} 
+                                multiline 
+                                fullWidth 
+                                size='small' 
+                                label='Comments' 
+                                variant='outlined' 
+                            />
+                        </Grid>
+
+                    </Grid>
+
+                </Grid>
+
+                        {/* <Grid item xs={5}>
+                            <TextField 
+                                className='app-form-body-text-field' 
+                                value={equipment.comments || ''} 
+                                onChange={(event)=>onInputUpdate('comments', event.target.value)} 
+                                onBlur={refreshView} 
+                                rows={5} 
+                                multiline 
+                                fullWidth 
+                                size='small' 
+                                label='Comments' 
+                                variant='outlined' 
+                            />
+                        </Grid> */}   
+
+
+                    
+
+
+                {/* <Grid item xs={4}>
                     <Grid container  direction='column' spacing={2}>
                         <Grid item>
                                 <TextField 
@@ -189,7 +413,7 @@ function EquipmentForm() {
                                     />
                             </Grid>
                     </Grid>
-                </Grid>
+                </Grid> */}
 
             </Grid>
 

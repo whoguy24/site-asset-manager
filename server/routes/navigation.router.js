@@ -130,8 +130,6 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     console.log('In GET Request:', req.params);
     async function buildNavigationTree() {
         const navigation = await buildSites(req.params.id)
-        console.log(navigation);
-        
         res.send(navigation);
     }
     buildNavigationTree();

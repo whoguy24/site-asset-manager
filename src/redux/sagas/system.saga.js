@@ -9,7 +9,7 @@ function* fetchSystem(action) {
       })
       yield put({
         type: 'LOAD_SYSTEM',
-        payload: response.data[0]
+        payload: response.data
       })
     } catch(error) {
       console.error('ERROR:', error)
@@ -47,7 +47,7 @@ function* deleteSystem(action) {
           })
           yield put({
             type: 'LOAD_SYSTEM',
-            payload: response.data[0]
+            payload: action.payload
           })
         } catch (error) {
           console.log(error)

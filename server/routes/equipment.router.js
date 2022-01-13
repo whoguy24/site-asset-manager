@@ -16,7 +16,7 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     `;
     pool.query(queryText, sqlValues)
     .then((result) => { 
-        res.send(result.rows);
+        res.send(result.rows[0]);
     })
     .catch((error) => {
         console.log(error);
@@ -70,28 +70,27 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     console.log(req.body);
     const sqlText = `
-      UPDATE equipment 
+      UPDATE "equipment" 
         SET 
-          name = $2,
-          location = $3
-          area_served = $4
-          condition = $5
-          manufacturer = $6
-          model_number = $7
-          sequence_of_operation = $8
-          amperage = $9
-          voltage = $10
-          BHP = $11
-          BTU = $12
-          CFM = $13
-          MPH = $14
-          VFD = $15
-          efficiency = $16
-          horsepower = $17
-          capacity = $18
-          description = $19,
-          comments = $20
-        WHERE id = $1;
+          "name" = $2,
+          "location" = $3,
+          "area_served" = $4,
+          "condition" = $5,
+          "manufacturer" = $6,
+          "model_number" = $7,
+          "sequence_of_operation" = $8,
+          "amperage" = $9,
+          "voltage" = $10,
+          "BHP" = $11,
+          "BTU" = $12,
+          "CFM" = $13,
+          "MPH" = $14,
+          "VFD" = $15,
+          "horsepower" = $16,
+          "capacity" = $17,
+          "description" = $18,
+          "comments" = $19
+        WHERE "id" = $1;
     `;
     const sqlValues = [
       req.body.id,
@@ -109,7 +108,6 @@ router.put('/:id', (req, res) => {
       req.body.CFM,
       req.body.MPH,
       req.body.VFD,
-      req.body.efficiency,
       req.body.horsepower,
       req.body.capacity,
       req.body.description,

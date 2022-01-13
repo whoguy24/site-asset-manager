@@ -7,14 +7,29 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id;
     console.log('IN GET ROUTE BY RECORD');
     console.log(req.params.id);
-    sqlValues = [id]
-    queryText = `
+    const sqlValues = [id]
+    const queryText = `
         SELECT * FROM "site"
         WHERE "site"."id" =$1;
     `;
     pool.query(queryText, sqlValues)
     .then((result) => { 
-        res.send(result.rows);
+      let site = result.rows[0]
+      const queryValues = [site.id];
+      const queryText = `
+          SELECT * FROM "building"
+          WHERE "building"."site_id" = $1
+          ORDER BY "building"."id" ASC
+      ;`
+      pool.query(queryText, queryValues)
+      .then((result) => { 
+        site.buildings = result.rows
+        res.send(site);
+      })
+      .catch((error) => { 
+        console.log('INSERT database error', error);
+        res.sendStatus(500);
+      });
     })
     .catch((error) => {
         console.log(error);
@@ -66,16 +81,16 @@ router.delete('/:id', (req, res) => {
     console.log(req.body);
     
     const sqlText = `
-      UPDATE site 
+      UPDATE "site" 
         SET 
-          name = $2,
-          address = $3,
-          city = $4,
-          state = $5,
-          zip = $6,
-          description = $7,
-          comments = $8
-        WHERE id = $1;
+          "name" = $2,
+          "address" = $3,
+          "city" = $4,
+          "state" = $5,
+          "zip" = $6,
+          "description" = $7,
+          "comments" = $8
+        WHERE "id" = $1;
     `;
     const sqlValues = [
       req.body.id,

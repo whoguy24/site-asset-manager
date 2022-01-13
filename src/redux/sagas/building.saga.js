@@ -9,7 +9,7 @@ function* fetchBuilding(action) {
       })
       yield put({
         type: 'LOAD_BUILDING',
-        payload: response.data[0]
+        payload: response.data
       })
     } catch(error) {
       console.error('ERROR:', error)
@@ -51,7 +51,7 @@ function* deleteBuilding(action) {
       })
       yield put({
         type: 'LOAD_BUILDING',
-        payload: response.data[0]
+        payload: action.payload
       })
     } catch (error) {
       console.log(error)

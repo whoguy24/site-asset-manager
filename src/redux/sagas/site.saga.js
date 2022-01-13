@@ -10,7 +10,7 @@ function* fetchSite(action) {
       })
       yield put({
         type: 'LOAD_SITE',
-        payload: response.data[0]
+        payload: response.data
       })
     } catch(error) {
       console.error('ERROR:', error)

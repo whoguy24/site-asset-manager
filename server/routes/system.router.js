@@ -7,16 +7,29 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id;
     console.log('IN GET ROUTE BY RECORD');
     console.log(req.params.id);
-    
-    
-    sqlValues = [id]
-    queryText = `
+    const sqlValues = [id]
+    const queryText = `
         SELECT * FROM "system"
         WHERE "system"."id" =$1;
     `;
     pool.query(queryText, sqlValues)
     .then((result) => { 
-        res.send(result.rows);
+      let system = result.rows[0]
+      const queryValues = [system.id];
+      const queryText = `
+          SELECT * FROM "equipment"
+          WHERE "equipment"."system_id" = $1
+          ORDER BY "equipment"."id" ASC
+      ;`
+      pool.query(queryText, queryValues)
+      .then((result) => { 
+        system.equipment = result.rows
+        res.send(system);
+      })
+      .catch((error) => { 
+        console.log('INSERT database error', error);
+        res.sendStatus(500);
+      });
     })
     .catch((error) => {
         console.log(error);
@@ -70,16 +83,16 @@ router.delete('/:id', (req, res) => {
   router.put('/:id', (req, res) => {
     console.log(req.body);
     const sqlText = `
-      UPDATE system 
+      UPDATE "system" 
         SET 
-          name = $2,
-          operating_hours = $3,
-          sequence_of_operation = $4,
-          performance_metrics = $5,
-          recommended_set_points = $6,
-          description = $7,
-          comments = $8
-        WHERE id = $1;
+          "name" = $2,
+          "operating_hours" = $3,
+          "sequence_of_operation" = $4,
+          "performance_metrics" = $5,
+          "recommended_set_points" = $6,
+          "description" = $7,
+          "comments" = $8
+        WHERE "id" = $1;
     `;
     const sqlValues = [
       req.body.id,

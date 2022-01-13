@@ -187,24 +187,6 @@ function SystemForm() {
 
             </Grid>
 
-
-
-            {/* <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 400 }} aria-label="simple table">
-                    <TableHead>
-                    </TableHead>
-                    <TableBody>
-                        {site.buildings.map((building) => (
-                            <TableRow key={building.id}>
-                                <TableCell component="th" scope="row">
-                                    <p>{building.name}</p>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer> */}
-
         </>
     );
 }
