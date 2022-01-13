@@ -71,125 +71,117 @@ function SiteForm() {
 
     return (
         <>
-            <Grid container className={'app-form-body-container'} direction='row' spacing={2}>
+            <Grid container className={'app-form-body-container'} direction='column' spacing={2}>
 
-                <Grid item xs={4}>
-                    <Grid container direction='column' spacing={2} >
-                        <Grid item>
-                            <TextField 
-                                className='app-form-body-text-field' 
-                                value={site.name || ''} 
-                                onChange={(event)=>onInputUpdate('name', event.target.value)} 
-                                onBlur={refreshView} 
-                                fullWidth 
-                                size='small' 
-                                label='Name' 
-                                variant='outlined' 
-                            />
+                <Grid item={4}>
+
+                    <Grid container direction='row' spacing={2}>
+
+                        <Grid item xs={4}>
+                            <Grid container direction='column' spacing={2} >
+                                <Grid item>
+                                    <TextField 
+                                        className='app-form-body-text-field' 
+                                        value={site.name || ''} 
+                                        onChange={(event)=>onInputUpdate('name', event.target.value)} 
+                                        onBlur={refreshView} 
+                                        fullWidth 
+                                        size='small' 
+                                        label='Name' 
+                                        variant='outlined' 
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <TextField 
+                                        className='app-form-body-text-field' 
+                                        value={site.address || ''} 
+                                        onChange={(event)=>onInputUpdate('address', event.target.value)} 
+                                        onBlur={refreshView} 
+                                        fullWidth size='small' 
+                                        label='Address' 
+                                        variant='outlined' 
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <TextField 
+                                        className='app-form-body-text-field' 
+                                        value={site.city || ''} 
+                                        onChange={(event)=>onInputUpdate('city', event.target.value)} 
+                                        onBlur={refreshView} 
+                                        fullWidth 
+                                        size='small' 
+                                        label='City' 
+                                        variant='outlined' 
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <TextField 
+                                        className='app-form-body-text-field' 
+                                        value={site.state || ''} 
+                                        onChange={(event)=>onInputUpdate('state', event.target.value)} 
+                                        onBlur={refreshView} 
+                                        fullWidth 
+                                        size='small' 
+                                        label='State' 
+                                        variant='outlined' 
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <TextField 
+                                        className='app-form-body-text-field' 
+                                        value={site.zip || ''} 
+                                        onChange={(event)=>onInputUpdate('zip', event.target.value)} 
+                                        onBlur={refreshView} 
+                                        fullWidth size='small' 
+                                        label='Zip' 
+                                        variant='outlined' 
+                                    />
+                                </Grid>
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <TextField 
-                                className='app-form-body-text-field' 
-                                value={site.address || ''} 
-                                onChange={(event)=>onInputUpdate('address', event.target.value)} 
-                                onBlur={refreshView} 
-                                fullWidth size='small' 
-                                label='Address' 
-                                variant='outlined' 
-                            />
+
+                        <Grid item xs={8}>
+                            <Grid container direction='column' spacing={2}>
+                                <Grid item>
+                                    <TextField 
+                                        className='app-form-body-text-field' 
+                                        value={site.description || ''} 
+                                        onChange={(event)=>onInputUpdate('description', event.target.value)} 
+                                        onBlur={refreshView} 
+                                        rows={4} 
+                                        multiline 
+                                        fullWidth 
+                                        size='small' 
+                                        label='Description' 
+                                        variant='outlined' 
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <TextField 
+                                        className='app-form-body-text-field' 
+                                        value={site.comments || ''} 
+                                        onChange={(event)=>onInputUpdate('comments', event.target.value)}  
+                                        onBlur={refreshView} 
+                                        rows={5} 
+                                        multiline 
+                                        fullWidth 
+                                        size='small' 
+                                        label='Comments' 
+                                        variant='outlined' 
+                                    />
+                                </Grid>
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <TextField 
-                                className='app-form-body-text-field' 
-                                value={site.city || ''} 
-                                onChange={(event)=>onInputUpdate('city', event.target.value)} 
-                                onBlur={refreshView} 
-                                fullWidth 
-                                size='small' 
-                                label='City' 
-                                variant='outlined' 
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField 
-                                className='app-form-body-text-field' 
-                                value={site.state || ''} 
-                                onChange={(event)=>onInputUpdate('state', event.target.value)} 
-                                onBlur={refreshView} 
-                                fullWidth 
-                                size='small' 
-                                label='State' 
-                                variant='outlined' 
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField 
-                                className='app-form-body-text-field' 
-                                value={site.zip || ''} 
-                                onChange={(event)=>onInputUpdate('zip', event.target.value)} 
-                                onBlur={refreshView} 
-                                fullWidth size='small' 
-                                label='Zip' 
-                                variant='outlined' 
-                            />
-                        </Grid>
+
                     </Grid>
+
                 </Grid>
 
                 <Grid item xs={8}>
-                    <Grid container direction='column' spacing={2}>
-                        <Grid item>
-                            <TextField 
-                                className='app-form-body-text-field' 
-                                value={site.description || ''} 
-                                onChange={(event)=>onInputUpdate('description', event.target.value)} 
-                                onBlur={refreshView} 
-                                rows={4} 
-                                multiline 
-                                fullWidth 
-                                size='small' 
-                                label='Description' 
-                                variant='outlined' 
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField 
-                                className='app-form-body-text-field' 
-                                value={site.comments || ''} 
-                                onChange={(event)=>onInputUpdate('comments', event.target.value)}  
-                                onBlur={refreshView} 
-                                rows={5} 
-                                multiline 
-                                fullWidth 
-                                size='small' 
-                                label='Comments' 
-                                variant='outlined' 
-                            />
-                        </Grid>
-                    </Grid>
+                    <BuildingTable buildings={site.buildings}/>
                 </Grid>
 
             </Grid>
-
-            <BuildingTable buildings={site.buildings}/>
-
-
-
-            {/* <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 400 }} aria-label="simple table">
-                    <TableHead>
-                    </TableHead>
-                    <TableBody>
-                        {site.buildings.map((building) => (
-                            <TableRow key={building.id}>
-                                <TableCell component="th" scope="row">
-                                    <p>{building.name}</p>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer> */}
 
         </>
     );

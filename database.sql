@@ -1,5 +1,10 @@
 CREATE DATABASE 'site-asset-manager';
 
+DROP TABLE IF EXISTS "site";
+DROP TABLE IF EXISTS "building";
+DROP TABLE IF EXISTS "system";
+DROP TABLE IF EXISTS "equipment";
+
 CREATE TABLE "user" (
     "id" SERIAL PRIMARY KEY,
     "username" VARCHAR (80) UNIQUE NOT NULL,
@@ -9,170 +14,109 @@ CREATE TABLE "user" (
 
 CREATE TABLE "site" (
     "id" SERIAL PRIMARY KEY,
-    "name" VARCHAR (80)
+    "name" VARCHAR (80),
+    "address" VARCHAR (80),
+    "city" VARCHAR (80),
+    "state" VARCHAR (80),
+    "zip" VARCHAR (80),
+    "description" VARCHAR (80),
+    "comments" VARCHAR (80)
+    ON DELETE CASCADE
 );
 
-CREATE TABLE "asset" (
+CREATE TABLE "building" (
     "id" SERIAL PRIMARY KEY,
     "site_id" INT,
-    "type_id" INT,
-    "building" VARCHAR (80),
-    "system" VARCHAR (80),
-    "location" VARCHAR (80),
     "name" VARCHAR (80),
+    "type" VARCHAR (80),
+    "operating_hours" VARCHAR (80),
+    "year_built" VARCHAR (80),
+    "floors" VARCHAR (80),
+    "description" VARCHAR (80),
+    "comments" VARCHAR (80),
     FOREIGN KEY ("site_id") REFERENCES "site"("id")
+    ON DELETE CASCADE
 );
 
-CREATE TABLE "property" (
+CREATE TABLE "system" (
     "id" SERIAL PRIMARY KEY,
-    "asset_id" INT NOT NULL,
+    "building_id" INT,
     "name" VARCHAR (80),
-    "unit" VARCHAR (80),
-    "value" VARCHAR (80),
-    FOREIGN KEY ("asset_id") REFERENCES "asset"("id")
+    "operating_hours" VARCHAR (80),
+    "sequence_of_operation" VARCHAR (80),
+    "performance_metrics" VARCHAR (80),
+    "recommended_set_points" VARCHAR (80),
+    "description" VARCHAR (80),
+    "comments" VARCHAR (80),
+    FOREIGN KEY ("building_id") REFERENCES "building"("id")
+    ON DELETE CASCADE
 );
 
-CREATE TABLE "photo" (
+CREATE TABLE "equipment" (
     "id" SERIAL PRIMARY KEY,
-    "asset_id" INT NOT NULL,
-    "url" VARCHAR (200),
-    FOREIGN KEY ("asset_id") REFERENCES "asset"("id")
-);
-
-CREATE TABLE "activity" (
-    "id" SERIAL PRIMARY KEY,
-    "asset_id" INT NOT NULL,
-    "description" VARCHAR (200),
-    "comments" VARCHAR (200),
-    "status" VARCHAR (80),
-    FOREIGN KEY ("asset_id") REFERENCES "asset"("id")
-);
-
-CREATE TABLE "step" (
-    "id" SERIAL PRIMARY KEY,
-    "asset_id" INT NOT NULL,
-    "activity_id" INT NOT NULL,
-    "description" VARCHAR (200),
-    "comments" VARCHAR (200),
-    "status" BOOLEAN,
-    FOREIGN KEY ("asset_id") REFERENCES "asset"("id")
-);
-
-CREATE TABLE "ecm" (
-    "id" SERIAL PRIMARY KEY,
-    "asset_id" INT NOT NULL,
-    "description" VARCHAR (200),
-    "comments" VARCHAR (200),
-    "status" VARCHAR (80),
-    FOREIGN KEY ("asset_id") REFERENCES "asset"("id")
-);
-
-CREATE TABLE "issue" (
-    "id" SERIAL PRIMARY KEY,
-    "asset_id" INT NOT NULL,
-    "description" VARCHAR (200),
-    "resolution" VARCHAR (200),
-    "comments" VARCHAR (200),
-    "status" VARCHAR (80),
-    FOREIGN KEY ("asset_id") REFERENCES "asset"("id")
+    "system_id" INT,
+    "name" VARCHAR (80),
+    "location" VARCHAR (80),
+    "area_served" VARCHAR (80),
+    "condition" VARCHAR (80),
+    "manufacturer" VARCHAR (80),
+    "model_number" VARCHAR (80),
+    "sequence_of_operation" VARCHAR (80),
+    "amperage" VARCHAR (80),
+    "voltage" VARCHAR (80),
+    "BHP" VARCHAR (80),
+    "BTU" VARCHAR (80),
+    "CFM" VARCHAR (80),
+    "MPH" VARCHAR (80),
+    "VFD" VARCHAR (80),
+    "horsepower" VARCHAR (80),
+    "capacity" VARCHAR (80),
+    "description" VARCHAR (80),
+    "comments" VARCHAR (80),
+    FOREIGN KEY ("system_id") REFERENCES "system"("id")
+    ON DELETE CASCADE
 );
 
 INSERT INTO "site" ("name")
 VALUES 
-('Site A'),
-('Site B'),
-('Site C')
+('Test Site A'),
+('Test Site B'),
+('Test Site C')
 ;
 
-
-INSERT INTO "asset" ("site_id", "building", "system", "location", "name")
+INSERT INTO "building" ("site_id","name")
 VALUES 
-(1, 'Building 1', 'Air Handling System', 'Room 102', 'AHU 1'),
-(1, 'Building 1', 'Air Handling System', 'Room 102', 'AHU 2'),
-(1, 'Building 1', 'Air Handling System', 'Room 206', 'AHU 3'),
-(1, 'Building 1', 'Air Handling System', 'Room 206', 'AHU 4'),
-(1, 'Building 1', 'Air Handling System', 'Room 206', 'AHU 5'),
-(1, 'Building 1', 'Air Handling System', 'Room 206', 'AHU 6'),
-(1, 'Building 1', 'Air Handling System', 'Room 240', 'AHU 7'),
-(1, 'Building 1', 'Air Handling System', 'Room 240', 'AHU 8'),
-(1, 'Building 1', 'Air Handling System', 'Room 240', 'AHU 9'),
-(1, 'Building 2', 'Air Handling System', 'Basement', 'AHU 10'),
-(1, 'Building 2', 'Air Handling System', 'Basement', 'AHU 11'),
-(1, 'Building 2', 'Air Handling System', 'Basement', 'AHU 12'),
-(1, 'Building 2', 'Air Handling System', 'Room 113', 'AHU 13'),
-(1, 'Building 2', 'Air Handling System', 'Room 113', 'AHU 14'),
-(1, 'Building 2', 'Air Handling System', 'Room 113', 'AHU 15'),
-(1, 'Building 2', 'Air Handling System', 'Room 113', 'AHU 16'),
-(1, 'Building 2', 'Air Handling System', 'Room 113', 'AHU 17'),
-(1, 'Building 2', 'Air Handling System', 'Room 113', 'AHU 18'),
-(1, 'Building 2', 'Air Handling System', 'Room 113', 'AHU 19'),
-(1, 'Building 2', 'Air Handling System', 'Room 113', 'AHU 20'),
-(1, 'Building 2', 'Air Handling System', 'Room 113', 'AHU 21'),
-(1, 'Building 3', 'Air Handling System', 'Room 114', 'AHU 22'),
-(1, 'Building 3', 'Air Handling System', 'Room 114', 'AHU 23'),
-(1, 'Building 3', 'Air Handling System', 'Room 114', 'AHU 24'),
-(1, 'Building 1', 'Chilled Water System', 'Room 102', 'CWP 1'),
-(1, 'Building 1', 'Chilled Water System', 'Room 102', 'CWP 2'),
-(1, 'Building 1', 'Chilled Water System', 'Room 206', 'CWP 3'),
-(1, 'Building 1', 'Chilled Water System', 'Room 206', 'CWP 4'),
-(1, 'Building 1', 'Chilled Water System', 'Room 206', 'CWP 5'),
-(1, 'Building 1', 'Chilled Water System', 'Room 206', 'CWP 6'),
-(1, 'Building 1', 'Chilled Water System', 'Room 240', 'CWP 7'),
-(1, 'Building 1', 'Chilled Water System', 'Room 240', 'CWP 8'),
-(1, 'Building 1', 'Chilled Water System', 'Room 240', 'CWP 9'),
-(1, 'Building 2', 'Chilled Water System', 'Basement', 'CWP 1'),
-(1, 'Building 2', 'Chilled Water System', 'Basement', 'CWP 2'),
-(1, 'Building 2', 'Chilled Water System', 'Basement', 'CWP 3'),
-(1, 'Building 2', 'Chilled Water System', 'Room 113', 'CWP 4'),
-(1, 'Building 2', 'Chilled Water System', 'Room 113', 'CWP 5'),
-(1, 'Building 2', 'Chilled Water System', 'Room 113', 'CWP 6'),
-(1, 'Building 2', 'Chilled Water System', 'Room 113', 'CWP 7'),
-(1, 'Building 2', 'Chilled Water System', 'Room 113', 'CWP 8'),
-(1, 'Building 2', 'Chilled Water System', 'Room 113', 'CWP 9'),
-(1, 'Building 2', 'Chilled Water System', 'Room 113', 'CWP 10'),
-(1, 'Building 2', 'Chilled Water System', 'Room 113', 'CWP 11'),
-(1, 'Building 2', 'Chilled Water System', 'Room 113', 'CWP 12'),
-(1, 'Building 3', 'Chilled Water System', 'Room 114', 'CWP 1'),
-(1, 'Building 3', 'Chilled Water System', 'Room 114', 'CWP 2'),
-(1, 'Building 3', 'Chilled Water System', 'Room 114', 'CWP 3'),
-(2, 'Building 1', 'Chilled Water System', 'Room 210', 'CWP 1'),
-(2, 'Building 1', 'Chilled Water System', 'Room 210', 'CWP 2'),
-(2, 'Building 2', 'Chilled Water System', 'Room 210', 'CWP 3'),
-(2, 'Building 2', 'Chilled Water System', 'Room 210', 'CWP 4'),
-(2, 'Building 2', 'Chilled Water System', 'Room 210', 'CWP 5'),
-(1, 'Building 1', 'Heating Hot Water System', 'Room 102', 'Boiler'),
-(1, 'Building 1', 'Heating Hot Water System', 'Room 102', 'HWP 1'),
-(1, 'Building 1', 'Heating Hot Water System', 'Room 102', 'HWP 2'),
-(1, 'Building 1', 'Heating Hot Water System', 'Room 206', 'HWP 3'),
-(1, 'Building 1', 'Heating Hot Water System', 'Room 206', 'HWP 4'),
-(1, 'Building 1', 'Heating Hot Water System', 'Room 206', 'HWP 5'),
-(1, 'Building 1', 'Heating Hot Water System', 'Room 206', 'HWP 6'),
-(1, 'Building 1', 'Heating Hot Water System', 'Room 240', 'HWP 7'),
-(1, 'Building 1', 'Heating Hot Water System', 'Room 240', 'HWP 8'),
-(1, 'Building 1', 'Heating Hot Water System', 'Room 240', 'HWP 9'),
-(1, 'Building 2', 'Heating Hot Water System', 'Basement', 'Boiler 1'),
-(1, 'Building 2', 'Heating Hot Water System', 'Basement', 'Boiler 2'),
-(1, 'Building 2', 'Heating Hot Water System', 'Basement', 'HWP 1'),
-(1, 'Building 2', 'Heating Hot Water System', 'Basement', 'HWP 2'),
-(1, 'Building 2', 'Heating Hot Water System', 'Basement', 'HWP 3'),
-(1, 'Building 2', 'Heating Hot Water System', 'Room 113', 'HWP 4'),
-(1, 'Building 2', 'Heating Hot Water System', 'Room 113', 'HWP 5'),
-(1, 'Building 2', 'Heating Hot Water System', 'Room 113', 'HWP 6'),
-(1, 'Building 2', 'Heating Hot Water System', 'Room 113', 'HWP 7'),
-(1, 'Building 2', 'Heating Hot Water System', 'Room 113', 'HWP 8'),
-(1, 'Building 2', 'Heating Hot Water System', 'Room 113', 'HWP 9'),
-(1, 'Building 2', 'Heating Hot Water System', 'Room 113', 'HWP 10'),
-(1, 'Building 2', 'Heating Hot Water System', 'Room 113', 'HWP 11'),
-(1, 'Building 2', 'Heating Hot Water System', 'Room 113', 'HWP 12'),
-(1, 'Building 3', 'Heating Hot Water System', 'Room 114', 'Boiler'),
-(1, 'Building 3', 'Heating Hot Water System', 'Room 114', 'HWP 1'),
-(1, 'Building 3', 'Heating Hot Water System', 'Room 114', 'HWP 2'),
-(1, 'Building 3', 'Heating Hot Water System', 'Room 114', 'HWP 3'),
-(2, 'Building 1', 'Heating Hot Water System', 'Room 114', 'Boiler'),
-(2, 'Building 1', 'Heating Hot Water System', 'Room 210', 'HWP 1'),
-(2, 'Building 1', 'Heating Hot Water System', 'Room 210', 'HWP 2'),
-(2, 'Building 2', 'Heating Hot Water System', 'Room 210', 'HWP 3'),
-(2, 'Building 2', 'Heating Hot Water System', 'Room 210', 'HWP 4'),
-(2, 'Building 2', 'Heating Hot Water System', 'Room 210', 'HWP 5'),
-(3, 'Building 1', 'Heating Hot Water System', 'Room 104', 'Boiler')
+(1, 'Building 1'),
+(1, 'Building 2'),
+(1, 'Building 3'),
+(1, 'Building 4'),
+(1, 'Building 5'),
+(1, 'Building 6'),
+(1, 'Building 7'),
+(1, 'Building 8'),
+(1, 'Building 9'),
+(1, 'Building 10'),
+(1, 'Building 11'),
+(1, 'Building 12')
+;
+
+INSERT INTO "system" ("building_id","name")
+VALUES 
+(1, 'Air Handling System'),
+(1, 'Chilled Water System'),
+(1, 'Heating Hot Water System')
+;
+
+INSERT INTO "equipment" ("system_id", "name")
+VALUES 
+(1, 'AHU 1'),
+(1, 'AHU 2'),
+(1, 'AHU 3'),
+(1, 'AHU 4'),
+(1, 'AHU 5'),
+(1, 'AHU 6'),
+(1, 'AHU 7'),
+(1, 'AHU 8'),
+(1, 'AHU 9'),
+(1, 'AHU 10')
 ;

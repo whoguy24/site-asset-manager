@@ -15,37 +15,36 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import BuildingTableRow from '../BuildingTableRow/BuildingTableRow';
+
 
 import '../App/App.css';
 
-function BuildingTable(buildings) {
-    function test() {
-        console.log(buildings);
-    }
+function BuildingTable({buildings}) {
+
     return (
         <>
 
-            <button onClick={test}>Try Me</button>
-
-            {/* {buildings.map((building) => (
-                <p>{building.name}</p>
-            ))} */}
-
-            {/* <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 400 }} aria-label="simple table">
+            <TableContainer component={Paper}>
+                <Table >
                     <TableHead>
+                        <TableRow>
+                            <TableCell align="left">Name</TableCell>
+                            <TableCell align="left">Type</TableCell>
+                            <TableCell align="left">Hours</TableCell>
+                            <TableCell align="left">Year Built</TableCell>
+                            <TableCell align="left">Floors</TableCell>
+                        </TableRow>
                     </TableHead>
                     <TableBody>
-                        {site.buildings.map((building) => (
-                            <TableRow key={building.id}>
-                                <TableCell component="th" scope="row">
-                                    <p>{building.name}</p>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        { buildings &&
+                            buildings.map((building) => (
+                                <BuildingTableRow key={building.id} building={building}/>
+                            ))
+                        }
                     </TableBody>
                 </Table>
-            </TableContainer> */}
+            </TableContainer>
 
         </>
     );
