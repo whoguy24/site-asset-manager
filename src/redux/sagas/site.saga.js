@@ -2,6 +2,7 @@ import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
 function* fetchSite(action) {
+  console.log('In fetchSite', action.payload);
     try {
       const response = yield axios({
         method: 'GET',
@@ -32,10 +33,11 @@ function* deleteSite(action) {
   try {
     yield axios({
       method: 'DELETE',
-      url: `/api/site/${action.payload}`
+      url: `/api/site/${action.payload.id}`
     })
     yield put({
-      type: 'FETCH_SITES'
+      type: 'LOAD_SITE',
+      payload: {}
     })
   } catch (error) {
     console.log(error)

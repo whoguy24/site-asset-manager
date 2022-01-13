@@ -28,43 +28,40 @@ function* addBuilding(action) {
   }
 }
 
-// function* deleteBuilding(action) {
-//     console.log('In DeleteBuildingSaga');
-    
-//     console.log(action.payload);
-    
-//   try {
-//     yield axios({
-//       method: 'DELETE',
-//       url: `/api/building/${action.payload.id}`
-//     })
-//     yield put({
-//         type: 'FETCH_NAVIGATION',
-//         payload: {id: action.payload.site_id}
-//     })
-//   } catch (error) {
-//     console.log(error)
-//   }}
+function* deleteBuilding(action) {
+  try {
+    yield axios({
+      method: 'DELETE',
+      url: `/api/building/${action.payload.id}`
+    })
+    yield put({
+      type: 'LOAD_BUILDING',
+      payload: {}
+    })
+  } catch (error) {
+    console.log(error)
+  }}
 
-//   function* editSite(action) {
-//     try {
-//       yield axios({
-//         method: 'PUT',
-//         url: `/api/site/${action.payload}`,
-//         data: action.payload
-//       })
-//       yield put({
-//         type: 'FETCH_SITES'
-//       })
-//     } catch (error) {
-//       console.log(error)
-//     }}
+  function* editBuilding(action) {
+    try {
+      yield axios({
+        method: 'PUT',
+        url: `/api/building/${action.payload.id}`,
+        data: action.payload
+      })
+      yield put({
+        type: 'LOAD_BUILDING',
+        payload: response.data[0]
+      })
+    } catch (error) {
+      console.log(error)
+    }}
 
 function* buildingSaga() {
   yield takeLatest('ADD_BUILDING', addBuilding);
   yield takeLatest('FETCH_BUILDING', fetchBuilding);
-  // yield takeLatest('DELETE_BUILDING', deleteBuilding);
-//   yield takeLatest('EDIT_SITE', editSite);
+  yield takeLatest('DELETE_BUILDING', deleteBuilding);
+  yield takeLatest('EDIT_BUILDING', editBuilding);
 }
 
 export default buildingSaga;

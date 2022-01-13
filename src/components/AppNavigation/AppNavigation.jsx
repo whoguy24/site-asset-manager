@@ -94,12 +94,13 @@ function AppNavigation() {
                 type: 'ADD_SITE',
                 payload: { name: addItemName  }
             })
+            dispatch({ type: 'FETCH_SITES' });
             setLoadSite(true);
         }
-        dispatch({
-            type: 'FETCH_NAVIGATION',
-            payload: site
-        })
+        // dispatch({
+        //     type: 'FETCH_NAVIGATION',
+        //     payload: site
+        // })
     };
 
     function handleAddItemCancelButton() {

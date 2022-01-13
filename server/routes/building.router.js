@@ -7,8 +7,6 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id;
     console.log('IN GET ROUTE BY RECORD');
     console.log(req.params.id);
-    
-    
     sqlValues = [id]
     queryText = `
         SELECT * FROM "building"
@@ -67,29 +65,39 @@ router.delete('/:id', (req, res) => {
       })
   })
 
-//   router.put('/:id', (req, res) => {
-
-//     console.log(req.body);
+  router.put('/:id', (req, res) => {
+    console.log(req.body);
+    const sqlText = `
+      UPDATE building 
+        SET 
+          name = $2,
+          type = $3,
+          operating_hours = $4,
+          year_built = $5,
+          floors = $6,
+          description = $7,
+          comments = $8
+        WHERE id = $1;
+    `;
+    const sqlValues = [
+      req.body.id,
+      req.body.name,
+      req.body.type,
+      req.body.operating_hours,
+      req.body.year_built,
+      req.body.floors,
+      req.body.description,
+      req.body.comments
+    ];
     
-//     const sqlText = `
-//       UPDATE site 
-//         SET 
-//           name = $1
-//         WHERE id = $2;
-//     `;
-//     const sqlValues = [
-//       req.body.name,
-//       req.body.id
-//     ];
-    
-//     pool.query(sqlText, sqlValues)
-//       .then((result) => {
-//         res.sendStatus(200);
-//       })
-//       .catch((error) => {
-//         console.log('UPDATE database error', error);
-//         res.sendStatus(500);
-//       });
-//   });
+    pool.query(sqlText, sqlValues)
+      .then((result) => {
+        res.sendStatus(200);
+      })
+      .catch((error) => {
+        console.log('UPDATE database error', error);
+        res.sendStatus(500);
+      });
+  });
 
 module.exports = router;

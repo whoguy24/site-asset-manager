@@ -48,48 +48,58 @@ router.post('/', (req, res) => {
     });
 });
 
-// router.delete('/:id', (req, res) => {
-//     const sqlText = `
-//       DELETE FROM building
-//         WHERE id = $1
-//     `
-//     const sqlValues = [
-//       req.params.id
-//     ]
+router.delete('/:id', (req, res) => {
+    const sqlText = `
+      DELETE FROM system
+        WHERE id = $1
+    `
+    const sqlValues = [
+      req.params.id
+    ]
   
-//     pool.query(sqlText, sqlValues)
-//       .then((result) => {
-//         res.sendStatus(200);
-//       })
-//       .catch((error) => {
-//         console.error('DELETE database error', error)
-//         res.sendStatus(500);
-//       })
-//   })
+    pool.query(sqlText, sqlValues)
+      .then((result) => {
+        res.sendStatus(200);
+      })
+      .catch((error) => {
+        console.error('DELETE database error', error)
+        res.sendStatus(500);
+      })
+  })
 
-//   router.put('/:id', (req, res) => {
-
-//     console.log(req.body);
+  router.put('/:id', (req, res) => {
+    console.log(req.body);
+    const sqlText = `
+      UPDATE system 
+        SET 
+          name = $2,
+          operating_hours = $3,
+          sequence_of_operation = $4,
+          performance_metrics = $5,
+          recommended_set_points = $6,
+          description = $7,
+          comments = $8
+        WHERE id = $1;
+    `;
+    const sqlValues = [
+      req.body.id,
+      req.body.name,
+      req.body.operating_hours,
+      req.body.sequence_of_operation,
+      req.body.performance_metrics,
+      req.body.recommended_set_points,
+      req.body.description,
+      req.body.comments
+    ];
     
-//     const sqlText = `
-//       UPDATE site 
-//         SET 
-//           name = $1
-//         WHERE id = $2;
-//     `;
-//     const sqlValues = [
-//       req.body.name,
-//       req.body.id
-//     ];
-    
-//     pool.query(sqlText, sqlValues)
-//       .then((result) => {
-//         res.sendStatus(200);
-//       })
-//       .catch((error) => {
-//         console.log('UPDATE database error', error);
-//         res.sendStatus(500);
-//       });
-//   });
+    pool.query(sqlText, sqlValues)
+      .then((result) => {
+        res.sendStatus(200);
+      })
+      .catch((error) => {
+        console.log('UPDATE database error', error);
+        res.sendStatus(500);
+      });
+  });
 
 module.exports = router;

@@ -7,6 +7,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
 
 import '../App/App.css';
 
@@ -16,28 +24,10 @@ function SiteForm() {
 
     const site = useSelector(store => store.siteReducer);
 
-    const [nameInput, setNameInput] = useState(site.name);
-    const [addressInput, setAddressInput] = useState(site.address);
-    const [cityInput, setCityInput] = useState(site.city);
-    const [stateInput, setStateInput] = useState(site.state);
-    const [zipInput, setZipInput] = useState(site.zip);
-    const [descriptionInput, setDescriptionInput] = useState(site.description);
-    const [commentsInput, setCommentsInput] = useState(site.comments);
-
     function refreshView () {
-        const editSite = {
-            id:site.id,
-            name:nameInput,
-            address:addressInput,
-            city:cityInput,
-            state:stateInput,
-            zip:zipInput,
-            description:descriptionInput,
-            comments:commentsInput,
-        }
         dispatch({
             type: 'EDIT_SITE',
-            payload: editSite
+            payload: site
         })
         dispatch({
             type: 'FETCH_NAVIGATION',
@@ -45,8 +35,36 @@ function SiteForm() {
         })
     }
 
-    function handleFieldExit (){
-        refreshView();
+    function onInputUpdate(field, event) {
+        const updatedSite = {...site};
+        switch (field) {
+            case 'name': 
+                updatedSite.name = event
+                break
+            case 'address': 
+                updatedSite.address = event
+                break
+            case 'city': 
+                updatedSite.city = event
+                break
+            case 'state': 
+                updatedSite.state = event
+                break
+            case 'zip': 
+                updatedSite.zip = event
+                break
+            case 'description': 
+                updatedSite.description = event
+                break
+            case 'comments': 
+                updatedSite.comments = event
+                break
+            default:
+        }
+        dispatch({
+            type: 'LOAD_SITE',
+            payload: updatedSite
+        })
     }
 
     return (
@@ -58,9 +76,9 @@ function SiteForm() {
                         <Grid item>
                             <TextField 
                                 className='app-form-body-text-field' 
-                                value={nameInput} 
-                                onChange={(event)=>setNameInput(event.target.value)} 
-                                onBlur={handleFieldExit} 
+                                value={site.name || ''} 
+                                onChange={(event)=>onInputUpdate('name', event.target.value)} 
+                                onBlur={refreshView} 
                                 fullWidth 
                                 size='small' 
                                 label='Name' 
@@ -70,9 +88,9 @@ function SiteForm() {
                         <Grid item>
                             <TextField 
                                 className='app-form-body-text-field' 
-                                value={addressInput} 
-                                onChange={(event)=>setAddressInput(event.target.value)} 
-                                onBlur={handleFieldExit} 
+                                value={site.address || ''} 
+                                onChange={(event)=>onInputUpdate('address', event.target.value)} 
+                                onBlur={refreshView} 
                                 fullWidth size='small' 
                                 label='Address' 
                                 variant='outlined' 
@@ -81,9 +99,9 @@ function SiteForm() {
                         <Grid item>
                             <TextField 
                                 className='app-form-body-text-field' 
-                                value={cityInput} 
-                                onChange={(event)=>setCityInput(event.target.value)} 
-                                onBlur={handleFieldExit} 
+                                value={site.city || ''} 
+                                onChange={(event)=>onInputUpdate('city', event.target.value)} 
+                                onBlur={refreshView} 
                                 fullWidth 
                                 size='small' 
                                 label='City' 
@@ -93,9 +111,9 @@ function SiteForm() {
                         <Grid item>
                             <TextField 
                                 className='app-form-body-text-field' 
-                                value={stateInput} 
-                                onChange={(event)=>setStateInput(event.target.value)} 
-                                onBlur={handleFieldExit} 
+                                value={site.state || ''} 
+                                onChange={(event)=>onInputUpdate('state', event.target.value)} 
+                                onBlur={refreshView} 
                                 fullWidth 
                                 size='small' 
                                 label='State' 
@@ -105,9 +123,9 @@ function SiteForm() {
                         <Grid item>
                             <TextField 
                                 className='app-form-body-text-field' 
-                                value={zipInput} 
-                                onChange={(event)=>setZipInput(event.target.value)} 
-                                onBlur={(event)=>handleFieldExit('zip', event.target.value)} 
+                                value={site.zip || ''} 
+                                onChange={(event)=>onInputUpdate('zip', event.target.value)} 
+                                onBlur={refreshView} 
                                 fullWidth size='small' 
                                 label='Zip' 
                                 variant='outlined' 
@@ -121,9 +139,9 @@ function SiteForm() {
                         <Grid item>
                             <TextField 
                                 className='app-form-body-text-field' 
-                                value={descriptionInput} 
-                                onChange={(event)=>setDescriptionInput(event.target.value)} 
-                                onBlur={handleFieldExit} 
+                                value={site.description || ''} 
+                                onChange={(event)=>onInputUpdate('description', event.target.value)} 
+                                onBlur={refreshView} 
                                 rows={4} 
                                 multiline 
                                 fullWidth 
@@ -135,9 +153,9 @@ function SiteForm() {
                         <Grid item>
                             <TextField 
                                 className='app-form-body-text-field' 
-                                value={commentsInput} 
-                                onChange={(event)=>setCommentsInput(event.target.value)} 
-                                onBlur={handleFieldExit} 
+                                value={site.comments || ''} 
+                                onChange={(event)=>onInputUpdate('comments', event.target.value)}  
+                                onBlur={refreshView} 
                                 rows={5} 
                                 multiline 
                                 fullWidth 
@@ -150,6 +168,25 @@ function SiteForm() {
                 </Grid>
 
             </Grid>
+
+
+
+            {/* <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 400 }} aria-label="simple table">
+                    <TableHead>
+                    </TableHead>
+                    <TableBody>
+                        {site.buildings.map((building) => (
+                            <TableRow key={building.id}>
+                                <TableCell component="th" scope="row">
+                                    <p>{building.name}</p>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer> */}
+
         </>
     );
 }
