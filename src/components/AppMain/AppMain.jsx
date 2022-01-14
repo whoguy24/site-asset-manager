@@ -6,6 +6,8 @@ import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
 import { useDispatch } from 'react-redux';
 
+import React, { useEffect } from 'react';
+
 import AppHeader from '../AppHeader/AppHeader';
 import AppNavigation from '../AppNavigation/AppNavigation';
 import AppForm from '../AppForm/AppForm';
@@ -13,6 +15,17 @@ import AppForm from '../AppForm/AppForm';
 import '../App/App.css';
 
 function AppMain() {
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch({ type: 'CLEAR_SITE' });
+        dispatch({ type: 'CLEAR_BUILDING' });
+        dispatch({ type: 'CLEAR_SYSTEM' });
+        dispatch({ type: 'CLEAR_EQUIPMENT' });
+        dispatch({ type: 'CLEAR_NAVIGATION' });
+      }, []);
+
     return (
         <div>
             <AppHeader/>
