@@ -27,7 +27,7 @@ function AppMain() {
       }, []);
 
     return (
-        <div>
+        <div >
             <AppHeader/>
             <Grid container direction='row'>
                 <Grid item xs={3}>

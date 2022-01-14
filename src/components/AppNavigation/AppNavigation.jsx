@@ -59,48 +59,12 @@ function AppNavigation() {
 
     function handleAddItemSubmitButton() {
         setAddItem(false);
-        console.log('In handleItemSubmit', selectedItem);
-        if (selectedItem.table === 'site') {  
-            dispatch({
-                type: 'ADD_BUILDING',
-                payload: { 
-                    site_id: site.id,
-                    name: addItemName  
-                }
-            })
-        }
-        else if (selectedItem.table === 'building') {
-            dispatch({
-                type: 'ADD_SYSTEM',
-                payload: { 
-                    site_id: site.id,
-                    building_id: selectedItem.object.id,
-                    name: addItemName  
-                }
-            })
-        }
-        else if (selectedItem.table === 'system') {
-            dispatch({
-                type: 'ADD_EQUIPMENT',
-                payload: { 
-                    site_id: site.id,
-                    system_id: selectedItem.object.id,
-                    name: addItemName  
-                }
-            })
-        }
-        else {
-            dispatch({
-                type: 'ADD_SITE',
-                payload: { name: addItemName  }
-            })
-            dispatch({ type: 'FETCH_SITES' });
-            setLoadSite(true);
-        }
-        // dispatch({
-        //     type: 'FETCH_NAVIGATION',
-        //     payload: site
-        // })
+        dispatch({
+            type: 'ADD_SITE',
+            payload: { name: addItemName  }
+        })
+        setLoadSite(true);
+
     };
 
     function handleAddItemCancelButton() {
@@ -124,37 +88,12 @@ function AppNavigation() {
         setLoadSite(false);
     };
 
-    function handleAddItem() {
-        setAddItemName('')
-        if (selectedItem.table === 'site') {  
-            setAddItemTitle('Add Building')
-            setAddItem(true);
-        }
-        else if (selectedItem.table === 'building') {
-            setAddItemTitle('Add System')
-            setAddItem(true);
-        }
-        else if (selectedItem.table === 'system') {
-            setAddItemTitle('Add Equipment')
-            setAddItem(true);
-        }
-    };
-
     return (
         <>
 
             <Grid container id={'app-navigation'} direction='column' >
                 <Grid container id={'app-navigation-site-section'} alignItems='center' justifyContent="space-between">
                     <Button id={'app-navigation-site-button'} onClick={handleLoadSiteButton} startIcon={<FolderIcon />} variant='contained'>Open Site</Button>
-                    { table==='site' && 
-                        <Button id={'app-navigation-button'} onClick={handleAddItem} variant='outlined'>Add Building</Button>
-                    }
-                    { table==='building' && 
-                        <Button id={'app-navigation-button'} onClick={handleAddItem} variant='outlined'>Add System</Button>
-                    }
-                    { table==='system' && 
-                        <Button id={'app-navigation-button'} onClick={handleAddItem} variant='outlined'>Add Equipment</Button>
-                    }
                 </Grid>
                 { site.id && <NavigationTree setSelectedItem={setSelectedItem} /> }
             </Grid>

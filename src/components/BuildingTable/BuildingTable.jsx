@@ -50,24 +50,24 @@ function BuildingTable({buildings}) {
 
                 <Table stickyHeader>
 
-                    <TableHead>
-                        <TableRow>
-                            <TableCell className='table-cell'>Name</TableCell>
-                            <TableCell className='table-cell'>Type</TableCell>
-                            <TableCell className='table-cell'>Operating Hours</TableCell>
-                            <TableCell className='table-cell'>Year Built</TableCell>
-                            <TableCell className='table-cell'>Floors</TableCell>
-                            {/* <TableCell className='table-cell'>Description</TableCell>
-                            <TableCell className='table-cell'>Comments</TableCell> */}
-                            <TableCell className='table-cell'></TableCell>
+                    <TableHead >
+                        <TableRow >
+                            <TableCell style={{backgroundColor:'lightgrey'}}>Name</TableCell>
+                            <TableCell style={{backgroundColor:'lightgrey'}}>Type</TableCell>
+                            <TableCell style={{backgroundColor:'lightgrey'}}>Operating Hours</TableCell>
+                            <TableCell style={{backgroundColor:'lightgrey'}}>Year Built</TableCell>
+                            <TableCell style={{backgroundColor:'lightgrey'}}>Floors</TableCell>
+                            {/* <TableCell style={{backgroundColor:'lightgrey'}}>Description</TableCell>
+                            <TableCell style={{backgroundColor:'lightgrey'}}>Comments</TableCell> */}
+                            <TableCell style={{backgroundColor:'lightgrey'}}></TableCell>
                         </TableRow>
                     </TableHead>
-
+                        
                     <TableBody>
                         {buildings.map((building) => (
                             <BuildingTableRow key={building.id} site={site} building={building}/>
                         ))}
-                        <TableRow>
+                        <TableRow >
 
                             <TableCell className='table-cell'>
                                 <TextField placeholder='New Building' size='small' fullWidth value={newBuildingInput} onChange={(event)=>setNewBuildingInput(event.target.value)} onBlur={(event)=>handleAddBuilding(event.target.value)}></TextField>
