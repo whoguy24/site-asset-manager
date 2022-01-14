@@ -23,6 +23,8 @@ function AppForm() {
 
     const dispatch = useDispatch();
 
+    const sites = useSelector(store => store.sitesReducer);
+
     const site = useSelector(store => store.siteReducer);
     const building = useSelector(store => store.buildingReducer);
     const system = useSelector(store => store.systemReducer);
@@ -32,21 +34,27 @@ function AppForm() {
     const [deleteMode, setDeleteMode] = useState(false);
 
     function handleDeleteButton() {
+        setDeleteMode(false)
         switch (table) {
-            case 'site': dispatch({ type: 'DELETE_SITE', payload: site })
+            case 'site': 
+                dispatch({ type: 'DELETE_SITE', payload: site })
+                dispatch({ type: 'CLEAR_NAVIGATION' })
                 break;
-            case 'building': dispatch({ type: 'DELETE_BUILDING', payload: building })
+            case 'building': 
+                dispatch({ type: 'DELETE_BUILDING', payload: building })
+                dispatch({ type: 'FETCH_NAVIGATION', payload:site })
                 break;
-            case 'system': dispatch({ type: 'DELETE_SYSTEM', payload: system })
+            case 'system': 
+                dispatch({ type: 'DELETE_SYSTEM', payload: system })
+                dispatch({ type: 'FETCH_NAVIGATION', payload:site })
                 break;
-            case 'equipment': dispatch({ type: 'DELETE_EQUIPMENT', payload: equipment })
+            case 'equipment': 
+                dispatch({ type: 'DELETE_EQUIPMENT', payload: equipment })
+                dispatch({ type: 'FETCH_NAVIGATION', payload:site })
                 break;
             default:
         }
-        if (table === 'building' || table === 'system' || table === 'equipment' ) {
-            dispatch({ type: 'FETCH_NAVIGATION', payload:site.id })
-        }
-        setDeleteMode(false)
+
     }
 
     function openDeletePopup () {

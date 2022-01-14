@@ -1,19 +1,8 @@
 import Grid from '@mui/material/Grid';
-import ConstructionIcon from '@mui/icons-material/Construction';
-import Button from '@mui/material/Button';
-import AppBar from '@mui/material/AppBar';
 import TextField from '@mui/material/TextField';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 
 import BuildingTable from '../BuildingTable/BuildingTable';
 
@@ -38,6 +27,9 @@ function SiteForm() {
     }
 
     function onInputUpdate(field, event) {
+        if (!event) { 
+            event = undefined;
+        }
         const updatedSite = {...site};
         switch (field) {
             case 'name': 
@@ -64,7 +56,7 @@ function SiteForm() {
             default:
         }
         dispatch({
-            type: 'LOAD_SITE',
+            type: 'EDIT_SITE',
             payload: updatedSite
         })
     }
@@ -176,7 +168,6 @@ function SiteForm() {
                     </Grid>
 
                 </Grid>
-
 
                 <Grid id='form-body-lower' item>
                     <BuildingTable buildings={site.buildings}/>

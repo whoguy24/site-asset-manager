@@ -5,6 +5,8 @@ function* fetchNavigation(action) {
 
   console.log('In fetchNavigation', action.payload);
   console.log(action.payload.id);
+
+
   
     try {
       const response = yield axios({

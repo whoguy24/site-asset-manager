@@ -23,24 +23,57 @@ import '../App/App.css';
 
 function BuildingTable({buildings}) {
 
+    const dispatch = useDispatch();
+
+    const site = useSelector(store => store.siteReducer);
+
+    const [newBuildingInput, setNewBuildingInput] = useState('');
+
+    function handleAddBuilding (event) {
+        if (event) {
+            dispatch({
+                type: 'ADD_BUILDING',
+                payload: {
+                    site_id: site.id,
+                    name: event
+                }
+            })
+            setNewBuildingInput('')
+        }
+    }
+
 
     return (
         <>
 
             <TableContainer id='form-table' component={Paper}>
 
-                <Table>
+                <Table stickyHeader>
 
                     <TableHead>
                         <TableRow>
-                            <TableCell>Name</TableCell>
+                            <TableCell className='table-cell'>Name</TableCell>
+                            <TableCell className='table-cell'>Type</TableCell>
+                            <TableCell className='table-cell'>Operating Hours</TableCell>
+                            <TableCell className='table-cell'>Year Built</TableCell>
+                            <TableCell className='table-cell'>Floors</TableCell>
+                            {/* <TableCell className='table-cell'>Description</TableCell>
+                            <TableCell className='table-cell'>Comments</TableCell> */}
+                            <TableCell className='table-cell'></TableCell>
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
                         {buildings.map((building) => (
-                            <BuildingTableRow key={building.id} building={building}/>
+                            <BuildingTableRow key={building.id} site={site} building={building}/>
                         ))}
+                        <TableRow>
+
+                            <TableCell className='table-cell'>
+                                <TextField placeholder='New Building' size='small' fullWidth value={newBuildingInput} onChange={(event)=>setNewBuildingInput(event.target.value)} onBlur={(event)=>handleAddBuilding(event.target.value)}></TextField>
+                            </TableCell>
+
+                        </TableRow>
                     </TableBody>
 
                 </Table>

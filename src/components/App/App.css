@@ -131,6 +131,7 @@ body {
     height: 400px;
 }
 
-#form-table-content {
+.table-cell {
+    margin: 0px;
     padding: 0px;
 }
