@@ -71,9 +71,9 @@ function SiteForm() {
 
     return (
         <>
-            <Grid container className={'app-form-body-container'} direction='column' spacing={2}>
+            <Grid container className={'app-form-body-container'} alignItems="stretch" justifyContent="flex-start" direction="column" >
 
-                <Grid item xs={4}>
+                <Grid item id='form-body-upper' >
 
                     <Grid container direction='row' spacing={2}>
 
@@ -177,9 +177,10 @@ function SiteForm() {
 
                 </Grid>
 
-                {/* <Grid item xs={8}>
+
+                <Grid id='form-body-lower' item>
                     <BuildingTable buildings={site.buildings}/>
-                </Grid> */}
+                </Grid>
 
             </Grid>
 

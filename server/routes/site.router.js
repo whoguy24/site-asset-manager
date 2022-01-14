@@ -37,7 +37,7 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', rejectUnauthenticated, (req, res) => {
     const sqlText = `
       INSERT INTO site 
         (name)
@@ -57,7 +57,7 @@ router.post('/', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `
       DELETE FROM site
         WHERE id = $1
@@ -76,7 +76,7 @@ router.delete('/:id', (req, res) => {
       })
   })
 
-  router.put('/:id', (req, res) => {
+  router.put('/:id', rejectUnauthenticated, (req, res) => {
 
     console.log(req.body);
     

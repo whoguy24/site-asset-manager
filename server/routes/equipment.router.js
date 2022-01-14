@@ -44,7 +44,7 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', rejectUnauthenticated, (req, res) => {
     console.log(req.body);
     
     const sqlText = `
@@ -67,7 +67,7 @@ router.post('/', (req, res) => {
     });
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', rejectUnauthenticated, (req, res) => {
     console.log(req.body);
     const sqlText = `
       UPDATE "equipment" 

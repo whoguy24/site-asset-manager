@@ -70,9 +70,9 @@ function BuildingForm() {
 
     return (
         <>
-            <Grid container className={'app-form-body-container'} direction='row' spacing={2}>
+            <Grid container className={'app-form-body-container'} direction='column' spacing={2}>
 
-                <Grid item xs={4}>
+                <Grid item id='test1' >
                     <Grid container direction='column' spacing={2} >
                         <Grid item>
                             <TextField 
@@ -135,7 +135,7 @@ function BuildingForm() {
                     </Grid>
                 </Grid>
 
-                <Grid item xs={8}>
+                <Grid item id='test2'>
                     <Grid container direction='column' spacing={2}>
                         <Grid item>
                             <TextField 
