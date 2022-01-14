@@ -37,7 +37,7 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.post('/', rejectUnauthenticated, (req, res) => {
     console.log(req.body);
     
     
@@ -61,7 +61,7 @@ router.post('/', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
     const sqlText = `
       DELETE FROM building
         WHERE id = $1
@@ -80,7 +80,7 @@ router.delete('/:id', (req, res) => {
       })
   })
 
-  router.put('/:id', (req, res) => {
+  router.put('/:id', rejectUnauthenticated, (req, res) => {
     console.log(req.body);
     const sqlText = `
       UPDATE "building" 
