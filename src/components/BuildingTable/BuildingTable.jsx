@@ -39,11 +39,7 @@ function BuildingTable({buildings}) {
 
                     <TableBody>
                         {buildings.map((building) => (
-                                <TableRow key={building.id}>
-                                <TableCell component="th" scope="row">
-                                    {building.name}
-                                </TableCell>
-                            </TableRow>
+                            <BuildingTableRow key={building.id} building={building}/>
                         ))}
                     </TableBody>
 

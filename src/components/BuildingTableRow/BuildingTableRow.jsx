@@ -21,7 +21,7 @@ import React, { useState } from 'react';
 
 import '../App/App.css';
 
-function BuildingTableCell({building}) {
+function BuildingTableRow({building}) {
 
     const dispatch = useDispatch();
 
@@ -100,4 +100,4 @@ function BuildingTableCell({building}) {
     );
 }
 
-export default BuildingTableCell;
+export default BuildingTableRow;
