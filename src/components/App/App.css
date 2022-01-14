@@ -115,10 +115,22 @@ body {
 #form-body-upper {
     /* background-color: red; */
     /* height: 38%; */
+    width: 100%;
     height: 300px;
 }
 
 #form-body-lower {
     /* background-color: green; */
-    height: 56%;
+    width: 100%;
+}
+
+#form-table {
+    /* position: relative;        TRIED ALL THESE THINGS
+    display: flex;                HOW DO I GET THIS TABLE TO AUTO-GROW?
+    flex-direction: column; */
+    height: 400px;
+}
+
+#form-table-content {
+    padding: 0px;
 }
