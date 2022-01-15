@@ -1,16 +1,8 @@
-import TextField from '@mui/material/TextField';
-import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
-import BuildingTableRow from '../BuildingTableRow/BuildingTableRow';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 
+import { useDispatch } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import '../App/App.css';
 
@@ -18,93 +10,114 @@ function BuildingTable({buildings}) {
 
     const dispatch = useDispatch();
 
-    const site = useSelector(store => store.siteReducer);
-
-    const [newBuildingInput, setNewBuildingInput] = useState('');
-
-    function handleAddBuilding (event) {
-        if (event) {
-            dispatch({
-                type: 'ADD_BUILDING',
-                payload: {
-                    site_id: site.id,
-                    name: event
-                }
-            })
-            setNewBuildingInput('')
-        }
-    }
-
     function handleCommit(event) {
+        if (!event.value) { event.value = undefined }
         let building = event.row
         switch (event.field) {
             case 'name':
                 building.name = event.value
                 break;
+            case 'type':
+                building.type = event.value
+                break;
+            case 'operating_hours':
+                 building.operating_hours = event.value
+                break;
+            case 'year_built':
+                building.year_built = event.value
+                break;
+            case 'floors':
+                building.floors = event.value
+                break;
+            case 'description':
+                building.description = event.value
+                break;
+            case 'comments':
+                building.comments = event.value
+                break;
             default:
         }
-        console.log(building);
         dispatch({
             type: 'EDIT_BUILDING',
             payload: building
         })
     }
 
+    function handleDeleteButton(event, building) {
+        dispatch({
+            type: 'DELETE_BUILDING',
+            payload: building
+        })
+    }
+
     const columns = [
         {
-          field: 'name',
-          headerName: 'Name',
-          width: 150,
-          editable: true
+            field: 'name',
+            headerName: 'Name',
+            width: 150,
+            editable: true
+        },
+        {
+            field: 'type',
+            headerName: 'Type',
+            width: 150,
+            editable: true
+        },
+        {
+            field: 'operating_hours',
+            headerName: 'Operating Hours',
+            width: 150,
+            editable: true
+        },
+        {
+            field: 'year_built',
+            headerName: 'Year Built',
+            width: 120,
+            editable: true
+        },
+        {
+            field: 'floors',
+            headerName: 'Floors',
+            width: 80,
+            editable: true
+        },
+        {
+            field: 'description',
+            headerName: 'Description',
+            width: 150,
+            editable: true
+        },
+        {
+            field: 'comments',
+            headerName: 'Comments',
+            width: 200,
+            editable: true
+        },
+        {
+            field: 'delete',
+            headerName: 'Delete',
+            width: 80,
+            align: 'center',
+            renderCell: (cellValues) => {
+                return (
+                    <IconButton color='error' onClick={(event) => { handleDeleteButton(event, cellValues.row);}}>
+                        <DeleteIcon />
+                    </IconButton>
+                );
+            }
         }
-      ];
-
+    ];
 
     return (
         <>
-
-            {/* <TableContainer id='form-table' component={Paper}>
-
-                <Table stickyHeader>
-
-                    <TableHead >
-                        <TableRow >
-                            <TableCell style={{backgroundColor:'lightgrey'}}>Name</TableCell>
-                            <TableCell style={{backgroundColor:'lightgrey'}}>Type</TableCell>
-                            <TableCell style={{backgroundColor:'lightgrey'}}>Operating Hours</TableCell>
-                            <TableCell style={{backgroundColor:'lightgrey'}}>Year Built</TableCell>
-                            <TableCell style={{backgroundColor:'lightgrey'}}>Floors</TableCell>
-                            <TableCell style={{backgroundColor:'lightgrey'}}></TableCell>
-                        </TableRow>
-                    </TableHead>
-                        
-                    <TableBody>
-                        {buildings.map((building) => (
-                            <BuildingTableRow key={building.id} site={site} building={building}/>
-                        ))}
-                        <TableRow >
-
-                            <TableCell className='table-cell'>
-                                <TextField placeholder='New Building' size='small' fullWidth value={newBuildingInput} onChange={(event)=>setNewBuildingInput(event.target.value)} onBlur={(event)=>handleAddBuilding(event.target.value)}></TextField>
-                            </TableCell>
-
-                        </TableRow>
-                    </TableBody>
-
-                </Table>
-
-            </TableContainer> */}
-
-            <div style={{ height: '50vh', width: '100%' }}>
+            <div id='table-container'>
                 <DataGrid
+                    id='table-datagrid'
                     rows={buildings}
                     columns={columns}
                     onCellEditCommit={handleCommit}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
                 />
             </div>
-
         </>
     );
 }

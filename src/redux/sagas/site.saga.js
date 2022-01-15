@@ -41,6 +41,22 @@ function* deleteSite(action) {
     yield put({
       type: 'FETCH_SITES'
     })
+    yield put({
+      type: 'LOAD_SITE',
+      payload: {}
+    })
+    yield put({
+      type: 'LOAD_BUILDING',
+      payload: {}
+    })
+    yield put({
+      type: 'LOAD_SYSTEM',
+      payload: {}
+    })
+    yield put({
+      type: 'LOAD_EQUIPMENT',
+      payload: {}
+    })
   } catch (error) {
     console.log(error)
   }}
@@ -51,6 +67,10 @@ function* deleteSite(action) {
         method: 'PUT',
         url: `/api/site/${action.payload}`,
         data: action.payload
+      })
+      yield put({
+        type: 'FETCH_SITE',
+        payload: action.payload
       })
       yield put({
         type: 'FETCH_SITES'

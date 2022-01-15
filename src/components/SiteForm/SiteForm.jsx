@@ -1,5 +1,4 @@
 import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -8,6 +7,14 @@ import BuildingTable from '../BuildingTable/BuildingTable';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+
+import Button from '@mui/material/Button';
 
 import '../App/App.css';
 
@@ -18,24 +25,22 @@ function SiteForm() {
 
     const site = useSelector(store => store.siteReducer);
 
+    const [addBuildingMode, setAddBuildingMode] = useState(false);
     const [saveMode, setSaveMode] = useState(false);
+
+    const [addBuildingInput, setAddBuildingInput] = useState('');
 
     function refreshView () {
         dispatch({
             type: 'EDIT_SITE',
             payload: site
         })
-        dispatch({
-            type: 'FETCH_NAVIGATION',
-            payload: site
-        })
         setSaveMode(true)
     }
 
     function onInputUpdate(field, event) {
-        if (!event) { 
-            event = undefined;
-        }
+        console.log(event);
+        if (!event) { event = undefined }
         const updatedSite = {...site};
         switch (field) {
             case 'name': 
@@ -60,9 +65,10 @@ function SiteForm() {
                 updatedSite.comments = event
                 break
             default:
+                return
         }
         dispatch({
-            type: 'EDIT_SITE',
+            type: 'LOAD_SITE',
             payload: updatedSite
         })
     }
@@ -74,9 +80,21 @@ function SiteForm() {
         setSaveMode(false)
     }
 
+    function handleAddBuildingButton() {
+        setAddBuildingMode(false)
+        dispatch({
+            type: 'ADD_BUILDING',
+            payload: {
+                site_id: site.id,
+                name: addBuildingInput
+            }
+        })
+        setAddBuildingInput('')
+    }
+
     return (
         <>
-            <Grid container className={'app-form-body-container'} alignItems="stretch" justifyContent="flex-start" direction="column" >
+            <Grid container className={'app-form-body-container'} spacing={2} alignItems='flex-end' justifyContent='flex-start' direction='column' >
 
                 <Grid item id='form-body-upper' >
 
@@ -182,6 +200,10 @@ function SiteForm() {
 
                 </Grid>
 
+                <Grid item>
+                    <Button size='small' variant='contained' onClick={()=>setAddBuildingMode(true)}>New Building</Button>
+                </Grid>
+
                 <Grid id='form-body-lower' item>
                     <BuildingTable buildings={site.buildings}/>
                 </Grid>
@@ -193,6 +215,23 @@ function SiteForm() {
                     Changes made to {site.name} were saved successfully.
                 </Alert>
             </Snackbar>
+
+            <Dialog open={addBuildingMode} onClose={()=>setAddBuildingMode(false)}>
+                <DialogTitle>Add Building</DialogTitle>
+                <DialogContent>
+                    <TextField placeholder='Name' value={addBuildingInput} onChange={(event)=>setAddBuildingInput(event.target.value)}/>
+                </DialogContent> 
+                <DialogActions>
+                    <Grid container direction='row' justifyContent='space-around'>
+                        <Grid item>
+                            <Button onClick={()=>setAddBuildingMode(false)} >Cancel</Button>
+                        </Grid>
+                        <Grid item>
+                            <Button variant='contained' onClick={handleAddBuildingButton} >Create</Button>
+                        </Grid>
+                    </Grid>
+                </DialogActions>
+            </Dialog>
 
         </>
     );
