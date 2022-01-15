@@ -4,14 +4,22 @@ import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+import { useState } from 'react';
+
 import '../App/App.css';
 
 function BuildingTable({buildings}) {
 
     const dispatch = useDispatch();
 
+    const Alert = MuiAlert
+    const [saveMode, setSaveMode] = useState(false);
+
     function handleCommit(event) {
-        if (!event.value) { event.value = undefined }
+        
         let building = event.row
         switch (event.field) {
             case 'name':
@@ -41,6 +49,7 @@ function BuildingTable({buildings}) {
             type: 'EDIT_BUILDING',
             payload: building
         })
+        setSaveMode(true)
     }
 
     function handleDeleteButton(event, building) {
@@ -48,6 +57,7 @@ function BuildingTable({buildings}) {
             type: 'DELETE_BUILDING',
             payload: building
         })
+        setSaveMode(true)
     }
 
     const columns = [
@@ -108,6 +118,13 @@ function BuildingTable({buildings}) {
         }
     ];
 
+    function handleSnackbarCommit(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSaveMode(false)
+    }
+
     return (
         <>
             <div id='table-container'>
@@ -118,6 +135,13 @@ function BuildingTable({buildings}) {
                     onCellEditCommit={handleCommit}
                 />
             </div>
+
+            <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
+                <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
+                    Changes made to buildings were saved successfully.
+                </Alert>
+            </Snackbar>
+
         </>
     );
 }

@@ -1,39 +1,37 @@
 import Grid from '@mui/material/Grid';
-import ConstructionIcon from '@mui/icons-material/Construction';
-import Button from '@mui/material/Button';
-import AppBar from '@mui/material/AppBar';
 import TextField from '@mui/material/TextField';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 import '../App/App.css';
 
 function SystemForm() {
 
     const dispatch = useDispatch();
+    const Alert = MuiAlert
 
     const site = useSelector(store => store.siteReducer);
     const system = useSelector(store => store.systemReducer);
+
+    const [saveMode, setSaveMode] = useState(false);
 
     function refreshView () {
         dispatch({
             type: 'EDIT_SYSTEM',
             payload: system
         })
-        dispatch({
-            type: 'FETCH_NAVIGATION',
-            payload: site
-        })
+        setSaveMode(true)
+    }
+
+    function handleSnackbarCommit(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSaveMode(false)
     }
 
     function onInputUpdate(field, event) {
@@ -186,6 +184,12 @@ function SystemForm() {
                 </Grid>
 
             </Grid>
+
+            <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
+                <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
+                    Changes made to {system.name} were saved successfully.
+                </Alert>
+            </Snackbar>
 
         </>
     );

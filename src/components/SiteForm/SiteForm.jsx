@@ -90,6 +90,7 @@ function SiteForm() {
             }
         })
         setAddBuildingInput('')
+        setSaveMode(true)
     }
 
     return (

@@ -62,23 +62,25 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 });
 
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
-    const sqlText = `
-      DELETE FROM system
-        WHERE id = $1
-    `
-    const sqlValues = [
-      req.params.id
-    ]
+  console.log(req.params);
   
-    pool.query(sqlText, sqlValues)
-      .then((result) => {
-        res.sendStatus(200);
-      })
-      .catch((error) => {
-        console.error('DELETE database error', error)
-        res.sendStatus(500);
-      })
-  })
+  const sqlText = `
+    DELETE FROM system
+      WHERE id = $1
+  `
+  const sqlValues = [
+    req.params.id
+  ]
+
+  pool.query(sqlText, sqlValues)
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.error('DELETE database error', error)
+      res.sendStatus(500);
+    })
+})
 
   router.put('/:id', rejectUnauthenticated, (req, res) => {
     console.log(req.body);

@@ -30,6 +30,14 @@ function* fetchEquipment(action) {
         type: 'LOAD_EQUIPMENT',
         payload: action.payload
       })
+      yield put({
+        type: 'FETCH_SYSTEM',
+        payload: {id: action.payload.system_id}
+      })
+      yield put({
+        type: 'FETCH_NAVIGATION',
+        payload: {table:'equipment',id:action.payload.id}
+      })
     } catch(error) {
       console.error('ERROR:', error)
     }
@@ -42,6 +50,18 @@ function* fetchEquipment(action) {
         url: `/api/equipment/${action.payload.id}`,
         data: action.payload
       })
+      yield put({
+        type: 'LOAD_EQUIPMENT',
+        payload: {}
+      })
+      yield put({
+        type: 'FETCH_SYSTEM',
+        payload: {id: action.payload.system_id}
+      })
+      yield put({
+        type: 'FETCH_NAVIGATION',
+        payload: {table:'system',id:action.payload.system_id}
+      })
     } catch(error) {
       console.error('ERROR:', error)
     }
@@ -53,6 +73,14 @@ function* fetchEquipment(action) {
         method: 'POST',
         url: '/api/equipment',
         data: action.payload
+      })
+      yield put({
+        type: 'FETCH_SYSTEM',
+        payload: {id: action.payload.system_id}
+      })
+      yield put({
+        type: 'FETCH_NAVIGATION',
+        payload: {table:'equipment',id:action.payload.id}
       })
     } catch (error) {
       console.log(error)

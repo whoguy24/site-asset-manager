@@ -29,7 +29,7 @@ function* addBuilding(action) {
     })
     yield put({
       type: 'FETCH_NAVIGATION',
-      payload: {id:action.payload.site_id}
+      payload: {table:'building',id:action.payload.id}
     })
   } catch (error) {
     console.log(error)
@@ -52,7 +52,7 @@ function* deleteBuilding(action) {
     })
     yield put({
       type: 'FETCH_NAVIGATION',
-      payload: {id: action.payload.site_id}
+      payload: {table:'site',id:action.payload.site_id}
     })
   } catch (error) {
     console.log(error)
@@ -75,7 +75,7 @@ function* deleteBuilding(action) {
       })
       yield put({
         type: 'FETCH_NAVIGATION',
-        payload: {id: action.payload.site_id}
+        payload: {table:'building',id:action.payload.id}
       })
     } catch (error) {
       console.log(error)

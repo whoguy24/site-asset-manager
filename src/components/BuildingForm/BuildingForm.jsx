@@ -16,7 +16,6 @@ function BuildingForm() {
     const Alert = MuiAlert
     const dispatch = useDispatch();
 
-    const site = useSelector(store => store.siteReducer);
     const building = useSelector(store => store.buildingReducer);
 
     const [saveMode, setSaveMode] = useState(false);
@@ -26,17 +25,10 @@ function BuildingForm() {
             type: 'EDIT_BUILDING',
             payload: building
         })
-        dispatch({
-            type: 'FETCH_NAVIGATION',
-            payload: site
-        })
         setSaveMode(true)
     }
 
     function onInputUpdate(field, event) {
-        if (!event) { 
-            event = undefined;
-        }
         const updatedBuilding = {...building};
         switch (field) {
             case 'name': 
@@ -63,7 +55,7 @@ function BuildingForm() {
             default:
         }
         dispatch({
-            type: 'EDIT_BUILDING',
+            type: 'LOAD_BUILDING',
             payload: updatedBuilding
         })
     }
@@ -176,7 +168,7 @@ function BuildingForm() {
                 </Grid>
 
                 <Grid id='form-body-lower' item>
-                    <SystemTable systems={building.systems}/>
+                    {/* <SystemTable systems={building.systems}/> */}
                 </Grid>
 
             </Grid>

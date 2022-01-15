@@ -126,13 +126,60 @@ function fetchEquipment (system_id) {
     })
 }
 
-router.get('/:id', rejectUnauthenticated, (req, res) => {
-    console.log('In GET Request:', req.params);
-    async function buildNavigationTree() {
-        const navigation = await buildSites(req.params.id)
-        res.send(navigation);
+router.get('/:table/:id', rejectUnauthenticated, (req, res) => {
+
+    console.log(req.params.table);
+    console.log(req.params.id);
+    
+    const queryValues = [req.params.id];
+    let queryText = ''
+    switch (req.params.table) {
+        case 'site':
+            queryText = `
+                SELECT "site"."id" FROM "site"
+                WHERE "site"."id"=$1
+            ;`
+            break;
+        case 'building':
+            queryText = `
+                SELECT "site"."id" FROM "building"
+                JOIN "site" ON "building"."site_id"="site"."id"
+                WHERE "building"."id"=$1
+            ;`
+            break;
+        case 'system':
+            queryText = `
+                SELECT "site"."id" FROM "system"
+                JOIN "building" ON "system"."building_id"="building"."id"
+                JOIN "site" ON "building"."site_id"="site"."id"
+                WHERE "system"."id"=$1
+            ;`
+            break;
+        case 'equipment':
+            queryText = `
+                SELECT "site"."id" FROM "equipment"
+                JOIN "system" ON "equipment"."system_id"="system"."id"
+                JOIN "building" ON "system"."building_id"="building"."id"
+                JOIN "site" ON "building"."site_id"="site"."id"
+                WHERE "equipment"."id"=$1
+            ;`
+            break;
+        default:
     }
-    buildNavigationTree();
+    pool.query(queryText, queryValues)
+    .then((result) => { 
+        console.log(result.rows);
+        
+        async function buildNavigationTree() {
+            const navigation = await buildSites(result.rows[0].id)
+            res.send(navigation);
+        }
+        buildNavigationTree();
+
+    })
+    .catch((error) => { 
+    });
+
 });
 
 module.exports = router;

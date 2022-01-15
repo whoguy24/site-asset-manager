@@ -77,9 +77,6 @@ function NavigationTree({setSelectedItem}) {
         )
     };
 
-    useEffect(() => {
-    }, [])
-
     return (
         <>
             { navigation &&
