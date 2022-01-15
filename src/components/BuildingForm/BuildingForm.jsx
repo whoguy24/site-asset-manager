@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
+import SystemTable from '../SystemTable/SystemTable';
+
 import '../App/App.css';
 
 function BuildingForm() {
@@ -171,6 +173,10 @@ function BuildingForm() {
                             />
                         </Grid>
                     </Grid>
+                </Grid>
+
+                <Grid id='form-body-lower' item>
+                    <SystemTable systems={building.systems}/>
                 </Grid>
 
             </Grid>

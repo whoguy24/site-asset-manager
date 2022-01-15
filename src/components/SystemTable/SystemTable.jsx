@@ -10,29 +10,30 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import SystemTableRow from '../SystemTableRow/SystemTableRow';
+
 import '../App/App.css';
 
-function BuildingTable({buildings}) {
+function SystemTable({systems}) {
 
     const dispatch = useDispatch();
 
     const site = useSelector(store => store.siteReducer);
 
-    const [newBuildingInput, setNewBuildingInput] = useState('');
+    const [newSystemInput, setNewSystemInput] = useState('');
 
-    function handleAddBuilding (event) {
+    function handleAddSystem (event) {
         if (event) {
             dispatch({
-                type: 'ADD_BUILDING',
+                type: 'ADD_SYSTEM',
                 payload: {
                     site_id: site.id,
                     name: event
                 }
             })
-            setNewBuildingInput('')
+            setNewSystemInput('')
         }
     }
-
 
     return (
         <>
@@ -44,10 +45,10 @@ function BuildingTable({buildings}) {
                     <TableHead >
                         <TableRow >
                             <TableCell style={{backgroundColor:'lightgrey'}}>Name</TableCell>
-                            <TableCell style={{backgroundColor:'lightgrey'}}>Type</TableCell>
                             <TableCell style={{backgroundColor:'lightgrey'}}>Operating Hours</TableCell>
-                            <TableCell style={{backgroundColor:'lightgrey'}}>Year Built</TableCell>
-                            <TableCell style={{backgroundColor:'lightgrey'}}>Floors</TableCell>
+                            <TableCell style={{backgroundColor:'lightgrey'}}>Sequence of Operation</TableCell>
+                            <TableCell style={{backgroundColor:'lightgrey'}}>Performance Metrics</TableCell>
+                            <TableCell style={{backgroundColor:'lightgrey'}}>Recommended Set Points</TableCell>
                             {/* <TableCell style={{backgroundColor:'lightgrey'}}>Description</TableCell>
                             <TableCell style={{backgroundColor:'lightgrey'}}>Comments</TableCell> */}
                             <TableCell style={{backgroundColor:'lightgrey'}}></TableCell>
@@ -55,13 +56,13 @@ function BuildingTable({buildings}) {
                     </TableHead>
                         
                     <TableBody>
-                        {buildings.map((building) => (
-                            <BuildingTableRow key={building.id} site={site} building={building}/>
+                        {systems.map((system) => (
+                            <SystemTableRow key={system.id} site={site} system={system}/>
                         ))}
                         <TableRow >
 
                             <TableCell className='table-cell'>
-                                <TextField placeholder='New Building' size='small' fullWidth value={newBuildingInput} onChange={(event)=>setNewBuildingInput(event.target.value)} onBlur={(event)=>handleAddBuilding(event.target.value)}></TextField>
+                                <TextField placeholder='New System' size='small' fullWidth value={newSystemInput} onChange={(event)=>setNewSystemInput(event.target.value)} onBlur={(event)=>handleAddSystem(event.target.value)}></TextField>
                             </TableCell>
 
                         </TableRow>
@@ -75,4 +76,4 @@ function BuildingTable({buildings}) {
     );
 }
 
-export default BuildingTable;
+export default SystemTable;

@@ -23,6 +23,14 @@ function* addSystem(action) {
       url: '/api/system',
       data: action.payload
     })
+    yield put({
+      type: 'FETCH_BUILDING',
+      payload: {id: action.payload.building_id}
+    })
+    yield put({
+      type: 'FETCH_NAVIGATION',
+      payload: {id:action.payload.site_id}
+    })
   } catch (error) {
     console.log(error)
   }

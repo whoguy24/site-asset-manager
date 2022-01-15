@@ -94,7 +94,6 @@ function AppNavigation() {
                                     </TableRow>
                                 ))}
                                 <TableRow>
-                                    <TableCell></TableCell>
                                     <TableCell>
                                         <TextField size='small' value={addSiteName} placeholder='New Site' fullWidth onChange={()=>setAddSiteName(event.target.value)} onBlur={handleAddSite}></TextField>
                                     </TableCell>
