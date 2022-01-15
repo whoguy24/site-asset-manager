@@ -24,6 +24,9 @@ function* addSite(action) {
       url: '/api/site',
       data: action.payload
     })
+    yield put({
+      type: 'FETCH_SITES'
+    })
   } catch (error) {
     console.log(error)
   }
@@ -36,8 +39,7 @@ function* deleteSite(action) {
       url: `/api/site/${action.payload.id}`
     })
     yield put({
-      type: 'LOAD_SITE',
-      payload: {}
+      type: 'FETCH_SITES'
     })
   } catch (error) {
     console.log(error)
@@ -51,8 +53,7 @@ function* deleteSite(action) {
         data: action.payload
       })
       yield put({
-        type: 'FETCH_SITE',
-        payload: action.payload
+        type: 'FETCH_SITES'
       })
     } catch (error) {
       console.log(error)

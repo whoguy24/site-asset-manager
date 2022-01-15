@@ -33,7 +33,6 @@ body {
 #app-navigation {
     border: solid grey 1px;
     height: 90vh;
-    /* max-height: 80vh; */
 }
 
 #app-navigation-site-section {
@@ -44,11 +43,6 @@ body {
 
 #app-navigation-site-button {
     margin-left: 6px;
-    height: 24px;
-}
-
-#app-navigation-button {
-    margin-right: 6px;
     height: 24px;
 }
 
@@ -66,9 +60,6 @@ body {
 
 #app-form-body {
     background: rgb(237, 237, 237);
-    /* height: 98%; */
-    /* max-height: 80vh; */
-    /* height: 78vh; */
     height: 100%;
     border-left: solid grey 1px;
     border-right: solid grey 1px;
@@ -88,19 +79,6 @@ body {
     height: 30px;
 }
 
-.site-table-cell-edit-button {
-    border: solid grey 1px;
-}
-
-.site-table-cell-load-button {
-    height: 32px;
-}
-
-.navigation-tree-add-button {
-    height: 30px;
-    font-style:italic;
-}
-
 .app-form-header-label {
     color: black;
     margin: 0px;
@@ -117,14 +95,11 @@ body {
 }
 
 #form-body-upper {
-    /* background-color: red; */
-    /* height: 38%; */
     width: 100%;
     height: 300px;
 }
 
 #form-body-lower {
-    /* background-color: green; */
     width: 100%;
 }
 
@@ -143,5 +118,5 @@ body {
 }
 
 .test {
-    height: 45px;
+    border: solid grey 1px;
 }

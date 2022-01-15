@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
 import Dialog from '@mui/material/Dialog';
@@ -12,15 +12,12 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
-
 import FolderIcon from '@mui/icons-material/Folder';
-
 import NavigationTree from '../NavigationTree/NavigationTree';
-import SiteTableCell from '../SiteTableCell/SiteTableCell';
+import SiteTableCell from '../SiteTableRow/SiteTableRow';
 
 import '../App/App.css';
 
@@ -30,13 +27,9 @@ function AppNavigation() {
     const sites = useSelector(store => store.sitesReducer);
     const site = useSelector(store => store.siteReducer);
 
-    const table = useSelector(store => store.tableReducer);
-
     const [loadSite, setLoadSite] = useState(false);
 
-    const [addItem, setAddItem] = useState(false);
-    const [addItemTitle, setAddItemTitle] = useState('Add Site');
-    const [addItemName, setAddItemName] = useState('');
+    const [addSiteName, setAddSiteName] = useState('');
 
     const [selectedItem, setSelectedItem] = useState({});
 
@@ -50,25 +43,14 @@ function AppNavigation() {
         setLoadSite(false);
     };
 
-    function handleAddSiteButton() {
-        setLoadSite(false);
-        setAddItem(true);
-        setSelectedItem({})
-        setAddItemTitle('Add Site')
-    };
-
-    function handleAddItemSubmitButton() {
-        setAddItem(false);
-        dispatch({
-            type: 'ADD_SITE',
-            payload: { name: addItemName  }
-        })
-        setLoadSite(true);
-
-    };
-
-    function handleAddItemCancelButton() {
-        setAddItem(false);
+    function handleAddSite() {
+        if (addSiteName) {
+            dispatch({
+                type: 'ADD_SITE',
+                payload: { name: addSiteName  }
+            })
+            setAddSiteName('')
+        }   
     };
 
     function handleLoadButton(site) {
@@ -99,57 +81,31 @@ function AppNavigation() {
             </Grid>
 
             <Dialog open={loadSite} onClose={handleSiteCloseButton}>
-                <DialogTitle>
-                    <Grid container direction='row' justifyContent='space-between'>
-                        <Grid item>
-                            Load Site
-                        </Grid>
-                        <Grid item>
-                            <Button onClick={handleAddSiteButton} variant='outlined'>New Site</Button>
-                        </Grid>
-                    </Grid>
-                </DialogTitle>
+                <DialogTitle>Open Site</DialogTitle>
 
                 <DialogContent>
 
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 400 }} aria-label="simple table">
-                        <TableHead>
-                        </TableHead>
-                        <TableBody>
-                            {sites.map((site) => (
-                                <TableRow key={site.id}>
-                                    <TableCell component="th" scope="row">
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableBody>
+                                {sites.map((site) => (
+                                    <TableRow key={site.id}>
                                         <SiteTableCell site={site} loadButtonFunction={()=>handleLoadButton(site)}/>
+                                    </TableRow>
+                                ))}
+                                <TableRow>
+                                    <TableCell></TableCell>
+                                    <TableCell>
+                                        <TextField size='small' value={addSiteName} placeholder='New Site' fullWidth onChange={()=>setAddSiteName(event.target.value)} onBlur={handleAddSite}></TextField>
                                     </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
 
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleSiteCloseButton}>Close</Button>
-                </DialogActions>
-            </Dialog>
-
-            <Dialog open={addItem} onClose={handleAddItemCancelButton}>
-                <DialogTitle>
-                    {addItemTitle}
-                </DialogTitle>
-                <DialogContent>
-                    <TextField value={addItemName} onChange={(event) => setAddItemName(event.target.value)} label='Name' variant='standard' />
-                </DialogContent>
-                <DialogActions>
-                    <Grid container direction='row' justifyContent='space-around'>
-                        <Grid item>
-                            <Button onClick={handleAddItemCancelButton}>Cancel</Button>
-                        </Grid>
-                        <Grid item>
-                            <Button variant='contained' onClick={handleAddItemSubmitButton}>Submit</Button>
-                        </Grid>
-                    </Grid>
                 </DialogActions>
             </Dialog>
 
