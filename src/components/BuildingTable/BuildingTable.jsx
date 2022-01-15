@@ -10,6 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import { DataGrid } from '@mui/x-data-grid';
+
 import '../App/App.css';
 
 function BuildingTable({buildings}) {
@@ -33,11 +35,35 @@ function BuildingTable({buildings}) {
         }
     }
 
+    function handleCommit(event) {
+        let building = event.row
+        switch (event.field) {
+            case 'name':
+                building.name = event.value
+                break;
+            default:
+        }
+        console.log(building);
+        dispatch({
+            type: 'EDIT_BUILDING',
+            payload: building
+        })
+    }
+
+    const columns = [
+        {
+          field: 'name',
+          headerName: 'Name',
+          width: 150,
+          editable: true
+        }
+      ];
+
 
     return (
         <>
 
-            <TableContainer id='form-table' component={Paper}>
+            {/* <TableContainer id='form-table' component={Paper}>
 
                 <Table stickyHeader>
 
@@ -48,8 +74,6 @@ function BuildingTable({buildings}) {
                             <TableCell style={{backgroundColor:'lightgrey'}}>Operating Hours</TableCell>
                             <TableCell style={{backgroundColor:'lightgrey'}}>Year Built</TableCell>
                             <TableCell style={{backgroundColor:'lightgrey'}}>Floors</TableCell>
-                            {/* <TableCell style={{backgroundColor:'lightgrey'}}>Description</TableCell>
-                            <TableCell style={{backgroundColor:'lightgrey'}}>Comments</TableCell> */}
                             <TableCell style={{backgroundColor:'lightgrey'}}></TableCell>
                         </TableRow>
                     </TableHead>
@@ -69,7 +93,17 @@ function BuildingTable({buildings}) {
 
                 </Table>
 
-            </TableContainer>
+            </TableContainer> */}
+
+            <div style={{ height: '50vh', width: '100%' }}>
+                <DataGrid
+                    rows={buildings}
+                    columns={columns}
+                    onCellEditCommit={handleCommit}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                />
+            </div>
 
         </>
     );

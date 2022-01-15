@@ -69,6 +69,14 @@ function* deleteBuilding(action) {
         type: 'LOAD_BUILDING',
         payload: action.payload
       })
+      yield put({
+        type: 'FETCH_SITE',
+        payload: {id: action.payload.site_id}
+      })
+      yield put({
+        type: 'FETCH_NAVIGATION',
+        payload: {id: action.payload.site_id}
+      })
     } catch (error) {
       console.log(error)
     }}
