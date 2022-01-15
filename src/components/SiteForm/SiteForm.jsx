@@ -6,14 +6,19 @@ import { useEffect, useState } from 'react';
 
 import BuildingTable from '../BuildingTable/BuildingTable';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 import '../App/App.css';
 
 function SiteForm() {
 
+    const Alert = MuiAlert
     const dispatch = useDispatch();
 
     const site = useSelector(store => store.siteReducer);
+
+    const [saveMode, setSaveMode] = useState(false);
 
     function refreshView () {
         dispatch({
@@ -24,6 +29,7 @@ function SiteForm() {
             type: 'FETCH_NAVIGATION',
             payload: site
         })
+        setSaveMode(true)
     }
 
     function onInputUpdate(field, event) {
@@ -59,6 +65,13 @@ function SiteForm() {
             type: 'EDIT_SITE',
             payload: updatedSite
         })
+    }
+
+    function handleSnackbarCommit(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSaveMode(false)
     }
 
     return (
@@ -174,6 +187,12 @@ function SiteForm() {
                 </Grid>
 
             </Grid>
+
+            <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
+                <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
+                    Changes made to {site.name} were saved successfully.
+                </Alert>
+            </Snackbar>
 
         </>
     );

@@ -20,6 +20,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 import React, { useState } from 'react';
 
@@ -28,8 +30,10 @@ import '../App/App.css';
 function BuildingTableRow({site, building}) {
 
     const dispatch = useDispatch();
+    const Alert = MuiAlert
 
     const [deleteMode, setDeleteMode] = useState(false);
+    const [saveMode, setSaveMode] = useState(false);
 
     const [buildingNameInput, setBuildingNameInput] = useState(building.name || undefined);
     const [buildingTypeInput, setBuildingTypeInput] = useState(building.type || undefined);
@@ -44,19 +48,20 @@ function BuildingTableRow({site, building}) {
             type: 'EDIT_BUILDING',
             payload: {
                 id: building.id,
-                name: buildingNameInput,
-                type: buildingTypeInput,
-                operating_hours: buildingOperatingHoursInput,
-                year_built: buildingYearBuiltInput,
-                floors: buildingFloorsInput,
-                description: building.description,
-                comments: building.comments
+                name: buildingNameInput || undefined,
+                type: buildingTypeInput || undefined,
+                operating_hours: buildingOperatingHoursInput || undefined,
+                year_built: buildingYearBuiltInput || undefined,
+                floors: buildingFloorsInput || undefined,
+                description: building.description || undefined,
+                comments: building.comments || undefined
             }
         })
         dispatch({
             type: 'FETCH_NAVIGATION',
             payload: { id: building.site_id, }
         })
+        setSaveMode(true)
     }
 
     function handleDeleteButton() {
@@ -65,6 +70,13 @@ function BuildingTableRow({site, building}) {
             type: 'DELETE_BUILDING',
             payload: building
         })
+    }
+
+    function handleSnackbarCommit(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSaveMode(false)
     }
 
     return (
@@ -143,7 +155,7 @@ function BuildingTableRow({site, building}) {
                 <DialogActions>
                     <Grid container direction='row' justifyContent='space-around'>
                         <Grid item>
-                            <Button onClick={()=>setDeleteMode(false)} >Cancel</Button>
+                            <Button type='submit' onClick={()=>setDeleteMode(false)} >Cancel</Button>
                         </Grid>
                         <Grid item>
                             <Button variant='contained' color='error' onClick={handleDeleteButton} >Delete</Button>
@@ -151,6 +163,13 @@ function BuildingTableRow({site, building}) {
                     </Grid>
                 </DialogActions>
             </Dialog>
+
+            <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
+                <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
+                    Changes made to {buildingNameInput} were saved successfully.
+                </Alert>
+            </Snackbar>
+
 
         </>
     );

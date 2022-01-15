@@ -95,7 +95,7 @@ function NavigationTree({setSelectedItem}) {
             <>
                 { navigation.map((site)=> {
                     return(
-                        <TreeItem key={site.id} nodeId={'site_'+site.id} label={site.name} onClick = {() => handleNavigationClick('site', site)}>
+                        <TreeItem key={site.id} className='test' nodeId={'site_'+site.id} label={site.name} onClick = {() => handleNavigationClick('site', site)}>
                             { site.buildings.map((building) => {
                                 return (
                                     <TreeItem key={building.id} nodeId={'building_'+building.id} label={building.name} onClick = {() => handleNavigationClick('building', building)}>
