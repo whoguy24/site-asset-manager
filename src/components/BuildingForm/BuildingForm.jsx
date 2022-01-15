@@ -4,14 +4,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
 import '../App/App.css';
 
 function BuildingForm() {
 
+    const Alert = MuiAlert
     const dispatch = useDispatch();
 
     const site = useSelector(store => store.siteReducer);
     const building = useSelector(store => store.buildingReducer);
+
+    const [saveMode, setSaveMode] = useState(false);
 
     function refreshView () {
         dispatch({
@@ -22,9 +28,13 @@ function BuildingForm() {
             type: 'FETCH_NAVIGATION',
             payload: site
         })
+        setSaveMode(true)
     }
 
     function onInputUpdate(field, event) {
+        if (!event) { 
+            event = undefined;
+        }
         const updatedBuilding = {...building};
         switch (field) {
             case 'name': 
@@ -51,16 +61,23 @@ function BuildingForm() {
             default:
         }
         dispatch({
-            type: 'LOAD_BUILDING',
+            type: 'EDIT_BUILDING',
             payload: updatedBuilding
         })
     }
 
+    function handleSnackbarCommit(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSaveMode(false)
+    }
+
     return (
         <>
-            <Grid container className={'app-form-body-container'} direction='column' spacing={2}>
+            <Grid container className={'app-form-body-container'} direction='row' spacing={2}>
 
-                <Grid item id='test1' >
+                <Grid item xs={3}>
                     <Grid container direction='column' spacing={2} >
                         <Grid item>
                             <TextField 
@@ -123,7 +140,7 @@ function BuildingForm() {
                     </Grid>
                 </Grid>
 
-                <Grid item id='test2'>
+                <Grid item xs={9}>
                     <Grid container direction='column' spacing={2}>
                         <Grid item>
                             <TextField 
@@ -157,6 +174,12 @@ function BuildingForm() {
                 </Grid>
 
             </Grid>
+
+            <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
+                <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
+                    Changes made to {building.name} were saved successfully.
+                </Alert>
+            </Snackbar>
 
         </>
     );

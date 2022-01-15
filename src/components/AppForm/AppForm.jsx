@@ -63,7 +63,7 @@ function AppForm() {
 
     return (
         <>
-            { (site.id || building.id || system.id || equipment.id) &&
+            { ( table == 'site' && site.id || table == 'building' && building.id || table == 'system' && system.id || table == 'equipment' && equipment.id) &&
                 <Paper id={'app-form-body'}>
                     <AppBar id={'app-form-header'} position='static'>
                         <Grid container direction='row' alignItems='center' justifyContent='space-between'>
