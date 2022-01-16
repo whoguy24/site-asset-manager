@@ -1,7 +1,5 @@
 
 import { useDispatch } from 'react-redux';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -9,18 +7,18 @@ import MuiAlert from '@mui/material/Alert';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import Collapse from '@mui/material/Collapse';
 import Checkbox from '@mui/material/Checkbox';
 
-import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
 
-import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { useState } from 'react';
 
@@ -29,8 +27,48 @@ import '../App/App.css';
 function EquipmentActivitiesTableRow({activity}) {
 
     const dispatch = useDispatch();
+    const Alert = MuiAlert
 
     const [collapsed, setCollapsed] = useState(true);
+    const [saveMode, setSaveMode] = useState(false);
+
+    const [activityInput, setActivityInput] = useState(activity.activity || '');
+    const [descriptionInput, setDescriptionInput] = useState(activity.description || '');
+    const [dueDateInput, setDueDateInput] = useState(activity.due_date || '');
+    const [statusInput, setStatusInput] = useState(activity.status || '');
+
+    function handleCommit() {
+        dispatch({
+            type: 'EDIT_ACTIVITY',
+            payload: {
+                id: activity.id,
+                equipment_id: activity.equipment_id,
+                activity: activityInput,
+                description: descriptionInput,
+                due_date: dueDateInput,
+                status: statusInput,
+            }
+        })
+        setSaveMode(true)
+    }
+
+    function handleDeleteButton() {
+        dispatch({
+            type: 'DELETE_ACTIVITY',
+            payload: {
+                equipment_id: activity.equipment_id,
+                id: activity.id
+            }
+        })
+        setSaveMode(true)
+    }
+
+    function handleSnackbarCommit(event, reason) {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSaveMode(false)
+    }
 
     return (
         <>
@@ -41,33 +79,31 @@ function EquipmentActivitiesTableRow({activity}) {
                     </IconButton>
                 </TableCell>
                 <TableCell>
-                    <p>{activity.activity}</p>
+                    <TextField fullWidth value={activityInput} onChange={(event)=>setActivityInput(event.target.value)}onBlur={handleCommit}/>
                 </TableCell>
                 <TableCell>
-                    <p>{activity.description}</p>
+                    <TextField fullWidth value={descriptionInput} onChange={(event)=>setDescriptionInput(event.target.value)}onBlur={handleCommit}/>
                 </TableCell>
                 <TableCell>
-                    <p>{activity.comments}</p>
+                    <TextField fullWidth value={dueDateInput} onChange={(event)=>setDueDateInput(event.target.value)}onBlur={handleCommit}/>
                 </TableCell>
                 <TableCell>
-                    <p>{activity.date_due}</p>
+                    <TextField fullWidth value={statusInput} onChange={(event)=>setStatusInput(event.target.value)}onBlur={handleCommit}/>
                 </TableCell>
                 <TableCell>
-                    <p>{activity.status}</p>
+                    <IconButton color='error' onClick={handleDeleteButton}>
+                        <DeleteIcon />
+                    </IconButton>
                 </TableCell>
-
             </TableRow>
 
             {!collapsed && 
 
                 <TableRow>
-
-                    
-
+               
                     <TableCell colSpan={6}>
 
                         <Collapse in={!collapsed} unmountOnExit>
-
 
                                 <Table size="small" id='table'>
                                     <TableHead>
@@ -98,30 +134,15 @@ function EquipmentActivitiesTableRow({activity}) {
 
                     </TableCell>
                 
-
                 </TableRow>
 
             }
 
-
-
-
-
-                        {/* {activity.steps.map((step) => (
-
-                            <TableRow>
-                                <TableCell>
-                                    <Checkbox/>
-                                </TableCell>
-                                <TableCell>{step.step}</TableCell>
-                                <TableCell>{step.comments}</TableCell>
-                                <TableCell>Delete</TableCell>
-                            </TableRow>
-
-                        ))} */}
-
-
-
+            <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
+                <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
+                    Changes made to {activity.activity} were saved successfully.
+                </Alert>
+            </Snackbar>
 
         </>
     );

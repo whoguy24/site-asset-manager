@@ -2,6 +2,8 @@ import axios from 'axios';
 import { put, takeLatest } from 'redux-saga/effects';
 
   function* editActivity(action) {
+    console.log(action.payload);
+    
     try {
       yield axios({
         method: 'PUT',

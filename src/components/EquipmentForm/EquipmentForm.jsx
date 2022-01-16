@@ -381,7 +381,7 @@ function EquipmentForm() {
                         <Tab label='Issues'/>
                         <Tab label='Energy'/>
                     </Tabs>
-                    {tab === 0 && <EquipmentActivitiesTable activities={equipment.activities} />}
+                    {tab === 0 && <EquipmentActivitiesTable equipment={equipment} activities={equipment.activities} />}
                  </Grid>
 
             </Grid>

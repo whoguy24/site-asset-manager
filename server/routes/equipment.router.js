@@ -98,39 +98,17 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     `;
     pool.query(queryText, sqlValues)
     .then((result) => { 
-
-        async function buildWhatever() {
+        async function buildResponse() {
           const equipment = await buildEquipment(result.rows[0])
           res.send(equipment);
         }
-
-        buildWhatever();
-
-        
-
+        buildResponse();
     })
     .catch((error) => {
         console.log(error);
         res.sendStatus(500);
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id;
