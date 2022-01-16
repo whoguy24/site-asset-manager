@@ -29,7 +29,7 @@ function* addBuilding(action) {
     })
     yield put({
       type: 'FETCH_NAVIGATION',
-      payload: {table:'building',id:action.payload.id}
+      payload: {table:'site',id:action.payload.site_id}
     })
   } catch (error) {
     console.log(error)

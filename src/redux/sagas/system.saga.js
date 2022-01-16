@@ -17,6 +17,8 @@ function* fetchSystem(action) {
   }
 
 function* addSystem(action) {
+  console.log(action.payload);
+  
   try {
     yield axios({
       method: 'POST',
@@ -29,7 +31,7 @@ function* addSystem(action) {
     })
     yield put({
       type: 'FETCH_NAVIGATION',
-      payload: {table:'system',id:action.payload.id}
+      payload: {table:'building',id:action.payload.building_id}
     })
   } catch (error) {
     console.log(error)

@@ -80,7 +80,7 @@ function* fetchEquipment(action) {
       })
       yield put({
         type: 'FETCH_NAVIGATION',
-        payload: {table:'equipment',id:action.payload.id}
+        payload: {table:'system',id:action.payload.system_id}
       })
     } catch (error) {
       console.log(error)

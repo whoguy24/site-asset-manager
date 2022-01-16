@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 import '../App/App.css';
 
-function SystemTable({systems}) {
+function EquipmentTable({equipment}) {
 
     const dispatch = useDispatch();
 
@@ -20,42 +20,53 @@ function SystemTable({systems}) {
 
     function handleCommit(event) {
         
-        let system = event.row
+        let equipment = event.row
         switch (event.field) {
             case 'name':
-                system.name = event.value
+                equipment.name = event.value
                 break;
-            case 'operating_hours':
-                system.operating_hours = event.value
+
+            case 'location':
+                equipment.location = event.value
                 break;
+            case 'area_served':
+                equipment.area_served = event.value
+                break;
+            case 'condition':
+                equipment.condition = event.value
+                break;
+            case 'manufacturer':
+                equipment.manufacturer = event.value
+                break;
+
+            case 'model_number':
+                equipment.model_number = event.value
+                break;
+
             case 'sequence_of_operation':
-                system.sequence_of_operation = event.value
+                equipment.sequence_of_operation = event.value
                 break;
-            case 'performance_metrics':
-                system.performance_metrics = event.value
-                break;
-            case 'recommended_set_points':
-                system.recommended_set_points = event.value
-                break;
+
             case 'description':
-                system.description = event.value
+                equipment.description = event.value
                 break;
             case 'comments':
-                system.comments = event.value
+                equipment.comments = event.value
                 break;
             default:
         }
         dispatch({
-            type: 'EDIT_SYSTEM',
-            payload: system
+            type: 'EDIT_EQUIPMENT',
+            payload: equipment
         })
         setSaveMode(true)
     }
 
-    function handleDeleteButton(event, system) {
+
+    function handleDeleteButton(event, equipment) {
         dispatch({
-            type: 'DELETE_SYSTEM',
-            payload: system
+            type: 'DELETE_EQUIPMENT',
+            payload: equipment
         })
         setSaveMode(true)
     }
@@ -64,31 +75,37 @@ function SystemTable({systems}) {
         {
             field: 'name',
             headerName: 'Name',
+            width: 100,
+            editable: true
+        },
+        {
+            field: 'location',
+            headerName: 'Location',
             width: 150,
             editable: true
         },
         {
-            field: 'operating_hours',
-            headerName: 'Operating Hours',
+            field: 'area_served',
+            headerName: 'Area Served',
             width: 150,
             editable: true
         },
         {
-            field: 'sequence_of_operation',
-            headerName: 'Sequence of Operation',
-            width: 150,
+            field: 'condition',
+            headerName: 'Condition',
+            width: 100,
             editable: true
         },
         {
-            field: 'performance_metrics',
-            headerName: 'Metrics',
+            field: 'manufacturer',
+            headerName: 'Manufacturer',
             width: 120,
             editable: true
         },
         {
-            field: 'recommended_set_points',
-            headerName: 'Set Points',
-            width: 80,
+            field: 'model_number',
+            headerName: 'Model',
+            width: 100,
             editable: true
         },
         {
@@ -100,7 +117,7 @@ function SystemTable({systems}) {
         {
             field: 'comments',
             headerName: 'Comments',
-            width: 200,
+            width: 120,
             editable: true
         },
         {
@@ -130,7 +147,7 @@ function SystemTable({systems}) {
             <div id='table-container'>
                 <DataGrid
                     id='table-datagrid'
-                    rows={systems}
+                    rows={equipment}
                     columns={columns}
                     onCellEditCommit={handleCommit}
                 />
@@ -138,7 +155,7 @@ function SystemTable({systems}) {
 
             <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
                 <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
-                    Changes made to systems were saved successfully.
+                    Changes made to equipment were saved successfully.
                 </Alert>
             </Snackbar>
 
@@ -146,4 +163,4 @@ function SystemTable({systems}) {
     );
 }
 
-export default SystemTable;
+export default EquipmentTable;
