@@ -11,6 +11,10 @@ function* fetchEquipment(action) {
         type: 'LOAD_EQUIPMENT',
         payload: response.data
       })
+      yield put({
+        type: 'FETCH_ACTIVITIES',
+        payload: action.payload
+      })
     } catch(error) {
       console.error('ERROR:', error)
     }

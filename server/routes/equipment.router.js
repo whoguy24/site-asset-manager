@@ -3,6 +3,88 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware')
 
+async function buildEquipment (equipment) {
+  equipment.activities = await fetchActivities(equipment);
+  for (const activity of equipment.activities) {
+    activity.steps = await fetchSteps(activity);
+  }
+  equipment.issues = await fetchIssues(equipment);
+  equipment.ecms = await fetchECMs(equipment);
+  return equipment
+};
+
+function fetchActivities (equipment) {
+  return new Promise((resolve, reject )=> {
+      const queryValues = [equipment.id];
+      const queryText = `
+        SELECT * FROM "activity"
+        WHERE "activity"."equipment_id" =$1
+        ORDER BY "activity"."id" ASC;
+      `;
+      pool.query(queryText, queryValues)
+      .then((result) => { 
+          resolve(result.rows)
+      })
+      .catch((error) => { 
+          reject(error);
+      });
+  })
+}
+
+function fetchSteps (activity) {
+  return new Promise((resolve, reject )=> {
+      const queryValues = [activity.id];
+      const queryText = `
+        SELECT * FROM "step"
+        WHERE "step"."activity_id"=$1
+        ORDER BY "step"."id" ASC;
+      `;
+      pool.query(queryText, queryValues)
+      .then((result) => { 
+          resolve(result.rows)
+      })
+      .catch((error) => { 
+          reject(error);
+      });
+  })
+}
+
+function fetchIssues (equipment) {
+  return new Promise((resolve, reject )=> {
+      const queryValues = [equipment.id];
+      const queryText = `
+        SELECT * FROM "issue"
+        WHERE "issue"."equipment_id" =$1
+        ORDER BY "issue"."id" ASC;
+      `;
+      pool.query(queryText, queryValues)
+      .then((result) => { 
+          resolve(result.rows)
+      })
+      .catch((error) => { 
+          reject(error);
+      });
+  })
+}
+
+function fetchECMs (equipment) {
+  return new Promise((resolve, reject )=> {
+      const queryValues = [equipment.id];
+      const queryText = `
+        SELECT * FROM "ecm"
+        WHERE "ecm"."equipment_id" =$1
+        ORDER BY "ecm"."id" ASC;
+      `;
+      pool.query(queryText, queryValues)
+      .then((result) => { 
+          resolve(result.rows)
+      })
+      .catch((error) => { 
+          reject(error);
+      });
+  })
+}
+
 router.get('/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id;
     console.log('IN GET ROUTE BY RECORD');
@@ -16,13 +98,39 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     `;
     pool.query(queryText, sqlValues)
     .then((result) => { 
-        res.send(result.rows[0]);
+
+        async function buildWhatever() {
+          const equipment = await buildEquipment(result.rows[0])
+          res.send(equipment);
+        }
+
+        buildWhatever();
+
+        
+
     })
     .catch((error) => {
         console.log(error);
         res.sendStatus(500);
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id;

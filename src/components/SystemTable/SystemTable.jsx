@@ -1,6 +1,6 @@
 
 import { useDispatch } from 'react-redux';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -133,6 +133,9 @@ function SystemTable({systems}) {
                     rows={systems}
                     columns={columns}
                     onCellEditCommit={handleCommit}
+                    components={{
+                        Toolbar: GridToolbar,
+                    }}
                 />
             </div>
 

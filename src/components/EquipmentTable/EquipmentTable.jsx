@@ -1,6 +1,6 @@
 
 import { useDispatch } from 'react-redux';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -25,7 +25,6 @@ function EquipmentTable({equipment}) {
             case 'name':
                 equipment.name = event.value
                 break;
-
             case 'location':
                 equipment.location = event.value
                 break;
@@ -38,15 +37,12 @@ function EquipmentTable({equipment}) {
             case 'manufacturer':
                 equipment.manufacturer = event.value
                 break;
-
             case 'model_number':
                 equipment.model_number = event.value
                 break;
-
             case 'sequence_of_operation':
                 equipment.sequence_of_operation = event.value
                 break;
-
             case 'description':
                 equipment.description = event.value
                 break;
@@ -150,6 +146,9 @@ function EquipmentTable({equipment}) {
                     rows={equipment}
                     columns={columns}
                     onCellEditCommit={handleCommit}
+                    components={{
+                        Toolbar: GridToolbar,
+                    }}
                 />
             </div>
 

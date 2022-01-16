@@ -6,7 +6,10 @@ import { useEffect, useState } from 'react';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
+import EquipmentActivitiesTable from '../EquipmentActivitiesTable/EquipmentActivitiesTable';
 
 import '../App/App.css';
 
@@ -18,6 +21,8 @@ function EquipmentForm() {
     const equipment = useSelector(store => store.equipmentReducer);
 
     const [saveMode, setSaveMode] = useState(false);
+
+    const [tab, setTab] = useState(0);
 
     function refreshView () {
         dispatch({
@@ -100,6 +105,10 @@ function EquipmentForm() {
             return;
         }
         setSaveMode(false)
+    }
+
+    function handleTabClick (event, index) {
+        setTab(index)
     }
 
     return (
@@ -364,6 +373,15 @@ function EquipmentForm() {
 
                         </Grid>
                     </Grid>
+                 </Grid>
+
+                 <Grid item id='form-body-lower'> 
+                    <Tabs value={tab} onChange={handleTabClick}>
+                        <Tab label='Activities'/>
+                        <Tab label='Issues'/>
+                        <Tab label='Energy'/>
+                    </Tabs>
+                    {tab === 0 && <EquipmentActivitiesTable activities={equipment.activities} />}
                  </Grid>
 
             </Grid>

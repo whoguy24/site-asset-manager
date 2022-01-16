@@ -169,13 +169,11 @@ router.get('/:table/:id', rejectUnauthenticated, (req, res) => {
     pool.query(queryText, queryValues)
     .then((result) => { 
         console.log(result.rows);
-        
         async function buildNavigationTree() {
             const navigation = await buildSites(result.rows[0].id)
             res.send(navigation);
         }
         buildNavigationTree();
-
     })
     .catch((error) => { 
     });
