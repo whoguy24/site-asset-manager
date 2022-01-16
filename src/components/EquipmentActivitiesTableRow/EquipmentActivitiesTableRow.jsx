@@ -32,6 +32,8 @@ function EquipmentActivitiesTableRow({activity}) {
     const [collapsed, setCollapsed] = useState(true);
     const [saveMode, setSaveMode] = useState(false);
 
+    const [newStepInput, setNewStepInput] = useState('');
+
     const [activityInput, setActivityInput] = useState(activity.activity || '');
     const [descriptionInput, setDescriptionInput] = useState(activity.description || '');
     const [dueDateInput, setDueDateInput] = useState(activity.due_date || '');
@@ -68,6 +70,76 @@ function EquipmentActivitiesTableRow({activity}) {
             return;
         }
         setSaveMode(false)
+    }
+
+    function handleNewStep() {
+        if (newStepInput) {              
+            dispatch({
+                type: 'ADD_STEP',
+                payload: {
+                    equipment_id: activity.equipment_id,
+                    activity_id: activity.id,
+                    step: newStepInput
+                }
+            })
+            setSaveMode(true)
+            setNewStepInput('')
+        }
+    }
+
+    function ActivityStepRow ({activity, step}) {
+
+        const [completeInput, setCompleteInput] = useState( step.complete || false );
+        const [stepInput, setStepInput] = useState( step.step || '' );
+        const [commentsInput, setCommentsInput] = useState( step.comments || '' );
+
+        function handleStepCommit() {
+            dispatch({
+                type: 'EDIT_STEP',
+                payload: {
+                    id: step.id,
+                    equipment_id: activity.equipment_id,
+                    complete: completeInput,
+                    step: stepInput,
+                    comments: commentsInput
+                }
+            })
+            setSaveMode(true)
+        }
+
+        function handleCheckboxClick (event) {
+            setCompleteInput(event.target.checked);
+        }
+
+        function handleDeleteStepButton() {
+            dispatch({
+                type: 'DELETE_STEP',
+                payload: {
+                    equipment_id: activity.equipment_id,
+                    id: step.id
+                }
+            })
+            setSaveMode(true)
+        }
+
+        return (
+            <>
+                <TableCell>
+                    <Checkbox checked={completeInput} onChange={handleCheckboxClick} />
+                </TableCell>
+                <TableCell>
+                    <TextField fullWidth value={stepInput} onChange={(event)=>setStepInput(event.target.value)} onBlur={handleStepCommit}/>
+                </TableCell>
+                <TableCell>
+                    <TextField fullWidth value={commentsInput} onChange={(event)=>setCommentsInput(event.target.value)} onBlur={handleStepCommit}/>
+                </TableCell>
+                <TableCell>
+                    <IconButton color='error' onClick={handleDeleteStepButton}>
+                        <DeleteIcon />
+                    </IconButton>
+                </TableCell>
+            </>
+        )
     }
 
     return (
@@ -117,15 +189,15 @@ function EquipmentActivitiesTableRow({activity}) {
                                     <TableBody>
                                         {activity.steps.map((step) => (
                                             <TableRow key={step.id}>
-                                                <TableCell>
-                                                    <Checkbox>
-                                                    </Checkbox>
-                                                </TableCell>
-                                                <TableCell>{step.step}</TableCell>
-                                                <TableCell>{step.comments}</TableCell>
-                                                <TableCell>Delete</TableCell>
-                                            </TableRow>
+                                                <ActivityStepRow activity={activity} step={step}/>
+                                            </TableRow>  
                                         ))}
+                                        <TableRow>
+                                            <TableCell></TableCell>
+                                            <TableCell>
+                                                <TextField placeholder='New Step' value={newStepInput} onChange={(event)=>setNewStepInput(event.target.value)} onBlur={handleNewStep}/>
+                                            </TableCell>
+                                        </TableRow>
                                     </TableBody>
                                 </Table>
 

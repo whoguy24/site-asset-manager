@@ -16,6 +16,7 @@ const siteRouter = require('./routes/site.router');
 const buildingRouter = require('./routes/building.router');
 const systemRouter = require('./routes/system.router');
 const activityRouter = require('./routes/activity.router');
+const stepRouter = require('./routes/step.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -37,6 +38,7 @@ app.use('/api/site', siteRouter);
 app.use('/api/building', buildingRouter);
 app.use('/api/system', systemRouter);
 app.use('/api/activity', activityRouter);
+app.use('/api/step', stepRouter);
 
 // Serve static files
 app.use(express.static('build'));
