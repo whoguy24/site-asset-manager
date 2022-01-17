@@ -1,9 +1,14 @@
+///////////////////////////////////////////////////////
+///// IMPORT LIBRARIES ////////////////////////////////
+///////////////////////////////////////////////////////
 
+// Import React, Redux, etc.
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+// Import Material-UI
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -16,20 +21,30 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 
+// Import App Components
 import EquipmentECMTableRow from '../EquipmentECMTableRow/EquipmentECMTableRow';
 
-import { useState } from 'react';
-
+// Import Stylesheets
 import '../App/App.css';
+
+///////////////////////////////////////////////////////
+///// COMPONENT FUNCTION //////////////////////////////
+///////////////////////////////////////////////////////
+
+// The purpose of this component is to render the energy conservation table in the equipment form view.
+// This component will allow a user to add, edit and delete conservation measures. 
 
 function EquipmentECMTable({equipment, ecms}) {
 
-    const [ECMInput, setECMInput] = useState('');
-    const [saveMode, setSaveMode] = useState(false);
-
+    // Define Library Variables
     const dispatch = useDispatch();
     const Alert =  MuiAlert;
 
+    // Define Local States
+    const [ECMInput, setECMInput] = useState('');
+    const [saveMode, setSaveMode] = useState(false);
+
+    // Add ECM from Text Field
     function handleNewECM() {
         if (ECMInput) {  
             dispatch({
@@ -44,6 +59,7 @@ function EquipmentECMTable({equipment, ecms}) {
         }
     }
 
+    // Handle Snackbar Logic
     function handleSnackbarCommit(event, reason) {
         if (reason === 'clickaway') {
             return;
@@ -51,8 +67,11 @@ function EquipmentECMTable({equipment, ecms}) {
         setSaveMode(false)
     }
 
+    // Render DOM
     return (
         <>
+
+            {/* Energy Conservation Measures Table */}
             <TableContainer component={Paper}>
                 <Table id='equipment_sub_table' >
                     <TableHead>
@@ -98,13 +117,16 @@ function EquipmentECMTable({equipment, ecms}) {
                 </Table>
             </TableContainer>
 
+            {/* Database Commit Snackbar */}
             <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
                 <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
                     Changes made to {equipment.name} were saved successfully.
                 </Alert>
             </Snackbar>
+
         </>
     );
 }
 
+// Export Component Function
 export default EquipmentECMTable;

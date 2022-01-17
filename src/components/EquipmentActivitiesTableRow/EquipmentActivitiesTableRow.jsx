@@ -1,9 +1,14 @@
+///////////////////////////////////////////////////////
+///// IMPORT LIBRARIES ////////////////////////////////
+///////////////////////////////////////////////////////
 
+// Import React, Redux, etc.
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+// Import Material-UI
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,34 +16,37 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Collapse from '@mui/material/Collapse';
 import Checkbox from '@mui/material/Checkbox';
-
 import TextField from '@mui/material/TextField';
-
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { useState } from 'react';
-
+// Import Stylesheets
 import '../App/App.css';
+
+///////////////////////////////////////////////////////
+///// COMPONENT FUNCTION //////////////////////////////
+///////////////////////////////////////////////////////
+
+// This component is responsible for rendering activity table rows.
 
 function EquipmentActivitiesTableRow({activity}) {
 
+    // Render Library Variables
     const dispatch = useDispatch();
     const Alert = MuiAlert
 
+    // Define Local States
     const [collapsed, setCollapsed] = useState(true);
     const [saveMode, setSaveMode] = useState(false);
-
     const [newStepInput, setNewStepInput] = useState('');
-
     const [activityInput, setActivityInput] = useState(activity.activity || '');
     const [descriptionInput, setDescriptionInput] = useState(activity.description || '');
     const [dueDateInput, setDueDateInput] = useState(activity.due_date || '');
     const [statusInput, setStatusInput] = useState(activity.status || '');
 
+    // Update Database with Changes 
     function handleCommit() {
         dispatch({
             type: 'EDIT_ACTIVITY',
@@ -54,6 +62,7 @@ function EquipmentActivitiesTableRow({activity}) {
         setSaveMode(true)
     }
 
+    // Delete Button
     function handleDeleteButton() {
         dispatch({
             type: 'DELETE_ACTIVITY',
@@ -65,6 +74,7 @@ function EquipmentActivitiesTableRow({activity}) {
         setSaveMode(true)
     }
 
+    // Handle Snackbar Logic
     function handleSnackbarCommit(event, reason) {
         if (reason === 'clickaway') {
             return;
@@ -72,6 +82,7 @@ function EquipmentActivitiesTableRow({activity}) {
         setSaveMode(false)
     }
 
+    // Add New Step from Text Field
     function handleNewStep() {
         if (newStepInput) {              
             dispatch({
@@ -87,12 +98,16 @@ function EquipmentActivitiesTableRow({activity}) {
         }
     }
 
+    // Render Activity Step
+    // TODO: Place into dedicated component
     function ActivityStepRow ({activity, step}) {
 
+        // Define Local States
         const [completeInput, setCompleteInput] = useState( step.complete || false );
         const [stepInput, setStepInput] = useState( step.step || '' );
         const [commentsInput, setCommentsInput] = useState( step.comments || '' );
 
+        // Update Database with Changes 
         function handleStepCommit() {
             dispatch({
                 type: 'EDIT_STEP',
@@ -107,10 +122,12 @@ function EquipmentActivitiesTableRow({activity}) {
             setSaveMode(true)
         }
 
+        // Handle Checkbox
         function handleCheckboxClick (event) {
             setCompleteInput(event.target.checked);
         }
 
+        // Step Delete Button
         function handleDeleteStepButton() {
             dispatch({
                 type: 'DELETE_STEP',
@@ -122,8 +139,11 @@ function EquipmentActivitiesTableRow({activity}) {
             setSaveMode(true)
         }
 
+        // Render DOM
         return (
             <>
+
+                {/* Activity Step Row */}
                 <TableCell>
                     <Checkbox checked={completeInput} onChange={handleCheckboxClick} />
                 </TableCell>
@@ -138,12 +158,16 @@ function EquipmentActivitiesTableRow({activity}) {
                         <DeleteIcon />
                     </IconButton>
                 </TableCell>
+
             </>
         )
     }
 
+    // Render DOM
     return (
         <>
+
+            {/* Activity Table Row */}
             <TableRow >
                 <TableCell>
                     <IconButton size="small" onClick={() => setCollapsed(!collapsed)}>
@@ -169,14 +193,11 @@ function EquipmentActivitiesTableRow({activity}) {
                 </TableCell>
             </TableRow>
 
+            {/* Collapsable Activity Step Table */}
             {!collapsed && 
-
                 <TableRow>
-               
                     <TableCell colSpan={6}>
-
                         <Collapse in={!collapsed} unmountOnExit>
-
                                 <Table size="small" id='table'>
                                     <TableHead>
                                         <TableRow>
@@ -200,16 +221,12 @@ function EquipmentActivitiesTableRow({activity}) {
                                         </TableRow>
                                     </TableBody>
                                 </Table>
-
-
                         </Collapse>
-
-                    </TableCell>
-                
+                    </TableCell>          
                 </TableRow>
-
             }
 
+            {/* Database Commit Snackbar */}
             <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
                 <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
                     Changes made to {activity.activity} were saved successfully.
@@ -220,4 +237,5 @@ function EquipmentActivitiesTableRow({activity}) {
     );
 }
 
+// Export Component Function
 export default EquipmentActivitiesTableRow;

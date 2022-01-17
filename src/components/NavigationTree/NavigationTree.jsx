@@ -1,19 +1,36 @@
-import { useEffect } from 'react';
+///////////////////////////////////////////////////////
+///// IMPORT LIBRARIES ////////////////////////////////
+///////////////////////////////////////////////////////
+
+// Import React, Redux, etc.
 import { useDispatch, useSelector } from 'react-redux'
 
+// Import Material-UI
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
 
+// Import Stylesheets
 import '../App/App.css';
+
+///////////////////////////////////////////////////////
+///// COMPONENT FUNCTION //////////////////////////////
+///////////////////////////////////////////////////////
+
+// This component is responsible for rendering the site asset navigation tree.
+// The object tree storing site, building, system and equipment objects is fetched from the database on application load.
+// This component is the main navigational tool available to the user, to navigate across different form views.
 
 function NavigationTree({setSelectedItem}) {
 
+    // Define Library Variables
     const dispatch = useDispatch();
     
+    // Define Redux Stores
     const navigation = useSelector(store => store.navigationReducer);
 
+    // On Tree Object Select, Open Associated Form View
     function handleNavigationClick(table, object) {
         setSelectedItem( {table: table, object: object} )
         dispatch({
@@ -46,6 +63,7 @@ function NavigationTree({setSelectedItem}) {
         }
     }
 
+    // Render Site Asset Tree Function
     function renderTree() {
         return (
             <>
@@ -77,15 +95,20 @@ function NavigationTree({setSelectedItem}) {
         )
     };
 
+    // Render DOM
     return (
         <>
+
+            {/* Site Asset Tree */}
             { navigation &&
                 <TreeView id={'app-navigation-tree'} sx={{ flexGrow: 1, overflowY: 'auto' }} defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
                     {renderTree(navigation)}
                 </TreeView>
             }
+            
         </>
     );
 }
 
+// Export Component Function
 export default NavigationTree;

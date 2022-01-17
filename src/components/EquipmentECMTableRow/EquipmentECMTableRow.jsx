@@ -1,6 +1,12 @@
+///////////////////////////////////////////////////////
+///// IMPORT LIBRARIES ////////////////////////////////
+///////////////////////////////////////////////////////
 
+// Import React, Redux, etc.
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+// Import Material-UI
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import TableCell from '@mui/material/TableCell';
@@ -12,22 +18,29 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-import { useState } from 'react';
-
+// Import Stylesheets
 import '../App/App.css';
+
+///////////////////////////////////////////////////////
+///// COMPONENT FUNCTION //////////////////////////////
+///////////////////////////////////////////////////////
+
+// This component is responsible for rendering ecm table rows.
 
 function EquipmentECMTableRow({ecm}) {
 
+    // Define Library Variables
     const dispatch = useDispatch();
     const Alert = MuiAlert
 
+    // Define Local States
     const [saveMode, setSaveMode] = useState(false);
-
     const [ECMInput, setECMInput] = useState(ecm.ecm || '');
     const [dateIdentifiedInput, setDateIdentifiedInput] = useState(ecm.date_identified || '');
     const [commentsInput, setCommentsInput] = useState(ecm.comments || '');
     const [statusInput, setStatusInput] = useState(ecm.status || '');
 
+    // Update Database with Changes
     function handleCommit() {
         dispatch({
             type: 'EDIT_ECM',
@@ -43,6 +56,7 @@ function EquipmentECMTableRow({ecm}) {
         setSaveMode(true)
     }
 
+    // Delete Button
     function handleDeleteButton() {
         dispatch({
             type: 'DELETE_ECM',
@@ -54,6 +68,7 @@ function EquipmentECMTableRow({ecm}) {
         setSaveMode(true)
     }
 
+    // Handle Snackbar Logic
     function handleSnackbarCommit(event, reason) {
         if (reason === 'clickaway') {
             return;
@@ -61,8 +76,10 @@ function EquipmentECMTableRow({ecm}) {
         setSaveMode(false)
     }
 
+    // Render DOM
     return (
         <>
+            {/* Energy Conservation Measure Row */}
             <TableRow >
                 <TableCell>
                     <FormControl fullWidth>
@@ -86,11 +103,6 @@ function EquipmentECMTableRow({ecm}) {
                         </Select>
                     </FormControl>
                 </TableCell>
-
-
-
-
-
                 <TableCell>
                     <TextField fullWidth value={commentsInput} onChange={(event)=>setCommentsInput(event.target.value)}onBlur={handleCommit}/>
                 </TableCell>
@@ -107,6 +119,7 @@ function EquipmentECMTableRow({ecm}) {
                 </TableCell>
             </TableRow>
 
+            {/* Database Commit Snackbar */}
             <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
                 <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
                     Changes made to {ecm.ecm} were saved successfully.
@@ -117,4 +130,5 @@ function EquipmentECMTableRow({ecm}) {
     );
 }
 
+// Export Component Function
 export default EquipmentECMTableRow;

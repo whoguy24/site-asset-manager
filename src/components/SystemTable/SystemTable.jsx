@@ -1,25 +1,39 @@
+///////////////////////////////////////////////////////
+///// IMPORT LIBRARIES ////////////////////////////////
+///////////////////////////////////////////////////////
 
+// Import React, Redux, etc.
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+
+// Import Material-UI
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-import { useState } from 'react';
-
+// Import Stylesheets
 import '../App/App.css';
+
+///////////////////////////////////////////////////////
+///// COMPONENT FUNCTION //////////////////////////////
+///////////////////////////////////////////////////////
+
+// The purpose of this component is to render the systems table in the building form view.
+// This component will allow a user to add, edit and delete systems. 
 
 function SystemTable({systems}) {
 
+    // Define Library Variables
     const dispatch = useDispatch();
-
     const Alert = MuiAlert
+
+    // Define Local States
     const [saveMode, setSaveMode] = useState(false);
 
+    // Update Database with Changes
     function handleCommit(event) {
-        
         let system = event.row
         switch (event.field) {
             case 'name':
@@ -52,6 +66,7 @@ function SystemTable({systems}) {
         setSaveMode(true)
     }
 
+    // Delete Button
     function handleDeleteButton(event, system) {
         dispatch({
             type: 'DELETE_SYSTEM',
@@ -60,6 +75,7 @@ function SystemTable({systems}) {
         setSaveMode(true)
     }
 
+    // Define DataGrid Columns
     const columns = [
         {
             field: 'name',
@@ -118,6 +134,7 @@ function SystemTable({systems}) {
         }
     ];
 
+    // Handle Snackbar Logic
     function handleSnackbarCommit(event, reason) {
         if (reason === 'clickaway') {
             return;
@@ -125,8 +142,11 @@ function SystemTable({systems}) {
         setSaveMode(false)
     }
 
+    // Render DOM
     return (
         <>
+
+            {/* System Table */}
             <div id='table-container'>
                 <DataGrid
                     id='table-datagrid'
@@ -139,6 +159,7 @@ function SystemTable({systems}) {
                 />
             </div>
 
+            {/* Database Commit Snackbar */}
             <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
                 <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
                     Changes made to systems were saved successfully.
@@ -149,4 +170,5 @@ function SystemTable({systems}) {
     );
 }
 
+// Export Component Function
 export default SystemTable;

@@ -1,25 +1,39 @@
+///////////////////////////////////////////////////////
+///// IMPORT LIBRARIES ////////////////////////////////
+///////////////////////////////////////////////////////
 
+// Import React, Redux, etc.
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+
+// Import Material-UI
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-import { useState } from 'react';
-
+// Import Stylesheets
 import '../App/App.css';
+
+///////////////////////////////////////////////////////
+///// COMPONENT FUNCTION //////////////////////////////
+///////////////////////////////////////////////////////
+
+// The purpose of this component is to render the equipment table in the building form view.
+// This component will allow a user to add, edit and delete equipment. 
 
 function EquipmentTable({equipment}) {
 
+    // Define Library Variables
     const dispatch = useDispatch();
-
     const Alert = MuiAlert
+
+    // Define Local States
     const [saveMode, setSaveMode] = useState(false);
 
+    // Update Database with Changes
     function handleCommit(event) {
-        
         let equipment = event.row
         switch (event.field) {
             case 'name':
@@ -58,7 +72,7 @@ function EquipmentTable({equipment}) {
         setSaveMode(true)
     }
 
-
+    // Delete Button
     function handleDeleteButton(event, equipment) {
         dispatch({
             type: 'DELETE_EQUIPMENT',
@@ -67,6 +81,7 @@ function EquipmentTable({equipment}) {
         setSaveMode(true)
     }
 
+    // Define DataGrid Columns
     const columns = [
         {
             field: 'name',
@@ -131,6 +146,7 @@ function EquipmentTable({equipment}) {
         }
     ];
 
+    // Handle Snackbar Logic
     function handleSnackbarCommit(event, reason) {
         if (reason === 'clickaway') {
             return;
@@ -138,8 +154,11 @@ function EquipmentTable({equipment}) {
         setSaveMode(false)
     }
 
+    // Render DOM
     return (
         <>
+
+            {/* Equipment Table */}
             <div id='table-container'>
                 <DataGrid
                     id='table-datagrid'
@@ -152,6 +171,7 @@ function EquipmentTable({equipment}) {
                 />
             </div>
 
+            {/* Database Commit Snackbar */}
             <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
                 <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
                     Changes made to equipment were saved successfully.
@@ -162,4 +182,5 @@ function EquipmentTable({equipment}) {
     );
 }
 
+// Export Component Function
 export default EquipmentTable;

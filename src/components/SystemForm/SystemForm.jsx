@@ -1,37 +1,51 @@
-import Grid from '@mui/material/Grid';
+///////////////////////////////////////////////////////
+///// IMPORT LIBRARIES ////////////////////////////////
+///////////////////////////////////////////////////////
+
+// Import React, Redux, etc.
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
-import BuildingTable from '../BuildingTable/BuildingTable';
-
+// Import Material-UI
+import Grid from '@mui/material/Grid';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-
 import Button from '@mui/material/Button';
 
+// Import App Components
 import EquipmentTable from '../EquipmentTable/EquipmentTable';
 
+// Import Stylesheets
 import '../App/App.css';
+
+///////////////////////////////////////////////////////
+///// COMPONENT FUNCTION //////////////////////////////
+///////////////////////////////////////////////////////
+
+// This component will render the selected systems's details.
+// Users will be able to edit information about a system, and updated fields will automatically update the database.
+// This view is also responsible for rendering a table of related equipment.
 
 function SystemForm() {
 
+    // Define Library Variables
     const dispatch = useDispatch();
     const Alert = MuiAlert
 
+    // Define Redux Stores
     const system = useSelector(store => store.systemReducer);
 
+    // Define Local States
     const [saveMode, setSaveMode] = useState(false);
-
     const [addEquipmentInput, setAddEquipmentInput] = useState('');
     const [addEquipmentMode, setAddEquipmentMode] = useState(false);
 
+    // Update Database with Changes
     function refreshView () {
         dispatch({
             type: 'EDIT_SYSTEM',
@@ -40,6 +54,7 @@ function SystemForm() {
         setSaveMode(true)
     }
 
+    // Handle Snackbar Logic
     function handleSnackbarCommit(event, reason) {
         if (reason === 'clickaway') {
             return;
@@ -47,6 +62,7 @@ function SystemForm() {
         setSaveMode(false)
     }
 
+    // Add Equipment Button
     function handleAddEquipmentButton() {
         setAddEquipmentMode(false)
         dispatch({
@@ -60,6 +76,7 @@ function SystemForm() {
         setSaveMode(true)
     }
 
+    // Update Redux Store with Updated Inputs
     function onInputUpdate(field, event) {
         const updatedSystem = {...system};
         switch (field) {
@@ -92,14 +109,16 @@ function SystemForm() {
         })
     }
 
+    // Render DOM
     return (
         <>
+
+            {/* System Form View */}
             <Grid container className={'app-form-body-container'} spacing={2} alignItems='flex-end' justifyContent='flex-start' direction='column' >
 
+                {/* Upper Form View - Text Fields */}
                 <Grid item id='form-body-upper' >
-
                     <Grid container direction='row' spacing={2}>
-
                         <Grid item xs={4}>
                             <Grid container direction='column' spacing={2} >
                                 <Grid item>
@@ -142,7 +161,6 @@ function SystemForm() {
                                 </Grid>
                             </Grid>
                         </Grid>
-
                         <Grid item xs={4}>
                             <Grid container direction='column' spacing={2}>
 
@@ -160,7 +178,6 @@ function SystemForm() {
                                         variant='outlined' 
                                     />
                                 </Grid>
-
                                 <Grid item>
                                         <TextField 
                                             className='app-form-body-text-field' 
@@ -175,10 +192,8 @@ function SystemForm() {
                                             variant='outlined' 
                                         />
                                 </Grid>
-
                             </Grid>
                         </Grid>
-
                         <Grid item xs={4}>
                             <Grid container  direction='column' spacing={2}>
                                 <Grid item>
@@ -195,7 +210,6 @@ function SystemForm() {
                                             variant='outlined' 
                                         />
                                     </Grid>
-
                                     <Grid item>
                                         <TextField 
                                             className='app-form-body-text-field' 
@@ -213,26 +227,28 @@ function SystemForm() {
                                 </Grid>
                             </Grid>
                         </Grid>
-
                     </Grid>
 
-
+                {/* Add Equipment Button */}
                 <Grid item>
                     <Button size='small' variant='contained' onClick={()=>setAddEquipmentMode(true)}>New Equipment</Button>
                 </Grid>
 
+                {/* Equipment Table */}
                 <Grid id='form-body-lower' item>
                     <EquipmentTable equipment={system.equipment}/>
                 </Grid>
 
             </Grid>
 
+            {/* Database Commit Snackbar */}
             <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
                 <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
                     Changes made to {system.name} were saved successfully.
                 </Alert>
             </Snackbar>
 
+            {/* Modal Add Equipment Dialog */}
             <Dialog open={addEquipmentMode} onClose={()=>setAddEquipmentMode(false)}>
                 <DialogTitle>Add Equipment</DialogTitle>
                 <DialogContent>
@@ -254,4 +270,5 @@ function SystemForm() {
     );
 }
 
+// Export Component Function
 export default SystemForm;

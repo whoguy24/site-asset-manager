@@ -1,34 +1,51 @@
+///////////////////////////////////////////////////////
+///// IMPORT LIBRARIES ////////////////////////////////
+///////////////////////////////////////////////////////
+
+// Import React, Redux, etc.
 import Grid from '@mui/material/Grid';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
+// Import Material-UI
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-
 import Button from '@mui/material/Button';
 
+// Import App Components
 import SystemTable from '../SystemTable/SystemTable';
 
+// Import Stylesheets
 import '../App/App.css';
+
+///////////////////////////////////////////////////////
+///// COMPONENT FUNCTION //////////////////////////////
+///////////////////////////////////////////////////////
+
+// This component will render the selected building's details.
+// Users will be able to edit information about a building, and updated fields will automatically update the database.
+// This view is also responsible for rendering a table of related systems.
 
 function BuildingForm() {
 
+    // Define Library Variables
     const Alert = MuiAlert
     const dispatch = useDispatch();
 
+    // Define Redux Stores
     const building = useSelector(store => store.buildingReducer);
 
+    // Define Local States
     const [addSystemInput, setAddSystemInput] = useState('');
     const [saveMode, setSaveMode] = useState(false);
     const [addSystemMode, setAddSystemMode] = useState(false);
 
+    // Update Database with Changes
     function refreshView () {
         dispatch({
             type: 'EDIT_BUILDING',
@@ -37,6 +54,7 @@ function BuildingForm() {
         setSaveMode(true)
     }
 
+    // Update Redux Store with Updated Inputs
     function onInputUpdate(field, event) {
         const updatedBuilding = {...building};
         switch (field) {
@@ -69,6 +87,7 @@ function BuildingForm() {
         })
     }
 
+    // Add System Button
     function handleAddSystemButton() {
         setAddSystemMode(false)
         dispatch({
@@ -82,6 +101,7 @@ function BuildingForm() {
         setSaveMode(true)
     }
 
+    // Handle Snackbar Logic
     function handleSnackbarCommit(event, reason) {
         if (reason === 'clickaway') {
             return;
@@ -89,17 +109,24 @@ function BuildingForm() {
         setSaveMode(false)
     }
 
+    // Render DOM
     return (
         <>
-            <Grid container className={'app-form-body-container'} spacing={2} alignItems='flex-end' justifyContent='flex-start' direction='column' >
 
+            {/* Form View */}
+            <Grid container 
+                className={'app-form-body-container'} 
+                spacing={2} 
+                alignItems='flex-end' 
+                justifyContent='flex-start' 
+                direction='column' 
+            >
+
+                {/* Upper Form View - Text Fields */}
                 <Grid item id='form-body-upper' >
-
                     <Grid container direction='row' spacing={2}>
-
                         <Grid item xs={4}>
                             <Grid container direction='column' spacing={2} >
-
                                 <Grid item>
                                     <TextField 
                                         className='app-form-body-text-field' 
@@ -159,9 +186,7 @@ function BuildingForm() {
                                     />
                                 </Grid>
                             </Grid>
-
                         </Grid>
-
                         <Grid item xs={8}>
                             <Grid container direction='column' spacing={2}>
                                 <Grid item>
@@ -194,27 +219,27 @@ function BuildingForm() {
                                 </Grid>
                             </Grid>
                         </Grid>
-
                     </Grid>
-
                 </Grid>
 
+                {/* Lower Form View */}
                 <Grid item>
                     <Button size='small' variant='contained' onClick={()=>setAddSystemMode(true)}>New System</Button>
                 </Grid>
-
                 <Grid id='form-body-lower' item>
                     <SystemTable systems={building.systems}/>
                 </Grid>
 
             </Grid>
 
+            {/* Database Commit Snackbar */}
             <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
                 <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
                     Changes made to {building.name} were saved successfully.
                 </Alert>
             </Snackbar>
 
+            {/* Modal Add System Dialog */}
             <Dialog open={addSystemMode} onClose={()=>setAddSystemMode(false)}>
                 <DialogTitle>Add System</DialogTitle>
                 <DialogContent>
@@ -236,4 +261,5 @@ function BuildingForm() {
     );
 }
 
+// Export Component Function
 export default BuildingForm;

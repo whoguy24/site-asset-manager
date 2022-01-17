@@ -1,36 +1,55 @@
+///////////////////////////////////////////////////////
+///// IMPORT LIBRARIES ////////////////////////////////
+///////////////////////////////////////////////////////
+
+// Import React, Redux, etc.
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+// Import Material-UI
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useSelector, useDispatch } from 'react-redux';
 
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-
+// Import App Components
 import SiteForm from '../SiteForm/SiteForm';
 import BuildingForm from '../BuildingForm/BuildingForm';
 import SystemForm from '../SystemForm/SystemForm';
 import EquipmentForm from '../EquipmentForm/EquipmentForm';
 
-import React, { useState } from 'react';
-
+// Import Stylesheets
 import '../App/App.css';
+
+///////////////////////////////////////////////////////
+///// COMPONENT FUNCTION //////////////////////////////
+///////////////////////////////////////////////////////
+
+// This component is responsible for rendering the form view of a selected navigation item (site, building, system or equipment.)
+// This component also handles deletion of the active item associated with the selected view.
 
 function AppForm() {
 
+    // Define Library Variables
     const dispatch = useDispatch();
 
+    // Define Reducers
     const site = useSelector(store => store.siteReducer);
     const building = useSelector(store => store.buildingReducer);
     const system = useSelector(store => store.systemReducer);
     const equipment = useSelector(store => store.equipmentReducer);
     const table = useSelector(store => store.tableReducer);
 
+    // Define Local States
     const [deleteMode, setDeleteMode] = useState(false);
 
+    // Modal Popup Delete Button
+    // Dispatch delete request, depending on the active form view
     function handleDeleteButton() {
         setDeleteMode(false)
         switch (table) {
@@ -49,15 +68,19 @@ function AppForm() {
                 break;
             default:
         }
-
     }
 
+    // Form View Header Delete Button
+    // Opens modal deletion popup
     function openDeletePopup () {
         setDeleteMode(true)
     }
 
+    // Render DOM
     return (
         <>
+
+            {/* Form View Based on Navigation Item Selected */}
             { ( table == 'site' && site.id || table == 'building' && building.id || table == 'system' && system.id || table == 'equipment' && equipment.id) &&
                 <Paper id={'app-form-body'}>
                     <AppBar id={'app-form-header'} position='static'>
@@ -88,6 +111,7 @@ function AppForm() {
                 </Paper>
             }
 
+            {/* Modal Deletion Dialog */}
             <Dialog open={deleteMode} onClose={()=>setDeleteMode(false)}>
                 <DialogTitle>
                     { table === 'site' && 'Delete Site' }
@@ -114,4 +138,5 @@ function AppForm() {
     );
 }
 
+// Export Component Function
 export default AppForm;

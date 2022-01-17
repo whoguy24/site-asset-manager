@@ -1,31 +1,49 @@
+///////////////////////////////////////////////////////
+///// IMPORT LIBRARIES ////////////////////////////////
+///////////////////////////////////////////////////////
+
+// Import React, Redux, etc.
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+// Import Material-UI
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
+// Import App Components
 import EquipmentActivitiesTable from '../EquipmentActivitiesTable/EquipmentActivitiesTable';
 import EquipmentIssuesTable from '../EquipmentIssuesTable/EquipmentIssuesTable';
 import EquipmentECMTable from '../EquipmentECMTable/EquipmentECMTable';
 
+// Import Stylesheets
 import '../App/App.css';
+
+///////////////////////////////////////////////////////
+///// COMPONENT FUNCTION //////////////////////////////
+///////////////////////////////////////////////////////
+
+// This component will render the selected equipment's details.
+// Users will be able to edit information about a piece of equipment, and updated fields will automatically update the database.
+// This view is also responsible for rendering a table of related activities, issues and energy conservation measures.
 
 function EquipmentForm() {
 
+    // Define Library Variables
     const dispatch = useDispatch();
     const Alert = MuiAlert
 
+    // Define Redux Stores
     const equipment = useSelector(store => store.equipmentReducer);
 
+    // Define Local States
     const [saveMode, setSaveMode] = useState(false);
-
     const [tab, setTab] = useState(0);
 
+    // Update Database with Changes
     function refreshView () {
         dispatch({
             type: 'EDIT_EQUIPMENT',
@@ -34,6 +52,7 @@ function EquipmentForm() {
         setSaveMode(true)
     }
 
+    // Update Redux Store with Updated Inputs
     function onInputUpdate(field, event) {
         const updatedEquipment = {...equipment};
         switch (field) {
@@ -102,6 +121,7 @@ function EquipmentForm() {
         })
     }
 
+    // Handle Snackbar Logic
     function handleSnackbarCommit(event, reason) {
         if (reason === 'clickaway') {
             return;
@@ -109,18 +129,21 @@ function EquipmentForm() {
         setSaveMode(false)
     }
 
+    // Handle Tab Click
     function handleTabClick (event, index) {
         setTab(index)
     }
 
+    // Render DOM
     return (
         <>
+
+            {/* Form View */}
             <Grid container className={'app-form-body-container'} spacing={2} alignItems='flex-end' justifyContent='flex-start' direction='column' >
-
+                
+                {/* Upper Form View - Text Fields */}
                 <Grid item id='form-body-upper' >
-
                     <Grid container direction='row' spacing={2}>
-
                         <Grid item xs={2}>
                             <Grid container direction='column' spacing={2} >
                                 <Grid item>
@@ -159,7 +182,6 @@ function EquipmentForm() {
                                         variant='outlined' 
                                     />
                                 </Grid>
-
                                 <Grid item>
                                     <TextField 
                                         className='app-form-body-text-field' 
@@ -172,7 +194,6 @@ function EquipmentForm() {
                                         variant='outlined' 
                                     />
                                 </Grid>
-
                                 <Grid item>
                                     <TextField 
                                         className='app-form-body-text-field' 
@@ -185,12 +206,8 @@ function EquipmentForm() {
                                         variant='outlined' 
                                     />
                                 </Grid>
-
-
-
                             </Grid>
                         </Grid>
-
                         <Grid item xs={2}>
                             <Grid container direction='column' spacing={2}>
                                 <Grid item>
@@ -255,8 +272,6 @@ function EquipmentForm() {
                                 </Grid>
                             </Grid>
                         </Grid>
-
-
                         <Grid item xs={1}>
                             <Grid container direction='column' spacing={2}>
                                 <Grid item>
@@ -323,9 +338,7 @@ function EquipmentForm() {
 
                             </Grid>
                         </Grid>
-
                         <Grid item xs={7}>
-
                             <Grid container direction='row' spacing={2}>
                                 <Grid item xs={5}>
                                     <TextField 
@@ -370,13 +383,12 @@ function EquipmentForm() {
                                         variant='outlined' 
                                     />
                                 </Grid>
-
                             </Grid>
-
                         </Grid>
                     </Grid>
                  </Grid>
 
+                {/* Lower Form View - Activities, Issues and ECM Tables */}
                  <Grid item id='form-body-lower'> 
                     <Tabs value={tab} onChange={handleTabClick}>
                         <Tab label='Activities'/>
@@ -390,6 +402,7 @@ function EquipmentForm() {
 
             </Grid>
 
+            {/* Database Commit Snackbar */}
             <Snackbar open={saveMode} autoHideDuration={3000} onClose={handleSnackbarCommit}>
                 <Alert onClose={handleSnackbarCommit} severity="success" sx={{ width: '100%' }}>
                     Changes made to {equipment.name} were saved successfully.
@@ -400,4 +413,5 @@ function EquipmentForm() {
     );
 }
 
+// Export Component Function
 export default EquipmentForm;
