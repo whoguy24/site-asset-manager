@@ -44,6 +44,7 @@ function AppForm() {
     const system = useSelector(store => store.systemReducer);
     const equipment = useSelector(store => store.equipmentReducer);
     const table = useSelector(store => store.tableReducer);
+    const user = useSelector(store => store.user);
 
     // Define Local States
     const [deleteMode, setDeleteMode] = useState(false);
@@ -73,7 +74,12 @@ function AppForm() {
     // Form View Header Delete Button
     // Opens modal deletion popup
     function openDeletePopup () {
-        setDeleteMode(true)
+        if (user.role === 'admin') {  
+            setDeleteMode(true)
+        }
+        else {
+            alert('Only Administrators are allowed to delete this kind of record.')
+        }
     }
 
     // Render DOM

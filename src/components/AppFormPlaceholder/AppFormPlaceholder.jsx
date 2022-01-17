@@ -19,7 +19,7 @@ function AppFormPlaceholder () {
         <>
 
             {/* Placeholder Page */}
-            <Grid container id='app-placeholder' direction='column' alignItems='center' justifyContent='flex-start'>
+            <Grid container id='app-placeholder' direction='column' alignItems='center' justifyContent='center'>
                 <Grid item>
                     <center>
                         <h3>Welcome to Site Asset Manager!</h3>
