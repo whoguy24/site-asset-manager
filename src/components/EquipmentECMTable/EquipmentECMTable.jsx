@@ -78,7 +78,18 @@ function EquipmentECMTable({equipment, ecms}) {
                                         onChange={(event)=>setECMInput(event.target.value)} 
                                         onBlur={handleNewECM}
                                     >
-                                    <MenuItem value={'Change the lightbulbs.'}>Change the lightbulbs.</MenuItem>
+                                    <MenuItem value={'Consolidate Heat Exchangers & Pumps'}>Consolidate Heat Exchangers & Pumps</MenuItem>
+                                    <MenuItem value={'Pressure Independent Flow-Control Valves'}>Pressure Independent Flow-Control Valves</MenuItem>
+                                    <MenuItem value={'Reduct Computer Room Air Distribution'}>Reduct Computer Room Air Distribution</MenuItem>
+                                    <MenuItem value={'Replace Multiple Direct Digital Control Systems'}>Replace Multiple Direct Digital Control Systems</MenuItem>
+                                    <MenuItem value={'Outdoor Air Source for MEP Room Ventilation'}>Outdoor Air Source for MEP Room Ventilation</MenuItem>
+                                    <MenuItem value={'Fume Hood Exhaust VAV Operation'}>Fume Hood Exhaust VAV Operation</MenuItem>
+                                    <MenuItem value={'Repair or Replace Steam Traps'}>Repair or Replace Steam Traps</MenuItem>
+                                    <MenuItem value={'Replace Inefficient, Large Capacity Condensing Units'}>Replace Inefficient, Large Capacity Condensing Units</MenuItem>
+                                    <MenuItem value={'Install Variable Speed Drive Control'}>Install Variable Speed Drive Control</MenuItem>
+                                    <MenuItem value={'Eliminate Unnecessary Building Exhaust Systems'}>Eliminate Unnecessary Building Exhaust Systems</MenuItem>
+                                    <MenuItem value={'Facility Operator Training'}>Facility Operator Training</MenuItem>
+                                    <MenuItem value={'Daylight-Harvesting Lighting Controls'}>Daylight-Harvesting Lighting Controls</MenuItem>
                                     </Select>
                                 </FormControl>
                             </TableCell>
