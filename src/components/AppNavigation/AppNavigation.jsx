@@ -106,7 +106,7 @@ function AppNavigation() {
             <Dialog open={loadSite} onClose={handleSiteCloseButton}>
                 <DialogTitle>Open Site</DialogTitle>
                 <DialogContent>
-                    <TableContainer component={Paper}>
+                    <TableContainer id='add-site-container' component={Paper}>
                         <Table>
                             <TableBody>
                                 {sites.map((site) => (

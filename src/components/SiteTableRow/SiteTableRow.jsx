@@ -48,7 +48,7 @@ function SiteTableRow({site, loadButtonFunction}) {
 
             {/* Site Table Row */}
             <TableCell>
-                <TextField value={siteNameInput} onChange={(event)=>setSiteNameInput(event.target.value)} onBlur={handleCommit} size='small' placeholder='Name'></TextField>
+                <TextField fullWidth value={siteNameInput} onChange={(event)=>setSiteNameInput(event.target.value)} onBlur={handleCommit} size='small' placeholder='Name'></TextField>
             </TableCell>
             <TableCell>
                 <Button onClick={handleLoadButton} variant='contained'>Open</Button>

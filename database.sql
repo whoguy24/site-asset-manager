@@ -105,5 +105,12 @@ CREATE TABLE step (
 
 INSERT INTO "site" ("name")
 VALUES 
-('My Site')
+('St. Johns Medical Center'),
+('Huffmans Grocery'),
+('Amazonia Distribution Center 15432'),
+;
+
+INSERT INTO "building" ("" "name")
+VALUES 
+('Building 1'),
 ;
