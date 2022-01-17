@@ -134,4 +134,8 @@ body {
     width: 80%;
 }
 
-
+#app-placeholder {
+    background-color: lightgray;
+    height: 90vh;
+    padding: 150px;
+}

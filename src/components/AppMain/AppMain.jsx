@@ -4,19 +4,22 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import React, { useEffect } from 'react';
 
 import AppHeader from '../AppHeader/AppHeader';
 import AppNavigation from '../AppNavigation/AppNavigation';
 import AppForm from '../AppForm/AppForm';
+import AppFormPlaceholder from '../AppFormPlaceholder/AppFormPlaceholder';
 
 import '../App/App.css';
 
 function AppMain() {
 
     const dispatch = useDispatch();
+
+    const site = useSelector(store => store.siteReducer);
 
     useEffect(() => {
         dispatch({ type: 'CLEAR_SITE' });
@@ -34,7 +37,7 @@ function AppMain() {
                     <AppNavigation/>
                 </Grid>
                 <Grid item xs={9}>
-                    <AppForm />
+                    {site.id? <AppForm /> : <AppFormPlaceholder/> }
                 </Grid>
             </Grid>
             <center>
