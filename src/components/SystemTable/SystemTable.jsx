@@ -4,7 +4,7 @@
 
 // Import React, Redux, etc.
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Import Material-UI
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
@@ -28,6 +28,9 @@ function SystemTable({systems}) {
     // Define Library Variables
     const dispatch = useDispatch();
     const Alert = MuiAlert
+
+    // Define Redux Stores
+    const user = useSelector(store => store.user);
 
     // Define Local States
     const [saveMode, setSaveMode] = useState(false);
@@ -68,12 +71,19 @@ function SystemTable({systems}) {
 
     // Delete Button
     function handleDeleteButton(event, system) {
-        dispatch({
-            type: 'DELETE_SYSTEM',
-            payload: system
-        })
-        setSaveMode(true)
+        if (user.role === 'admin') {  
+            dispatch({
+                type: 'DELETE_SYSTEM',
+                payload: system
+            })
+            setSaveMode(true)
+        }
+        else {
+            alert('Only Administrators are allowed to delete this kind of record.')
+        }
     }
+
+    
 
     // Define DataGrid Columns
     const columns = [

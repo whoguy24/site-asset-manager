@@ -25,7 +25,7 @@ function SiteTableRow({site, loadButtonFunction}) {
     // Define Library Variables
     const dispatch = useDispatch();
 
-    // Define Redux Stores
+    // Define Local States
     const [siteNameInput, setSiteNameInput] = useState(site.name);
 
     // Open Site Button
