@@ -3,24 +3,39 @@ const pool = require('../modules/pool');
 const router = express.Router();
 const { rejectUnauthenticated } = require('../modules/authentication-middleware')
 
-async function buildEquipment (equipment) {
-  equipment.activities = await fetchActivities(equipment);
+async function buildEquipment (equipment, user_id, user_role) {
+  console.log(user_id, user_role);
+  
+  equipment.activities = await fetchActivities(equipment, user_id, user_role);
   for (const activity of equipment.activities) {
-    activity.steps = await fetchSteps(activity);
+    activity.steps = await fetchSteps(activity, user_id, user_role);
   }
-  equipment.issues = await fetchIssues(equipment);
-  equipment.ecms = await fetchECMs(equipment);
+  equipment.issues = await fetchIssues(equipment, user_id, user_role);
+  equipment.ecms = await fetchECMs(equipment, user_id, user_role);
   return equipment
 };
 
-function fetchActivities (equipment) {
+function fetchActivities (equipment, user_id, user_role) {
   return new Promise((resolve, reject )=> {
-      const queryValues = [equipment.id];
-      const queryText = `
-        SELECT * FROM "activity"
-        WHERE "activity"."equipment_id" =$1
-        ORDER BY "activity"."id" ASC;
-      `;
+      let queryValues = [];
+      let queryText = ''
+      if (user_role === 'admin') {
+        queryValues = [equipment.id];
+        queryText = `
+          SELECT * FROM "activity"
+          WHERE "activity"."equipment_id"=$1
+          ORDER BY "activity"."id" ASC;
+        `
+      }
+      else {
+        queryValues = [equipment.id, user_id];
+        queryText = `
+          SELECT * FROM "activity"
+          WHERE "activity"."equipment_id"=$1
+          AND "activity"."user_id"=$2
+          ORDER BY "activity"."id" ASC;
+        `;
+      }
       pool.query(queryText, queryValues)
       .then((result) => { 
           resolve(result.rows)
@@ -31,14 +46,27 @@ function fetchActivities (equipment) {
   })
 }
 
-function fetchSteps (activity) {
+function fetchSteps (activity, user_id, user_role) {
   return new Promise((resolve, reject )=> {
-      const queryValues = [activity.id];
-      const queryText = `
-        SELECT * FROM "step"
-        WHERE "step"."activity_id"=$1
-        ORDER BY "step"."id" ASC;
-      `;
+      let queryValues = [];
+      let queryText = ''
+      if (user_role === 'admin') {
+        queryValues = [activity.id];
+        queryText = `
+          SELECT * FROM "step"
+          WHERE "step"."activity_id"=$1
+          ORDER BY "step"."id" ASC;
+        `
+      }
+      else {
+        queryValues = [activity.id, user_id];
+        queryText = `
+          SELECT * FROM "step"
+          WHERE "step"."activity_id"=$1
+          AND "step"."user_id"=$2
+          ORDER BY "step"."id" ASC;
+        `;
+      }
       pool.query(queryText, queryValues)
       .then((result) => { 
           resolve(result.rows)
@@ -49,14 +77,27 @@ function fetchSteps (activity) {
   })
 }
 
-function fetchIssues (equipment) {
+function fetchIssues (equipment, user_id, user_role) {
   return new Promise((resolve, reject )=> {
-      const queryValues = [equipment.id];
-      const queryText = `
-        SELECT * FROM "issue"
-        WHERE "issue"."equipment_id" =$1
-        ORDER BY "issue"."id" ASC;
-      `;
+      let queryValues = [];
+      let queryText = ''
+      if (user_role === 'admin') {
+        queryValues = [equipment.id];
+        queryText = `
+          SELECT * FROM "issue"
+          WHERE "issue"."equipment_id" =$1
+          ORDER BY "issue"."id" ASC;
+        `
+      }
+      else {
+        queryValues = [equipment.id, user_id];
+        queryText = `
+          SELECT * FROM "issue"
+          WHERE "issue"."equipment_id" =$1
+          AND "issue"."user_id"=$2
+          ORDER BY "issue"."id" ASC;
+        `;
+      }
       pool.query(queryText, queryValues)
       .then((result) => { 
           resolve(result.rows)
@@ -67,14 +108,27 @@ function fetchIssues (equipment) {
   })
 }
 
-function fetchECMs (equipment) {
+function fetchECMs (equipment, user_id, user_role) {
   return new Promise((resolve, reject )=> {
-      const queryValues = [equipment.id];
-      const queryText = `
-        SELECT * FROM "ecm"
-        WHERE "ecm"."equipment_id" =$1
-        ORDER BY "ecm"."id" ASC;
-      `;
+      let queryValues = [];
+      let queryText = ''
+      if (user_role === 'admin') {
+        queryValues = [equipment.id];
+        queryText = `
+          SELECT * FROM "ecm"
+          WHERE "ecm"."equipment_id" =$1
+          ORDER BY "ecm"."id" ASC;
+        `
+      }
+      else {
+        queryValues = [equipment.id, user_id];
+        queryText = `
+          SELECT * FROM "ecm"
+          WHERE "ecm"."equipment_id" =$1
+          AND "ecm"."user_id"=$2
+          ORDER BY "ecm"."id" ASC;
+        `;
+      }
       pool.query(queryText, queryValues)
       .then((result) => { 
           resolve(result.rows)
@@ -99,7 +153,7 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
     pool.query(queryText, sqlValues)
     .then((result) => { 
         async function buildResponse() {
-          const equipment = await buildEquipment(result.rows[0])
+          const equipment = await buildEquipment(result.rows[0], req.user.id, req.user.role)
           res.send(equipment);
         }
         buildResponse();

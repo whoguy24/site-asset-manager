@@ -9,13 +9,14 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 router.post('/', rejectUnauthenticated, (req, res) => {
     const sqlText = `
       INSERT INTO step 
-        (activity_id, step)
+        (activity_id, step, user_id)
         VALUES 
-        ($1, $2);
+        ($1, $2, $3);
     `;
     const sqlValues = [
       req.body.activity_id,
-      req.body.step
+      req.body.step,
+      req.body.user_id
     ];
     pool.query(sqlText, sqlValues)
       .then((result) => {

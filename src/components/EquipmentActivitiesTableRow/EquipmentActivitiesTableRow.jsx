@@ -4,7 +4,7 @@
 
 // Import React, Redux, etc.
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Import Material-UI
 import Snackbar from '@mui/material/Snackbar';
@@ -37,6 +37,9 @@ function EquipmentActivitiesTableRow({activity}) {
     const dispatch = useDispatch();
     const Alert = MuiAlert
 
+    // Define Redux Stores
+    const user = useSelector(store => store.user);
+
     // Define Local States
     const [collapsed, setCollapsed] = useState(true);
     const [saveMode, setSaveMode] = useState(false);
@@ -56,7 +59,7 @@ function EquipmentActivitiesTableRow({activity}) {
                 activity: activityInput,
                 description: descriptionInput,
                 due_date: dueDateInput,
-                status: statusInput,
+                status: statusInput
             }
         })
         setSaveMode(true)
@@ -90,7 +93,8 @@ function EquipmentActivitiesTableRow({activity}) {
                 payload: {
                     equipment_id: activity.equipment_id,
                     activity_id: activity.id,
-                    step: newStepInput
+                    step: newStepInput,
+                    user_id: user.id
                 }
             })
             setSaveMode(true)

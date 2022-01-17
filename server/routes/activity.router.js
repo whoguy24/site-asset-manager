@@ -9,13 +9,14 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 router.post('/', rejectUnauthenticated, (req, res) => {
     const sqlText = `
       INSERT INTO activity 
-        (equipment_id, activity)
+        (equipment_id, activity, user_id)
         VALUES 
-        ($1, $2);
+        ($1, $2, $3);
     `;
     const sqlValues = [
       req.body.equipment_id,
-      req.body.activity
+      req.body.activity,
+      req.body.user_id
     ];
     pool.query(sqlText, sqlValues)
       .then((result) => {
@@ -61,7 +62,7 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
       req.body.activity,
       req.body.description,
       req.body.due_date,
-      req.body.status,
+      req.body.status
     ];
     
     pool.query(sqlText, sqlValues)

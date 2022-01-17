@@ -4,7 +4,7 @@
 
 // Import React, Redux, etc.
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Import Material-UI
 import Snackbar from '@mui/material/Snackbar';
@@ -37,6 +37,9 @@ function EquipmentIssuesTable({equipment, issues}) {
     const dispatch = useDispatch();
     const Alert =  MuiAlert;
 
+    // Define Redux Stores
+    const user = useSelector(store => store.user);
+
     // Define Local States
     const [issueInput, setIssueInput] = useState('');
     const [saveMode, setSaveMode] = useState(false);
@@ -48,7 +51,8 @@ function EquipmentIssuesTable({equipment, issues}) {
                 type: 'ADD_ISSUE',
                 payload: {
                     equipment_id: equipment.id,
-                    issue: issueInput
+                    issue: issueInput,
+                    user_id: user.id
                 }
             })
             setIssueInput('')

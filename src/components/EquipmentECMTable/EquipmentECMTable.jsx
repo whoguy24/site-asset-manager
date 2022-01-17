@@ -4,7 +4,7 @@
 
 // Import React, Redux, etc.
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Import Material-UI
 import Snackbar from '@mui/material/Snackbar';
@@ -40,6 +40,9 @@ function EquipmentECMTable({equipment, ecms}) {
     const dispatch = useDispatch();
     const Alert =  MuiAlert;
 
+    // Define Redux Stores
+    const user = useSelector(store => store.user);
+
     // Define Local States
     const [ECMInput, setECMInput] = useState('');
     const [saveMode, setSaveMode] = useState(false);
@@ -51,7 +54,8 @@ function EquipmentECMTable({equipment, ecms}) {
                 type: 'ADD_ECM',
                 payload: {
                     equipment_id: equipment.id,
-                    ecm: ECMInput
+                    ecm: ECMInput,
+                    user_id: user.id
                 }
             })
             setECMInput('')
