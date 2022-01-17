@@ -35,7 +35,7 @@ import { put, takeLatest } from 'redux-saga/effects';
     }
   }
 
-  function* addAIssue(action) {
+  function* addIssue(action) {
     try {
       yield axios({
         method: 'POST',

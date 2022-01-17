@@ -10,6 +10,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
 import EquipmentActivitiesTable from '../EquipmentActivitiesTable/EquipmentActivitiesTable';
+import EquipmentIssuesTable from '../EquipmentIssuesTable/EquipmentIssuesTable';
 
 import '../App/App.css';
 
@@ -382,6 +383,7 @@ function EquipmentForm() {
                         <Tab label='Energy'/>
                     </Tabs>
                     {tab === 0 && <EquipmentActivitiesTable equipment={equipment} activities={equipment.activities} />}
+                    {tab === 1 && <EquipmentIssuesTable equipment={equipment} issues={equipment.issues} />}
                  </Grid>
 
             </Grid>

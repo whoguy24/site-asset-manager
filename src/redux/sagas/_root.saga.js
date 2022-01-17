@@ -10,6 +10,8 @@ import buildingSaga from './building.saga';
 import systemSaga from './system.saga';
 import activitySaga from './activity.saga';
 import stepSaga from './step.saga';
+import issueSaga from './issue.saga';
+import ecmSaga from './ecm.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -30,6 +32,8 @@ export default function* rootSaga() {
     buildingSaga(),
     systemSaga(),
     activitySaga(),
-    stepSaga()
+    stepSaga(),
+    issueSaga(),
+    ecmSaga()
   ]);
 }
